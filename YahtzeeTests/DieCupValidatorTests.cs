@@ -12,20 +12,40 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateThreeOfAKind()
 		{
-			int[] dice = { 3, 4, 3, 5, 3 };
+			int[] diceValues = { 3, 4, 3, 5, 3 };
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(3, dice);
+			bool result = diceOfAKindValidator.IsValid(3, diceValues);
 			result.Should().BeTrue();
 		}
 
 		[TestMethod]
 		public void ValidateInvalidThreeOfAKind()
 		{
-			int[] dice = { 3, 1, 5, 3, 4 };
+			int[] diceValues = { 3, 1, 5, 3, 4 };
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(3, dice);
+			bool result = diceOfAKindValidator.IsValid(3, diceValues);
+			result.Should().BeFalse();
+		}
+
+		[TestMethod]
+		public void ValidateFourOfAKind()
+		{
+			int[] diceValues = { 2, 2, 6, 2, 2 };
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(4, diceValues);
+			result.Should().BeTrue();
+		}
+
+		[TestMethod]
+		public void ValidateInvalidFourOfAKind()
+		{
+			int[] diceValues = { 1, 3, 5, 2, 5 };
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(4, diceValues);
 			result.Should().BeFalse();
 		}
 	}
