@@ -1,3 +1,4 @@
-﻿# Yahtzee clone in C#
+﻿Yahtzee clone in C#
+===================
 
 A fun TDD style practice project
