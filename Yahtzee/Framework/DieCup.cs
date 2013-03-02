@@ -17,7 +17,7 @@ namespace Yahtzee.Framework
 
 		public IEnumerable<int> Roll()
 		{
-			return Roll(6);
+			return Roll(5);
 		}
 
 		public IEnumerable<int> Roll(int numberToRoll)

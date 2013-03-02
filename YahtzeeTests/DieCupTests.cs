@@ -18,7 +18,7 @@ namespace YahtzeeTests
 			var dieCup = new DieCup(die);
 
 			IEnumerable<int> cupRollResults = dieCup.Roll();
-			cupRollResults.Count().Should().Be(6);
+			cupRollResults.Count().Should().Be(5);
 		}
 
 		[TestMethod]
@@ -32,7 +32,6 @@ namespace YahtzeeTests
 			dieCup.Roll(3).Count().Should().Be(3);
 			dieCup.Roll(4).Count().Should().Be(4);
 			dieCup.Roll(5).Count().Should().Be(5);
-			dieCup.Roll(6).Count().Should().Be(6);
 		}
 	}
 }
