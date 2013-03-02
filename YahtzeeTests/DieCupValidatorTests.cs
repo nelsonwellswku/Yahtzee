@@ -113,6 +113,26 @@ namespace YahtzeeTests
 			bool result = straightValidator.IsValid(4, diceValues);
 			result.Should().BeFalse();
 		}
+
+		[TestMethod]
+		public void ValidateLargeStraight()
+		{
+			int[] diceValues = { 3, 4, 2, 6, 5 };
+
+			StraightValidator straightValidator = new StraightValidator();
+			bool result = straightValidator.IsValid(5, diceValues);
+			result.Should().BeTrue();
+		}
+
+		[TestMethod]
+		public void ValidateInvalidLargeStraight()
+		{
+			int[] diceValues = { 3, 2, 4, 1, 6 };
+
+			StraightValidator straightValidator = new StraightValidator();
+			bool result = straightValidator.IsValid(5, diceValues);
+			result.Should().BeFalse();
+		}
 		#endregion
 	}
 }
