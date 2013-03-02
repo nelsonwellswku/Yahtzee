@@ -70,5 +70,27 @@ namespace YahtzeeTests
 			result.Should().BeFalse();
 		}
 		#endregion
+
+		#region Full house tests
+		[TestMethod]
+		public void ValidateFullHouse()
+		{
+			int[] diceValues = { 3, 2, 3, 2, 3 };
+
+			FullHouseValidator fullHouseValidator = new FullHouseValidator();
+			bool result = fullHouseValidator.IsValid(diceValues);
+			result.Should().BeTrue();
+		}
+
+		[TestMethod]
+		public void ValidateInvalidFullHouse()
+		{
+			int[] diceValues = { 3, 2, 3, 4, 3 };
+
+			FullHouseValidator fullHouseValidator = new FullHouseValidator();
+			bool result = fullHouseValidator.IsValid(diceValues);
+			result.Should().BeFalse();
+		}
+		#endregion
 	}
 }
