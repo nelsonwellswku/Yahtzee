@@ -42,6 +42,8 @@
     <Compile Include="Framework\DiceCombinationValidators\DiceOfAKindValidator.cs" />
     <Compile Include="Framework\DiceCombinationValidators\FullHouseValidator.cs" />
     <Compile Include="Framework\DiceCombinationValidators\IFullHouseValidator.cs" />
+    <Compile Include="Framework\DiceCombinationValidators\IStraightValidator.cs" />
+    <Compile Include="Framework\DiceCombinationValidators\StraightValidator.cs" />
     <Compile Include="Framework\Die.cs" />
     <Compile Include="Framework\DieCup.cs" />
     <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
