@@ -39,12 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Framework\DiceCombinationValidators\DiceOfAKindValidator.cs" />
     <Compile Include="Framework\Die.cs" />
     <Compile Include="Framework\DieCup.cs" />
+    <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
     <Compile Include="Framework\IDieCup.cs" />
     <Compile Include="Framework\IDie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
