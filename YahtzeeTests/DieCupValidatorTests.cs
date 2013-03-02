@@ -9,6 +9,7 @@ namespace YahtzeeTests
 	[TestClass]
 	public class DieCupValidatorTests
 	{
+		#region Dice of a kind tests
 		[TestMethod]
 		public void ValidateThreeOfAKind()
 		{
@@ -48,5 +49,26 @@ namespace YahtzeeTests
 			bool result = diceOfAKindValidator.IsValid(4, diceValues);
 			result.Should().BeFalse();
 		}
+
+		[TestMethod]
+		public void ValidateFiveOfAKind()
+		{
+			int[] diceValues = { 3, 3, 3, 3, 3 };
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(5, diceValues);
+			result.Should().BeTrue();
+		}
+
+		[TestMethod]
+		public void ValidateInvalidFiveOfAKind()
+		{
+			int[] diceValues = { 3, 3, 3, 3, 6 };
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(5, diceValues);
+			result.Should().BeFalse();
+		}
+		#endregion
 	}
 }
