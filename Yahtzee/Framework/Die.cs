@@ -8,14 +8,19 @@ namespace Yahtzee.Framework
 		private const int _highestPossibleRoll = 6;
 		private readonly Random _random;
 
-		public Die()
+		public DieState State { get; set; }
+		public int Value { get; private set; }
+
+		public Die(DieState state)
 		{
+			State = state;
 			_random = new Random();
 		}
 
 		public int Roll()
 		{
-			return _random.Next(_lowestPossibleRoll, _highestPossibleRoll + 1);
+			Value = _random.Next(_lowestPossibleRoll, _highestPossibleRoll + 1);
+			return Value;
 		}
 	}
 }

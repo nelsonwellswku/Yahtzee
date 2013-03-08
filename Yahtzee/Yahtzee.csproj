@@ -47,6 +47,7 @@
     <Compile Include="Framework\Die.cs" />
     <Compile Include="Framework\DieCup.cs" />
     <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
+    <Compile Include="Framework\Enums.cs" />
     <Compile Include="Framework\IDieCup.cs" />
     <Compile Include="Framework\IDie.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -14,7 +14,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void RollAllDice()
 		{
-			var die = new Die();
+			var die = new Die(DieState.Throwable);
 			var dieCup = new DieCup(die);
 
 			IEnumerable<int> cupRollResults = dieCup.Roll();
@@ -24,7 +24,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void RollSomeDice()
 		{
-			var die = new Die();
+			var die = new Die(DieState.Throwable);
 			var dieCup = new DieCup(die);
 
 			dieCup.Roll(1).Count().Should().Be(1);
