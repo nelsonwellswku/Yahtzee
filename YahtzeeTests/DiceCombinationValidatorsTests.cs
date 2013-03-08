@@ -7,7 +7,7 @@ using Yahtzee.Framework.DiceCombinationValidators;
 namespace YahtzeeTests
 {
 	[TestClass]
-	public class DieCupValidatorTests
+	public class DiceCombinationValidatorsTests
 	{
 		#region Dice of a kind tests
 		[TestMethod]

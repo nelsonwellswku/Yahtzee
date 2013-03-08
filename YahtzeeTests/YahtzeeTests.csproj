@@ -55,8 +55,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DieCupTests.cs" />
-    <Compile Include="DieCupValidatorTests.cs" />
+    <Compile Include="DiceCupTests.cs" />
+    <Compile Include="DiceCombinationValidatorsTests.cs" />
     <Compile Include="DieTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

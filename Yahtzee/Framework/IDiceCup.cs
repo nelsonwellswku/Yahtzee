@@ -2,7 +2,7 @@
 
 namespace Yahtzee.Framework
 {
-	public interface IDieCup
+	public interface IDiceCup
 	{
 		IEnumerable<int> Roll();
 		IEnumerable<int> Roll(int numberToRoll);

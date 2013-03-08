@@ -9,13 +9,13 @@ using Yahtzee.Framework;
 namespace YahtzeeTests
 {
 	[TestClass]
-	public class DieCupTests
+	public class DiceCupTests
 	{
 		[TestMethod]
 		public void RollAllDice()
 		{
 			var die = new Die(DieState.Throwable);
-			var dieCup = new DieCup(die);
+			var dieCup = new DiceCup(die);
 
 			IEnumerable<int> cupRollResults = dieCup.Roll();
 			cupRollResults.Count().Should().Be(5);
@@ -25,7 +25,7 @@ namespace YahtzeeTests
 		public void RollSomeDice()
 		{
 			var die = new Die(DieState.Throwable);
-			var dieCup = new DieCup(die);
+			var dieCup = new DiceCup(die);
 
 			dieCup.Roll(1).Count().Should().Be(1);
 			dieCup.Roll(2).Count().Should().Be(2);

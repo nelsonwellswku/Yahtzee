@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Yahtzee.Framework
 {
-	public class DieCup : IDieCup
+	public class DiceCup : IDiceCup
 	{
 		private readonly IDie _die;
 
-		public DieCup(IDie die)
+		public DiceCup(IDie die)
 		{
 			_die = die;
 		}
