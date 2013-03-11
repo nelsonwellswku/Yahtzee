@@ -14,7 +14,7 @@ namespace YahtzeeTests
 		public void RollDie()
 		{
 			// Arrange
-			var die = new Die(DieState.Throwable);
+			var die = new Die();
 
 			// This is not deterministic, but for 100 rolls, the result should be in the correct range all the time
 			for (int i = 0; i < 100; i++)
@@ -32,10 +32,10 @@ namespace YahtzeeTests
 		public void TestRollFrequency()
 		{
 			// Arrange
-			var die = new Die(DieState.Throwable);
+			var die = new Die();
 			var rolls = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
 
-			// This is not completely deterministic, but given 100 rolls, each valid value (1, 2, 3, 4, 5, 6) should happen at least 10 times each
+			// This is not completely deterministic, but given 100 rolls, each valid value (1, 2, 3, 4, 5, 6) should happen at least 5 times each
 			for (int i = 0; i < 100; i++)
 			{
 				// Act
@@ -46,7 +46,7 @@ namespace YahtzeeTests
 			rolls[0].Should().Be(0);
 			for (int i = 1; i <= 6; i++)
 			{
-				rolls[i].Should().BeGreaterThan(10);
+				rolls[i].Should().BeGreaterOrEqualTo(5);
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace YahtzeeTests
 			// but I'm not positive it isn't valuable either.
 			// In any case, I want as much code coverage as practical and this is an easy win.
 
-			var die = new Die(DieState.Throwable);
+			var die = new Die();
 			die.State.Should().Be(DieState.Throwable);
 
 			die.State = DieState.Held;

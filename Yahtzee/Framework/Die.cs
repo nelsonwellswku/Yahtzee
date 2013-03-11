@@ -11,7 +11,9 @@ namespace Yahtzee.Framework
 		public DieState State { get; set; }
 		public int Value { get; private set; }
 
-		public Die(DieState state)
+		public Die() : this(DieState.Throwable) { }
+
+		private Die(DieState state)
 		{
 			State = state;
 			_random = new Random();

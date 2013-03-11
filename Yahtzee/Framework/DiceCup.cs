@@ -8,28 +8,20 @@ namespace Yahtzee.Framework
 {
 	public class DiceCup : IDiceCup
 	{
-		private readonly IDie _die;
-
-		public DiceCup(IDie die)
+		public IEnumerable<IDie> Dice { get; private set; }
+		public DiceCup(IEnumerable<IDie> dice)
 		{
-			_die = die;
+			Dice = dice;
 		}
 
-		public IEnumerable<int> Roll()
+		public IEnumerable<IDie> Roll()
 		{
-			return Roll(5);
-		}
-
-		public IEnumerable<int> Roll(int numberToRoll)
-		{
-			var rolls = new int[numberToRoll];
-
-			for (int i = 0; i < numberToRoll; i++)
+			foreach (var die in Dice)
 			{
-				rolls[i] = _die.Roll();
+				die.Roll();
 			}
 
-			return rolls;
+			return Dice;
 		}
 	}
 }
