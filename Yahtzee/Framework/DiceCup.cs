@@ -23,5 +23,13 @@ namespace Yahtzee.Framework
 
 			return Dice;
 		}
+
+		public void Hold(params int[] indicesToHold)
+		{
+			foreach (var index in indicesToHold)
+			{
+				Dice.ElementAt(index).State = DieState.Held;
+			}
+		}
 	}
 }

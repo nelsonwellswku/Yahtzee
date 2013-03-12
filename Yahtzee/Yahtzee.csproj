@@ -50,7 +50,6 @@
     <Compile Include="Framework\Enums.cs" />
     <Compile Include="Framework\IDiceCup.cs" />
     <Compile Include="Framework\IDie.cs" />
-    <Compile Include="Framework\IRollResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
