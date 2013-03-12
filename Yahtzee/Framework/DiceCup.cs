@@ -8,6 +8,7 @@ namespace Yahtzee.Framework
 {
 	public class DiceCup : IDiceCup
 	{
+		private const string _invalidRollExceptionMessage = "Dice can not be thrown after three rolls.";
 		private const int _maxRolls = 3;
 		private int _rollCount = 0;
 
@@ -19,6 +20,11 @@ namespace Yahtzee.Framework
 
 		public IEnumerable<IDie> Roll()
 		{
+			if (IsFinal())
+			{
+				throw new InvalidOperationException(_invalidRollExceptionMessage);
+			}
+
 			foreach (var die in Dice)
 			{
 				die.Roll();
