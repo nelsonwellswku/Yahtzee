@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Yahtzee.Framework
 {
@@ -15,6 +13,7 @@ namespace Yahtzee.Framework
 		public IEnumerable<IDie> Dice { get; private set; }
 		public DiceCup(IEnumerable<IDie> dice)
 		{
+			if (dice.Count() != 5) throw new ArgumentOutOfRangeException("Dice cup must contain 5 die.");
 			Dice = dice;
 		}
 

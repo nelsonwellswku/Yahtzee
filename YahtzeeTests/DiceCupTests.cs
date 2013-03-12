@@ -37,6 +37,35 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
+		public void ConstructAProperlySizedDiceCup()
+		{
+			// Arrange
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, die, die };
+			
+			// Act
+			var diceCup = new DiceCup(dice);
+
+			// Assert
+			diceCup.Should().NotBeNull();
+		}
+
+		[TestMethod]
+		[ExpectedException(typeof(ArgumentOutOfRangeException))]
+		public void ConstructAnImproperlySizedDiceCup()
+		{
+			// Arrange
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, die, die, die, die };
+			
+			// Act
+			var diceCup = new DiceCup(dice);
+
+
+			// Assert handled by ExpectedException decorator
+		}
+
+		[TestMethod]
 		public void InitialRoll()
 		{ 
 			// Arrange
@@ -58,7 +87,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die, die };
+			var dice = new List<IDie> { die, die, die, die, die };
 
 			// Act
 			var diceCup = new DiceCup(dice);
