@@ -59,16 +59,32 @@ namespace YahtzeeTests
 			// Arrange
 			var die = _dieMock.Object;
 			var dice = new List<IDie> { die, die, die, die, die, die };
-			var expectedHeldValues = new List<int> { 4, 3, 2 };
-			var expectedThrowableValues = new List<int> { 1, 2 };
 
 			// Act
 			var diceCup = new DiceCup(dice);
 			diceCup.Roll();
-			diceCup.Hold(1, 2, 3);
+			diceCup.Hold(0, 1, 2);
 
 			//Assert
 			_dieMock.VerifySet(x => x.State = DieState.Held, Times.Exactly(3));
+		}
+
+		[TestMethod]
+		public void InitialRollHoldThreeValuesUnholdTwoValues()
+		{
+			// Arrange
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, die, die };
+			
+			// Act
+			var diceCup = new DiceCup(dice);
+			diceCup.Roll();
+			diceCup.Hold(0, 2, 4);
+			diceCup.Unhold(2, 4);
+
+			// Assert
+			_dieMock.VerifySet(x => x.State = DieState.Held, Times.Exactly(3));
+			_dieMock.VerifySet(x => x.State = DieState.Throwable, Times.Exactly(2));
 		}
 
 	}

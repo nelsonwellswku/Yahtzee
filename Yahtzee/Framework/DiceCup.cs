@@ -31,5 +31,13 @@ namespace Yahtzee.Framework
 				Dice.ElementAt(index).State = DieState.Held;
 			}
 		}
+
+		public void Unhold(params int[] indicesToHold)
+		{
+			foreach (var index in indicesToHold)
+			{
+				Dice.ElementAt(index).State = DieState.Throwable;
+			}
+		}
 	}
 }
