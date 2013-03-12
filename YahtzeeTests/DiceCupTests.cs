@@ -87,5 +87,38 @@ namespace YahtzeeTests
 			_dieMock.VerifySet(x => x.State = DieState.Throwable, Times.Exactly(2));
 		}
 
+		[TestMethod]
+		public void RollTwoTimesAndCheckFinalizedStateForUnfinalized()
+		{
+			// Arrange
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, die, die };
+
+			// Act
+			var diceCup = new DiceCup(dice);
+			diceCup.Roll();
+			diceCup.Roll();
+
+			// Assert
+			diceCup.IsFinal().Should().BeFalse();
+		}
+
+		[TestMethod]
+		public void RollThreeTimesAndCheckFinalizedStateForFinalized()
+		{
+			// Arrange
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, die, die };
+
+			// Act
+			var diceCup = new DiceCup(dice);
+			diceCup.Roll();
+			diceCup.Roll();
+			diceCup.Roll();
+
+			// Assert
+			diceCup.IsFinal().Should().BeTrue();
+		}
+
 	}
 }

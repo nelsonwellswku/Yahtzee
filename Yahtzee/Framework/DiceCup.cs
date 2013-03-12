@@ -8,6 +8,9 @@ namespace Yahtzee.Framework
 {
 	public class DiceCup : IDiceCup
 	{
+		private const int _maxRolls = 3;
+		private int _rollCount = 0;
+
 		public IEnumerable<IDie> Dice { get; private set; }
 		public DiceCup(IEnumerable<IDie> dice)
 		{
@@ -20,6 +23,8 @@ namespace Yahtzee.Framework
 			{
 				die.Roll();
 			}
+
+			_rollCount++;
 
 			return Dice;
 		}
@@ -38,6 +43,11 @@ namespace Yahtzee.Framework
 			{
 				Dice.ElementAt(index).State = DieState.Throwable;
 			}
+		}
+
+		public bool IsFinal()
+		{
+			return _rollCount == _maxRolls;
 		}
 	}
 }
