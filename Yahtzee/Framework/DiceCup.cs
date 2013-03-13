@@ -10,7 +10,7 @@ namespace Yahtzee.Framework
 		private const int _maxRolls = 3;
 		private int _rollCount = 0;
 
-		public IEnumerable<IDie> Dice { get; private set; }
+		public virtual IEnumerable<IDie> Dice { get; private set; }
 		public DiceCup(IEnumerable<IDie> dice)
 		{
 			if (dice.Count() != 5) throw new ArgumentOutOfRangeException("Dice cup must contain 5 die.");
