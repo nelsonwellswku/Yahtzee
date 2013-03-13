@@ -4,6 +4,6 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 {
 	public interface IFullHouseValidator
 	{
-		bool IsValid(IEnumerable<int> diceValues);
+		bool IsValid(IEnumerable<IDie> diceValues);
 	}
 }

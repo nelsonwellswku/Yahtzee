@@ -80,7 +80,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateFullHouse()
 		{
-			int[] diceValues = { 3, 2, 3, 2, 3 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 3, 2, 3 });
 
 			FullHouseValidator fullHouseValidator = new FullHouseValidator();
 			bool result = fullHouseValidator.IsValid(diceValues);
@@ -90,7 +90,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateInvalidFullHouse()
 		{
-			int[] diceValues = { 3, 2, 3, 4, 3 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 3, 4, 3 });
 
 			FullHouseValidator fullHouseValidator = new FullHouseValidator();
 			bool result = fullHouseValidator.IsValid(diceValues);
