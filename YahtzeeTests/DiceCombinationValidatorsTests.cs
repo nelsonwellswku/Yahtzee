@@ -102,7 +102,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateSmallStraight()
 		{
-			int[] diceValues = { 1, 3, 2, 4, 6 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[]{ 1, 3, 2, 4, 6 });
 
 			StraightValidator straightValidator = new StraightValidator();
 			bool result = straightValidator.IsValid(4, diceValues);
@@ -112,7 +112,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateSmallInvalidStraight()
 		{
-			int[] diceValues = { 1, 3, 5, 2, 6 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 5, 2, 6 });
 
 			StraightValidator straightValidator = new StraightValidator();
 			bool result = straightValidator.IsValid(4, diceValues);
@@ -122,7 +122,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateLargeStraight()
 		{
-			int[] diceValues = { 3, 4, 2, 6, 5 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 2, 6, 5 });
 
 			StraightValidator straightValidator = new StraightValidator();
 			bool result = straightValidator.IsValid(5, diceValues);
@@ -132,7 +132,7 @@ namespace YahtzeeTests
 		[TestMethod]
 		public void ValidateInvalidLargeStraight()
 		{
-			int[] diceValues = { 3, 2, 4, 1, 6 };
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 4, 1, 6 });
 
 			StraightValidator straightValidator = new StraightValidator();
 			bool result = straightValidator.IsValid(5, diceValues);
