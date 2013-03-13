@@ -2,71 +2,76 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using FluentAssertions;
+using YahtzeeTests.Support;
+using Yahtzee.Framework;
 using Yahtzee.Framework.DiceCombinationValidators;
+using System.Collections.Generic;
 
 namespace YahtzeeTests
 {
 	[TestClass]
 	public class DiceCombinationValidatorsTests
 	{
+		private TestDieFactory _testDieFactory = new TestDieFactory();
+
 		#region Dice of a kind tests
 		[TestMethod]
 		public void ValidateThreeOfAKind()
 		{
-			int[] diceValues = { 3, 4, 3, 5, 3 };
+			var dice =  _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 5, 3 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(3, diceValues);
+			bool result = diceOfAKindValidator.IsValid(3, dice);
 			result.Should().BeTrue();
 		}
 
 		[TestMethod]
 		public void ValidateInvalidThreeOfAKind()
 		{
-			int[] diceValues = { 3, 1, 5, 3, 4 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 1, 5, 3, 4 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(3, diceValues);
+			bool result = diceOfAKindValidator.IsValid(3, dice);
 			result.Should().BeFalse();
 		}
 
 		[TestMethod]
 		public void ValidateFourOfAKind()
 		{
-			int[] diceValues = { 2, 2, 6, 2, 2 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 6, 2, 2 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(4, diceValues);
+			bool result = diceOfAKindValidator.IsValid(4, dice);
 			result.Should().BeTrue();
 		}
 
 		[TestMethod]
 		public void ValidateInvalidFourOfAKind()
 		{
-			int[] diceValues = { 1, 3, 5, 2, 5 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 5, 2, 5 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(4, diceValues);
+			bool result = diceOfAKindValidator.IsValid(4, dice);
 			result.Should().BeFalse();
 		}
 
 		[TestMethod]
 		public void ValidateFiveOfAKind()
 		{
-			int[] diceValues = { 3, 3, 3, 3, 3 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 3, 3, 3 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(5, diceValues);
+			bool result = diceOfAKindValidator.IsValid(5, dice);
 			result.Should().BeTrue();
 		}
 
 		[TestMethod]
 		public void ValidateInvalidFiveOfAKind()
 		{
-			int[] diceValues = { 3, 3, 3, 3, 6 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 3, 3, 6 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
-			bool result = diceOfAKindValidator.IsValid(5, diceValues);
+			bool result = diceOfAKindValidator.IsValid(5, dice);
 			result.Should().BeFalse();
 		}
 		#endregion

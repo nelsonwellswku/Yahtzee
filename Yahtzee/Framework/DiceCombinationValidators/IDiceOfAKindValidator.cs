@@ -8,6 +8,6 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 {
 	public interface IDiceOfAKindValidator
 	{
-		bool IsValid(int numberOfDiceToMatch, IEnumerable<int> dice);
+		bool IsValid(int numberOfDiceToMatch, IEnumerable<IDie> dice);
 	}
 }
