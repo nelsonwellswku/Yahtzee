@@ -226,5 +226,70 @@ namespace YahtzeeTests
 		}
 
 		#endregion
+
+		#region Straight tests
+
+		[TestMethod]
+		public void RecordSmallStraightWithValidSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			var straightValidator = new Mock<IStraightValidator>();
+			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			int? smallStraightScore = scoreSheet.RecordSmallStraight(diceCup.Object);
+
+			//Assert
+			scoreSheet.SmallStraight.Should().Be(30);
+
+		}
+
+		[TestMethod]
+		public void RecordSmallStraightWithInvalidSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			var straightValidator = new Mock<IStraightValidator>();
+			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			int? smallStraightScore = scoreSheet.RecordSmallStraight(diceCup.Object);
+
+			//Assert
+			scoreSheet.SmallStraight.Should().Be(0);
+
+		}
+
+		[TestMethod]
+		public void DisallowSettingSmallStraightOnceItsBeenSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			var straightValidator = new Mock<IStraightValidator>();
+			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			scoreSheet.RecordSmallStraight(diceCup.Object);
+			int? secondRecord = scoreSheet.RecordSmallStraight(diceCup.Object);
+
+			//Assert
+			secondRecord.Should().NotHaveValue();
+
+		}
+
+		#endregion
 	}
 }

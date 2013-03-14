@@ -14,6 +14,7 @@ namespace Yahtzee.Framework
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
 		public int? FullHouse { get; private set; }
+		public int? SmallStraight { get; private set; }
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{
@@ -68,6 +69,22 @@ namespace Yahtzee.Framework
 			}
 
 			return FullHouse;
+		}
+
+		public int? RecordSmallStraight(IDiceCup diceCup)
+		{
+			if (SmallStraight != null) return null;
+
+			if (_straightValidator.IsValid(4, diceCup.Dice))
+			{
+				SmallStraight = 30;
+			}
+			else
+			{
+				SmallStraight = 0;
+			}
+
+			return SmallStraight;
 		}
 	}
 }
