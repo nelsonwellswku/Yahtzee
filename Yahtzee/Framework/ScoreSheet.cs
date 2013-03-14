@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Yahtzee.Framework.DiceCombinationValidators;
 
@@ -12,6 +13,7 @@ namespace Yahtzee.Framework
 
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
+		public int? FullHouse { get; private set; }
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{
@@ -50,6 +52,22 @@ namespace Yahtzee.Framework
 			}
 
 			return FourOfAKind;
+		}
+
+		public int? RecordFullHouse(IDiceCup diceCup)
+		{
+			if (FullHouse != null) return null;
+
+			if (_fullHouseValidator.IsValid(diceCup.Dice))
+			{
+				FullHouse = 25;
+			}
+			else
+			{
+				FullHouse = 0;
+			}
+
+			return FullHouse;
 		}
 	}
 }

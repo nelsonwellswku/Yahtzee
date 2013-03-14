@@ -161,6 +161,70 @@ namespace YahtzeeTests
 		}
 
 		#endregion
-	
+
+		#region Full house tests
+
+		[TestMethod]
+		public void RecordFullHouseWithValidSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			var straightValidator = new Mock<IStraightValidator>();
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			int? fullHouseScore = scoreSheet.RecordFullHouse(diceCup.Object);
+
+			//Assert
+			scoreSheet.FullHouse.Should().Be(25);
+
+		}
+
+		[TestMethod]
+		public void RecordFullHouseWithInvalidSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
+			var straightValidator = new Mock<IStraightValidator>();
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			int? fullHouseScore = scoreSheet.RecordFullHouse(diceCup.Object);
+
+			//Assert
+			fullHouseScore.Should().Be(0);
+			scoreSheet.FullHouse.Should().Be(0);
+		}
+
+		[TestMethod]
+		public void DisallowSettingFullHouseOnceItsBeenSet()
+		{
+			// Arrange
+			var diceCup = new Mock<IDiceCup>();
+
+			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			var fullHouseValidator = new Mock<IFullHouseValidator>();
+			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			var straightValidator = new Mock<IStraightValidator>();
+
+			// Act
+			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
+			scoreSheet.RecordFullHouse(diceCup.Object);
+			var secondRecord = scoreSheet.RecordFullHouse(diceCup.Object);
+
+			//Assert
+			secondRecord.Should().NotHaveValue();
+			scoreSheet.FullHouse.Should().Be(25);
+		}
+
+		#endregion
 	}
 }
