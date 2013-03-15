@@ -244,7 +244,51 @@ namespace YahtzeeTests
 
 		}
 
-		// TODO: Large Straight Tests
+		[TestMethod]
+		public void RecordLargeStraightWithValidSet()
+		{
+			// Arrange
+			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? largeStraightScore = scoreSheet.RecordLargeStraight(_diceCup.Object);
+
+			//Assert
+			scoreSheet.LargeStraight.Should().Be(40);
+
+		}
+
+		[TestMethod]
+		public void RecordLargeStraightWithInvalidSet()
+		{
+			// Arrange
+			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? largeStraightScore = scoreSheet.RecordLargeStraight(_diceCup.Object);
+
+			//Assert
+			scoreSheet.LargeStraight.Should().Be(0);
+
+		}
+
+		[TestMethod]
+		public void DisallowSettingLargeStraightOnceItsBeenSet()
+		{
+			// Arrange
+			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordLargeStraight(_diceCup.Object);
+			int? secondRecord = scoreSheet.RecordLargeStraight(_diceCup.Object);
+
+			//Assert
+			secondRecord.Should().NotHaveValue();
+
+		}
 
 		#endregion
 	}
