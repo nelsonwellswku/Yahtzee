@@ -9,11 +9,26 @@ using Yahtzee.Framework.DiceCombinationValidators;
 using YahtzeeTests.Support;
 
 namespace YahtzeeTests
-{
+{ 
 	[TestClass]
 	public class ScoreSheetTests
 	{
-		private TestDieFactory _testDieFactory = new TestDieFactory();
+		private readonly TestDieFactory _testDieFactory;
+		private readonly Mock<IDiceCup> _diceCup;
+		private readonly Mock<IDiceCup> _diceCup2;
+		private readonly Mock<IDiceOfAKindValidator> _diceOfAKindValidator;
+		private readonly Mock<IFullHouseValidator> _fullHouseValidator;
+		private readonly Mock<IStraightValidator> _straightValidator;
+
+		public ScoreSheetTests ()
+		{
+			_testDieFactory = new TestDieFactory();
+			_diceCup = new Mock<IDiceCup>();
+			_diceCup2 = new Mock<IDiceCup>();
+			_diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
+			_fullHouseValidator = new Mock<IFullHouseValidator>();
+			_straightValidator = new Mock<IStraightValidator>();
+		}
 
 		#region Three and four of a kind tests
 
@@ -22,17 +37,12 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 6, 3 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(true);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
 			scoreSheet.ThreeOfAKind.Should().Be(20);
@@ -44,17 +54,12 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(false);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
 			threeOfAKindScore.Should().Be(0);
@@ -66,22 +71,17 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 3 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 3, 4 });
-			var diceCup2 = new Mock<IDiceCup>();
-			diceCup2.Setup(x => x.Dice).Returns(dice2);
+			_diceCup2.Setup(x => x.Dice).Returns(dice2);
 
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(3, It.IsAny<IEnumerable<IDie>>())).Returns(true);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceOfAKindValidator.Setup(x => x.IsValid(3, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			scoreSheet.RecordThreeOfAKind(diceCup.Object);
-			var secondRecording = scoreSheet.RecordThreeOfAKind(diceCup2.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			var secondRecording = scoreSheet.RecordThreeOfAKind(_diceCup2.Object);
 
 			// Assert
 			secondRecording.Should().NotHaveValue();
@@ -93,17 +93,12 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 3, 3 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(true);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(17);
@@ -116,17 +111,12 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(false);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(0);
@@ -138,22 +128,16 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 4 });
-			var diceCup = new Mock<IDiceCup>();
-			diceCup.Setup(x => x.Dice).Returns(dice);
+			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 5, 5, 5, 3, 5 });
-			var diceCup2 = new Mock<IDiceCup>();
-			diceCup2.Setup(x => x.Dice).Returns(dice2);
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			diceOfAKindValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
+			_diceCup2.Setup(x => x.Dice).Returns(dice2);
+			_diceOfAKindValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			scoreSheet.RecordFourOfAKind(diceCup.Object);
-			var secondRecording = scoreSheet.RecordFourOfAKind(diceCup2.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			var secondRecording = scoreSheet.RecordFourOfAKind(_diceCup2.Object);
 
 			// Assert
 			secondRecording.Should().NotHaveValue();
@@ -168,16 +152,11 @@ namespace YahtzeeTests
 		public void RecordFullHouseWithValidSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
-			var straightValidator = new Mock<IStraightValidator>();
+			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? fullHouseScore = scoreSheet.RecordFullHouse(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? fullHouseScore = scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			scoreSheet.FullHouse.Should().Be(25);
@@ -188,16 +167,11 @@ namespace YahtzeeTests
 		public void RecordFullHouseWithInvalidSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
-			var straightValidator = new Mock<IStraightValidator>();
+			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? fullHouseScore = scoreSheet.RecordFullHouse(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? fullHouseScore = scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			fullHouseScore.Should().Be(0);
@@ -208,17 +182,12 @@ namespace YahtzeeTests
 		public void DisallowSettingFullHouseOnceItsBeenSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
-			var straightValidator = new Mock<IStraightValidator>();
+			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			scoreSheet.RecordFullHouse(diceCup.Object);
-			var secondRecord = scoreSheet.RecordFullHouse(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordFullHouse(_diceCup.Object);
+			var secondRecord = scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
@@ -233,16 +202,11 @@ namespace YahtzeeTests
 		public void RecordSmallStraightWithValidSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
-			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? smallStraightScore = scoreSheet.RecordSmallStraight(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? smallStraightScore = scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			scoreSheet.SmallStraight.Should().Be(30);
@@ -253,16 +217,11 @@ namespace YahtzeeTests
 		public void RecordSmallStraightWithInvalidSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
-			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
+			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			int? smallStraightScore = scoreSheet.RecordSmallStraight(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? smallStraightScore = scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			scoreSheet.SmallStraight.Should().Be(0);
@@ -273,22 +232,19 @@ namespace YahtzeeTests
 		public void DisallowSettingSmallStraightOnceItsBeenSet()
 		{
 			// Arrange
-			var diceCup = new Mock<IDiceCup>();
-
-			var diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
-			var fullHouseValidator = new Mock<IFullHouseValidator>();
-			var straightValidator = new Mock<IStraightValidator>();
-			straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(diceOfAKindValidator.Object, fullHouseValidator.Object, straightValidator.Object);
-			scoreSheet.RecordSmallStraight(diceCup.Object);
-			int? secondRecord = scoreSheet.RecordSmallStraight(diceCup.Object);
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordSmallStraight(_diceCup.Object);
+			int? secondRecord = scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
 
 		}
+
+		// TODO: Large Straight Tests
 
 		#endregion
 	}
