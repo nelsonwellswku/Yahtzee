@@ -17,6 +17,7 @@ namespace Yahtzee.Framework
 		public int? SmallStraight { get; private set; }
 		public int? LargeStraight { get; private set; }
 		public int? Chance { get; private set; }
+		public int? Yahtzee { get; private set; }
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{
@@ -111,6 +112,20 @@ namespace Yahtzee.Framework
 
 			Chance = diceCup.Dice.Select(x => x.Value).Sum();
 			return Chance;
+		}
+
+		public int? RecordYahtzee(IDiceCup diceCup)
+		{
+			if (_diceOfAKindValidator.IsValid(5, diceCup.Dice))
+			{
+				Yahtzee = 50;
+			}
+			else
+			{
+				Yahtzee = 0;
+			}
+
+			return Yahtzee;
 		}
 	}
 }

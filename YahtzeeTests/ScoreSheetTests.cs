@@ -331,5 +331,39 @@ namespace YahtzeeTests
 		}
 
 		#endregion
+
+		#region Yahtzee tests
+
+		[TestMethod]
+		public void RecordYahtzeeWithValidSet()
+		{
+			// Arrange
+			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+
+			// Assert
+			yahtzeeScore.Should().Be(50);
+			scoreSheet.Yahtzee.Should().Be(50);
+		}
+
+		[TestMethod]
+		public void RecordYahtzeeWithInvalidSet()
+		{
+			// Arrange
+			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+
+			// Assert
+			yahtzeeScore.Should().Be(0);
+			scoreSheet.Yahtzee.Should().Be(0);
+		}
+
+		#endregion
 	}
 }
