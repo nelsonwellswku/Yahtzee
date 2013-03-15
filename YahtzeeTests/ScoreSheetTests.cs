@@ -291,5 +291,45 @@ namespace YahtzeeTests
 		}
 
 		#endregion
+
+		#region Chance tests
+
+		[TestMethod]
+		public void RecordChance()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 2, 4, 3 });
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			int? chanceScore = scoreSheet.RecordChance(_diceCup.Object);
+
+			//Assert
+			scoreSheet.Chance.Should().Be(18);
+
+		}
+
+		[TestMethod]
+		public void DisallowChanceFromBeingSetOnceItsBeenSet()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+
+			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 1, 1, 1, 2, 1 });
+			_diceCup2.Setup(x => x.Dice).Returns(dice2);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordChance(_diceCup.Object);
+			int? chanceScore = scoreSheet.RecordChance(_diceCup2.Object);
+
+			//Assert
+			chanceScore.Should().NotHaveValue();
+			scoreSheet.Chance.Should().Be(19);
+		}
+
+		#endregion
 	}
 }
