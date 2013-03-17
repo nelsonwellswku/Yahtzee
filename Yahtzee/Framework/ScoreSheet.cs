@@ -119,12 +119,11 @@ namespace Yahtzee.Framework
 
 		public int? RecordYahtzee(IDiceCup diceCup)
 		{
-			if (YahtzeeBonus.Count() == 3) return null;
-
 			bool isValidYahtzeeCombination = _diceOfAKindValidator.IsValid(5, diceCup.Dice);
 
 			if (Yahtzee != null && Yahtzee > 0 && isValidYahtzeeCombination)
 			{
+				if (YahtzeeBonus.Count() == 3) return null;
 				RecordYahtzeeBonus();
 				return 100;
 			}
@@ -133,7 +132,7 @@ namespace Yahtzee.Framework
 				return null;
 			}
 
-			if (Yahtzee == null && isValidYahtzeeCombination)
+			if (isValidYahtzeeCombination)
 			{
 				Yahtzee = 50;
 			}

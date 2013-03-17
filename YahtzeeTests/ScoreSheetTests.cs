@@ -388,7 +388,7 @@ namespace YahtzeeTests
 
 			// Act
 			var scoresheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoresheet.RecordYahtzee(_diceCup.Object).Should().Be(0); // the assertion here is for my own peace of mind
+			scoresheet.RecordYahtzee(_diceCup.Object);
 			var yahtzeeScore = scoresheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
@@ -414,6 +414,13 @@ namespace YahtzeeTests
 			// Assert
 			yahtzeeScore.Should().NotHaveValue();
 		}
+
+		/* TODO: There is a "joker" rule that I didn't know about such that:
+		 * * If a player rolls a Yahtzee AND the upper-section of the corresponding die value 
+		 * * has been filled, then one may elect to use the Yahtzee as a wild card for a lower
+		 * * section value such as full-house or a straight.
+		 * 
+		 * I'm not certain how the API should work for this behavior so I'll leave it for later */
 
 		#endregion
 	}
