@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
 using Yahtzee.Framework.DiceCombinationValidators;
 
 namespace Yahtzee.Framework
@@ -18,12 +18,15 @@ namespace Yahtzee.Framework
 		public int? LargeStraight { get; private set; }
 		public int? Chance { get; private set; }
 		public int? Yahtzee { get; private set; }
+		public IEnumerable<int> YahtzeeBonus { get; private set; }
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{
 			_diceOfAKindValidator = diceOfAKindValidator;
 			_fullHouseValidator = fullHouseValidator;
 			_straightValidator = straightValidator;
+
+			YahtzeeBonus = new List<int>();
 		}
 
 		public int? RecordThreeOfAKind(IDiceCup diceCup)
@@ -116,7 +119,21 @@ namespace Yahtzee.Framework
 
 		public int? RecordYahtzee(IDiceCup diceCup)
 		{
-			if (_diceOfAKindValidator.IsValid(5, diceCup.Dice))
+			if (YahtzeeBonus.Count() == 3) return null;
+
+			bool isValidYahtzeeCombination = _diceOfAKindValidator.IsValid(5, diceCup.Dice);
+
+			if (Yahtzee != null && Yahtzee > 0 && isValidYahtzeeCombination)
+			{
+				RecordYahtzeeBonus();
+				return 100;
+			}
+			else if (Yahtzee != null)
+			{
+				return null;
+			}
+
+			if (Yahtzee == null && isValidYahtzeeCombination)
 			{
 				Yahtzee = 50;
 			}
@@ -126,6 +143,13 @@ namespace Yahtzee.Framework
 			}
 
 			return Yahtzee;
+		}
+
+		private void RecordYahtzeeBonus()
+		{
+			var tempList = YahtzeeBonus.ToList();
+			tempList.Add(100);
+			YahtzeeBonus = tempList;
 		}
 	}
 }

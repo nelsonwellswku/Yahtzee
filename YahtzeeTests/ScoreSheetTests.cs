@@ -364,6 +364,57 @@ namespace YahtzeeTests
 			scoreSheet.Yahtzee.Should().Be(0);
 		}
 
+		[TestMethod]
+		public void RecordYahtzeeBonusAfterYahtzeeWithValidSet()
+		{
+			// Arrange
+			var expectedArray = new int?[] { 100 };
+			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+
+			yahtzeeScore.Should().Be(100);
+			scoreSheet.YahtzeeBonus.Should().BeEquivalentTo(expectedArray);
+		}
+
+		[TestMethod]
+		public void RecordYahtzeeBonusAfterFailedYahtzeeRecord()
+		{
+			// Arrange
+			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).ReturnsInOrder(false, true);
+
+			// Act
+			var scoresheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoresheet.RecordYahtzee(_diceCup.Object).Should().Be(0); // the assertion here is for my own peace of mind
+			var yahtzeeScore = scoresheet.RecordYahtzee(_diceCup.Object);
+
+			// Assert
+			yahtzeeScore.Should().Be(null);
+			scoresheet.Yahtzee.Should().Be(0);
+			scoresheet.YahtzeeBonus.ShouldAllBeEquivalentTo(new int[0]);
+		}
+
+		[TestMethod]
+		public void RecordYahtzeeBonusOnlyThreeTimes()
+		{
+			// Arrange
+			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).ReturnsInOrder(true, true, true, true, true);
+
+			// Act
+			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
+			scoreSheet.RecordYahtzee(_diceCup.Object);
+			scoreSheet.RecordYahtzee(_diceCup.Object);
+			scoreSheet.RecordYahtzee(_diceCup.Object);
+			scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+
+			// Assert
+			yahtzeeScore.Should().NotHaveValue();
+		}
+
 		#endregion
 	}
 }
