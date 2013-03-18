@@ -49,6 +49,21 @@ namespace YahtzeeTests
 			_scoreSheet.Ones.Should().Be(2);
 		}
 
+		[TestMethod]
+		public void RecordUpperSectionThreesWithValidValues()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 1, 3 });
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+
+			// Act
+			var threesScore = _scoreSheet.RecordUpperSection(UpperSection.Threes, _diceCup.Object);
+
+			// Assert
+			threesScore.Should().Be(9);
+			_scoreSheet.Threes.Should().Be(9);
+		}
+
 		//Lower Section
 
 		#region Three and four of a kind tests
