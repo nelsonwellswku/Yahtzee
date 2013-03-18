@@ -5,4 +5,14 @@
 		Throwable,
 		Held
 	};
+
+	public enum UpperSection
+	{
+		Ones,
+		Twos,
+		Threes,
+		Fours,
+		Fives,
+		Sixes
+	}
 }

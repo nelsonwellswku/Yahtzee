@@ -11,6 +11,8 @@ namespace Yahtzee.Framework
 		private readonly IFullHouseValidator _fullHouseValidator;
 		private readonly IStraightValidator _straightValidator;
 
+		public int? Ones { get; private set; }
+
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
 		public int? FullHouse { get; private set; }
@@ -27,6 +29,21 @@ namespace Yahtzee.Framework
 			_straightValidator = straightValidator;
 
 			YahtzeeBonus = new List<int>();
+		}
+
+		public int? RecordUpperSection(UpperSection upperSection, IDiceCup diceCup)
+		{
+			int? sum = null;
+
+			switch (upperSection)
+			{
+				case UpperSection.Ones:
+					sum = SumDiceOfValue(diceCup, 1);
+					Ones = sum;
+					break;
+			}
+
+			return sum;
 		}
 
 		public int? RecordThreeOfAKind(IDiceCup diceCup)
@@ -149,6 +166,11 @@ namespace Yahtzee.Framework
 			var tempList = YahtzeeBonus.ToList();
 			tempList.Add(100);
 			YahtzeeBonus = tempList;
+		}
+
+		private int SumDiceOfValue(IDiceCup diceCup, int value)
+		{
+			return diceCup.Dice.Where(x => x.Value == value).Sum(x => x.Value);
 		}
 	}
 }

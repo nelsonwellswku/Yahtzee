@@ -35,45 +35,18 @@ namespace YahtzeeTests
 
 		// Upper Section
 		[TestMethod]
-		public void RecordOnesWithValidSet()
+		public void RecordUpperSectionOnesWithValidValues()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 4, 6, 2, 1 };
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 4, 1, 3, 1 });
 			_diceCup.Setup(x => x.Dice).Returns(dice);
-			
+
 			// Act
-			var onesScore = _scoreSheet.RecordOnes(_diceCup.Object);
+			var onesScore = _scoreSheet.RecordUpperSection(UpperSection.Ones, _diceCup.Object);
 
 			// Assert
 			onesScore.Should().Be(2);
 			_scoreSheet.Ones.Should().Be(2);
-		}
-
-		[TestMethod]
-		public void RecordOnesWithInvalidSet()
-		{
-			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 5, 2, 6, 4 });
-			_diceCup.Setup(x => x.Dice).Returns(dice);
-
-			// Act
-			var onesScore = _scoreSheet.RecordOnes(_diceCup.Object);
-			
-			// Assert
-			onesScore.Should().Be(0);
-			_scoreSheet.Ones.Should().Be(0);
-		}
-
-		[TestMethod]
-		public void RecordOnesAfterItsAlreadyBeenRecorded()
-		{
-			// Arrange
-			// null
-
-			// Act
-			_scoreSheet.RecordOnes(_diceCup);
-			var onesScore = _scoreSheet.RecordOnes(
-			
 		}
 
 		//Lower Section
