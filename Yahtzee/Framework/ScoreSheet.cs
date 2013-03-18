@@ -12,6 +12,7 @@ namespace Yahtzee.Framework
 		private readonly IStraightValidator _straightValidator;
 
 		public int? Ones { get; private set; }
+		public int? Twos { get; private set; }
 		public int? Threes { get; private set; }
 
 		public int? ThreeOfAKind { get; private set; }
@@ -39,10 +40,17 @@ namespace Yahtzee.Framework
 			switch (upperSection)
 			{
 				case UpperSection.Ones:
+					if (Ones != null) return null;
 					sum = SumDiceOfValue(diceCup, 1);
 					Ones = sum;
 					break;
+				case UpperSection.Twos:
+					if (Twos != null) return null;
+					sum = SumDiceOfValue(diceCup, 2);
+					Twos = sum;
+					break;
 				case UpperSection.Threes:
+					if (Threes != null) return null;
 					sum = SumDiceOfValue(diceCup, 3);
 					Threes = sum;
 					break;

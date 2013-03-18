@@ -64,6 +64,22 @@ namespace YahtzeeTests
 			_scoreSheet.Threes.Should().Be(9);
 		}
 
+		[TestMethod]
+		public void RecordUpperSectionTwosAfterItsAlreadyBeenRecorded()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 2, 5, 2 });
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+
+			// Act
+			_scoreSheet.RecordUpperSection(UpperSection.Twos, _diceCup.Object);
+			var twosScore = _scoreSheet.RecordUpperSection(UpperSection.Twos, _diceCup.Object);
+
+			// Assert
+			twosScore.Should().NotHaveValue();
+			_scoreSheet.Twos.Should().Be(4);
+		}
+
 		//Lower Section
 
 		#region Three and four of a kind tests
