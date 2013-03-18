@@ -33,7 +33,11 @@ namespace YahtzeeTests
 			_scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
 		}
 
-		// Upper Section
+		#region Upper section
+
+		// TODO: Comprehensive tests for 2, 4, 5, 6
+		//			Maybe elaborate on tests for 1 and 3
+
 		[TestMethod]
 		public void RecordUpperSectionOnesWithValidValues()
 		{
@@ -79,6 +83,8 @@ namespace YahtzeeTests
 			twosScore.Should().NotHaveValue();
 			_scoreSheet.Twos.Should().Be(4);
 		}
+
+		#endregion
 
 		//Lower Section
 

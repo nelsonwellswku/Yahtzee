@@ -14,6 +14,9 @@ namespace Yahtzee.Framework
 		public int? Ones { get; private set; }
 		public int? Twos { get; private set; }
 		public int? Threes { get; private set; }
+		public int? Fours { get; private set; }
+		public int? Fives { get; private set; }
+		public int? Sixes { get; private set; }
 
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
@@ -53,6 +56,18 @@ namespace Yahtzee.Framework
 					if (Threes != null) return null;
 					sum = SumDiceOfValue(diceCup, 3);
 					Threes = sum;
+					break;
+				case UpperSection.Fours:
+					if (Fours != null) return null;
+					sum = SumDiceOfValue(diceCup, 4);
+					break;
+				case UpperSection.Fives:
+					if (Fives != null) return null;
+					sum = SumDiceOfValue(diceCup, 5);
+					break;
+				case UpperSection.Sixes:
+					if (Sixes != null) return null;
+					sum = SumDiceOfValue(diceCup, 6);
 					break;
 			}
 
