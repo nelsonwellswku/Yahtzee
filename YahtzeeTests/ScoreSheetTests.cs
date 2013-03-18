@@ -19,6 +19,7 @@ namespace YahtzeeTests
 		private readonly Mock<IDiceOfAKindValidator> _diceOfAKindValidator;
 		private readonly Mock<IFullHouseValidator> _fullHouseValidator;
 		private readonly Mock<IStraightValidator> _straightValidator;
+		private readonly ScoreSheet _scoreSheet;
 
 		public ScoreSheetTests ()
 		{
@@ -28,7 +29,54 @@ namespace YahtzeeTests
 			_diceOfAKindValidator = new Mock<IDiceOfAKindValidator>();
 			_fullHouseValidator = new Mock<IFullHouseValidator>();
 			_straightValidator = new Mock<IStraightValidator>();
+
+			_scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
 		}
+
+		// Upper Section
+		[TestMethod]
+		public void RecordOnesWithValidSet()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 4, 6, 2, 1 };
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+			
+			// Act
+			var onesScore = _scoreSheet.RecordOnes(_diceCup.Object);
+
+			// Assert
+			onesScore.Should().Be(2);
+			_scoreSheet.Ones.Should().Be(2);
+		}
+
+		[TestMethod]
+		public void RecordOnesWithInvalidSet()
+		{
+			// Arrange
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 5, 2, 6, 4 });
+			_diceCup.Setup(x => x.Dice).Returns(dice);
+
+			// Act
+			var onesScore = _scoreSheet.RecordOnes(_diceCup.Object);
+			
+			// Assert
+			onesScore.Should().Be(0);
+			_scoreSheet.Ones.Should().Be(0);
+		}
+
+		[TestMethod]
+		public void RecordOnesAfterItsAlreadyBeenRecorded()
+		{
+			// Arrange
+			// null
+
+			// Act
+			_scoreSheet.RecordOnes(_diceCup);
+			var onesScore = _scoreSheet.RecordOnes(
+			
+		}
+
+		//Lower Section
 
 		#region Three and four of a kind tests
 
@@ -41,11 +89,10 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			int? threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
-			scoreSheet.ThreeOfAKind.Should().Be(20);
+			_scoreSheet.ThreeOfAKind.Should().Be(20);
 
 		}
 
@@ -58,12 +105,12 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? threeOfAKindScore = scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			
+			int? threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
 			threeOfAKindScore.Should().Be(0);
-			scoreSheet.ThreeOfAKind.Should().Be(0);
+			_scoreSheet.ThreeOfAKind.Should().Be(0);
 		}
 
 		[TestMethod]
@@ -79,13 +126,12 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordThreeOfAKind(_diceCup.Object);
-			var secondRecording = scoreSheet.RecordThreeOfAKind(_diceCup2.Object);
+			_scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			var secondRecording = _scoreSheet.RecordThreeOfAKind(_diceCup2.Object);
 
 			// Assert
 			secondRecording.Should().NotHaveValue();
-			scoreSheet.ThreeOfAKind.Should().Be(17);
+			_scoreSheet.ThreeOfAKind.Should().Be(17);
 		}
 
 		[TestMethod]
@@ -97,12 +143,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			int? fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(17);
-			scoreSheet.FourOfAKind.Should().Be(17);
+			_scoreSheet.FourOfAKind.Should().Be(17);
 
 		}
 
@@ -115,12 +160,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? fourOfAKindScore = scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			int? fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(0);
-			scoreSheet.FourOfAKind.Should().Be(0);
+			_scoreSheet.FourOfAKind.Should().Be(0);
 		}
 
 		[TestMethod]
@@ -135,13 +179,12 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordFourOfAKind(_diceCup.Object);
-			var secondRecording = scoreSheet.RecordFourOfAKind(_diceCup2.Object);
+			_scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			var secondRecording = _scoreSheet.RecordFourOfAKind(_diceCup2.Object);
 
 			// Assert
 			secondRecording.Should().NotHaveValue();
-			scoreSheet.FourOfAKind.Should().Be(18);
+			_scoreSheet.FourOfAKind.Should().Be(18);
 		}
 
 		#endregion
@@ -155,11 +198,10 @@ namespace YahtzeeTests
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? fullHouseScore = scoreSheet.RecordFullHouse(_diceCup.Object);
+			int? fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
-			scoreSheet.FullHouse.Should().Be(25);
+			_scoreSheet.FullHouse.Should().Be(25);
 
 		}
 
@@ -170,12 +212,11 @@ namespace YahtzeeTests
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? fullHouseScore = scoreSheet.RecordFullHouse(_diceCup.Object);
+			int? fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			fullHouseScore.Should().Be(0);
-			scoreSheet.FullHouse.Should().Be(0);
+			_scoreSheet.FullHouse.Should().Be(0);
 		}
 
 		[TestMethod]
@@ -185,13 +226,12 @@ namespace YahtzeeTests
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordFullHouse(_diceCup.Object);
-			var secondRecord = scoreSheet.RecordFullHouse(_diceCup.Object);
+			_scoreSheet.RecordFullHouse(_diceCup.Object);
+			var secondRecord = _scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
-			scoreSheet.FullHouse.Should().Be(25);
+			_scoreSheet.FullHouse.Should().Be(25);
 		}
 
 		#endregion
@@ -205,11 +245,10 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? smallStraightScore = scoreSheet.RecordSmallStraight(_diceCup.Object);
+			int? smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
-			scoreSheet.SmallStraight.Should().Be(30);
+			_scoreSheet.SmallStraight.Should().Be(30);
 
 		}
 
@@ -220,11 +259,10 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? smallStraightScore = scoreSheet.RecordSmallStraight(_diceCup.Object);
+			int? smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
-			scoreSheet.SmallStraight.Should().Be(0);
+			_scoreSheet.SmallStraight.Should().Be(0);
 
 		}
 
@@ -235,9 +273,8 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordSmallStraight(_diceCup.Object);
-			int? secondRecord = scoreSheet.RecordSmallStraight(_diceCup.Object);
+			_scoreSheet.RecordSmallStraight(_diceCup.Object);
+			int? secondRecord = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
@@ -251,11 +288,10 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? largeStraightScore = scoreSheet.RecordLargeStraight(_diceCup.Object);
+			int? largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
-			scoreSheet.LargeStraight.Should().Be(40);
+			_scoreSheet.LargeStraight.Should().Be(40);
 
 		}
 
@@ -266,11 +302,10 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? largeStraightScore = scoreSheet.RecordLargeStraight(_diceCup.Object);
+			int? largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
-			scoreSheet.LargeStraight.Should().Be(0);
+			_scoreSheet.LargeStraight.Should().Be(0);
 
 		}
 
@@ -281,9 +316,8 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordLargeStraight(_diceCup.Object);
-			int? secondRecord = scoreSheet.RecordLargeStraight(_diceCup.Object);
+			_scoreSheet.RecordLargeStraight(_diceCup.Object);
+			int? secondRecord = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
@@ -302,11 +336,10 @@ namespace YahtzeeTests
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? chanceScore = scoreSheet.RecordChance(_diceCup.Object);
+			int? chanceScore = _scoreSheet.RecordChance(_diceCup.Object);
 
 			//Assert
-			scoreSheet.Chance.Should().Be(18);
+			_scoreSheet.Chance.Should().Be(18);
 
 		}
 
@@ -321,13 +354,12 @@ namespace YahtzeeTests
 			_diceCup2.Setup(x => x.Dice).Returns(dice2);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordChance(_diceCup.Object);
-			int? chanceScore = scoreSheet.RecordChance(_diceCup2.Object);
+			_scoreSheet.RecordChance(_diceCup.Object);
+			int? chanceScore = _scoreSheet.RecordChance(_diceCup2.Object);
 
 			//Assert
 			chanceScore.Should().NotHaveValue();
-			scoreSheet.Chance.Should().Be(19);
+			_scoreSheet.Chance.Should().Be(19);
 		}
 
 		#endregion
@@ -341,12 +373,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+			int? yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
 			yahtzeeScore.Should().Be(50);
-			scoreSheet.Yahtzee.Should().Be(50);
+			_scoreSheet.Yahtzee.Should().Be(50);
 		}
 
 		[TestMethod]
@@ -356,12 +387,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			int? yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+			int? yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
 			yahtzeeScore.Should().Be(0);
-			scoreSheet.Yahtzee.Should().Be(0);
+			_scoreSheet.Yahtzee.Should().Be(0);
 		}
 
 		[TestMethod]
@@ -372,12 +402,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordYahtzee(_diceCup.Object);
-			var yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			yahtzeeScore.Should().Be(100);
-			scoreSheet.YahtzeeBonus.Should().BeEquivalentTo(expectedArray);
+			_scoreSheet.YahtzeeBonus.Should().BeEquivalentTo(expectedArray);
 		}
 
 		[TestMethod]
@@ -404,12 +433,11 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).ReturnsInOrder(true, true, true, true, true);
 
 			// Act
-			var scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
-			scoreSheet.RecordYahtzee(_diceCup.Object);
-			scoreSheet.RecordYahtzee(_diceCup.Object);
-			scoreSheet.RecordYahtzee(_diceCup.Object);
-			scoreSheet.RecordYahtzee(_diceCup.Object);
-			var yahtzeeScore = scoreSheet.RecordYahtzee(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
 			yahtzeeScore.Should().NotHaveValue();
