@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F1BA1257-240B-40DA-B9F4-B50909F01348}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{F185D5D2-2DE9-482E-A04C-0AD0979A317D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yahtzee</RootNamespace>
-    <AssemblyName>Yahtzee</AssemblyName>
+    <RootNamespace>ConsoleYahtzee</RootNamespace>
+    <AssemblyName>ConsoleYahtzee</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,23 +41,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Framework\DiceCombinationValidators\DiceOfAKindValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\FullHouseValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IFullHouseValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IStraightValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\StraightValidator.cs" />
-    <Compile Include="Framework\Die.cs" />
-    <Compile Include="Framework\DiceCup.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
-    <Compile Include="Framework\Enums.cs" />
-    <Compile Include="Framework\IDiceCup.cs" />
-    <Compile Include="Framework\IDie.cs" />
-    <Compile Include="Framework\IScoreSheet.cs" />
-    <Compile Include="Framework\IScoreSheetDisplayer.cs" />
-    <Compile Include="Framework\ScoreSheet.cs" />
+    <Compile Include="Framework\ScoreSheetConsoleDisplayer.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\ScoreSheetTemplate.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Yahtzee\Yahtzee.csproj">
+      <Project>{f1ba1257-240b-40da-b9f4-b50909f01348}</Project>
+      <Name>Yahtzee</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

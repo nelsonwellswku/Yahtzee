@@ -18,7 +18,7 @@ namespace Yahtzee.Framework
 		int? LargeStraight { get; }
 		int? Chance { get; }
 		int? Yahtzee { get; }
-		IEnumerable<int> YahtzeeBonus { get;  }
+		IEnumerable<int> YahtzeeBonus { get; }
 
 		int? RecordUpperSection(UpperSectionItem upperSection, IDiceCup diceCup);
 		int? RecordThreeOfAKind(IDiceCup diceCup);

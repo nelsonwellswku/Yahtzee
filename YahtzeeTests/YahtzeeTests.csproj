@@ -62,6 +62,12 @@
     <Compile Include="DiceCombinationValidatorsTests.cs" />
     <Compile Include="DieTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreSheetDisplayerTests.cs" />
     <Compile Include="Support\MoqExtensions.cs" />
     <Compile Include="Support\TestDieFactory.cs" />
     <Compile Include="ScoreSheetTests.cs" />
@@ -70,10 +76,23 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConsoleYahtzee\ConsoleYahtzee.csproj">
+      <Project>{f185d5d2-2de9-482e-a04c-0ad0979a317d}</Project>
+      <Name>ConsoleYahtzee</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Yahtzee\Yahtzee.csproj">
       <Project>{f1ba1257-240b-40da-b9f4-b50909f01348}</Project>
       <Name>Yahtzee</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\EmptyScoreSheetConsoleOutput.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
