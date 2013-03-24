@@ -17,6 +17,13 @@ namespace Yahtzee.Framework
 		public int? Fours { get; private set; }
 		public int? Fives { get; private set; }
 		public int? Sixes { get; private set; }
+		public int UpperSectionBonus
+		{
+			get
+			{
+				return UpperSectionTotal > 63 ? 35 : 0;
+			}
+		}
 		public int UpperSectionTotal
 		{
 			get
