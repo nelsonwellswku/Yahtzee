@@ -12,6 +12,7 @@ namespace Yahtzee.Framework
 		int? Sixes { get; }
 		int UpperSectionBonus { get; }
 		int UpperSectionTotal { get; }
+		int UpperSectionTotalWithBonus { get; }
 
 		int? ThreeOfAKind { get; }
 		int? FourOfAKind { get; }

@@ -130,24 +130,28 @@ namespace YahtzeeTests
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusExists_ReturnsUpperSectionScoresPlus35BonusPoints()
 		{
 			// Arrange
-
+			SetupBonusDiceCupMock();
+			RecordAllUpperSection(_diceCup.Object);
 
 			// Act
-			throw new NotImplementedException();
+			var totalWithBonus = _scoreSheet.UpperSectionTotalWithBonus;
 
 			// Assert
+			totalWithBonus.Should().Be(101);
 		}
 
 		[TestMethod]
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusDoesntExist_ReturnsUpperSectionScoresOnly()
 		{
 			// Arrange
-
+			SetupNoBonusDiceCupMock();
+			RecordAllUpperSection(_diceCup.Object);
 
 			// Act
-			throw new NotImplementedException();
+			var totalWithBonus = _scoreSheet.UpperSectionTotalWithBonus;
 
 			// Assert
+			totalWithBonus.Should().Be(34);
 		}
 
 		#endregion
@@ -564,6 +568,7 @@ namespace YahtzeeTests
 			var foursDice = _testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 2 });		// 8
 			var fivesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 4, 3, 6, 6 });		// 0
 			var sixesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 6, 4, 3 });		// 6
+			// total = 34
 
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
 		}
@@ -576,6 +581,7 @@ namespace YahtzeeTests
 			var foursDice = _testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 4 });		// 12
 			var fivesDice = _testDieFactory.CreateDieEnumerable(new[] { 5, 5, 3, 5, 6 });		// 15
 			var sixesDice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 6, 4, 6 });		// 18
+			// total = 66
 
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
 		}

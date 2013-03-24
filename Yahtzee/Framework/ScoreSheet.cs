@@ -31,7 +31,13 @@ namespace Yahtzee.Framework
 				return (int)(Ones + Twos + Threes + Fours + Fives + Sixes);
 			}
 		}
-
+		public int UpperSectionTotalWithBonus
+		{
+			get
+			{
+				return (int)(UpperSectionTotal + UpperSectionBonus);
+			}
+		}
 
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
