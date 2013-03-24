@@ -84,6 +84,82 @@ namespace YahtzeeTests
 			_scoreSheet.Twos.Should().Be(4);
 		}
 
+		[TestMethod]
+		public void ScoreSheet_UpperSectionTotal_ReturnsSumOfUpperSectionValues()
+		{
+			// Arrange
+			var onesDice	=	_testDieFactory.CreateDieEnumerable(new[] { 1, 3, 1, 5, 4 });		// 2
+			var twosDice	=	_testDieFactory.CreateDieEnumerable(new[] { 1, 5, 2, 2, 2 });		// 6
+			var threesDice =	_testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3 , 3, 3 });		// 12
+			var foursDice	=	_testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 2 });		// 8
+			var fivesDice	=	_testDieFactory.CreateDieEnumerable(new[] { 1, 4, 3, 6, 6 });		// 0
+			var sixesDice	=	_testDieFactory.CreateDieEnumerable(new[] { 1, 3, 6, 4, 3 });		// 6
+
+			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
+			var diceCup = _diceCup.Object;
+
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Ones, diceCup);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Twos, diceCup);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Threes, diceCup);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Fours, diceCup);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Fives, diceCup);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Sixes, diceCup);
+
+			// Act
+			// No act since UpperSectionTotal is depend on the state of the ScoreSheet
+
+			// Assert
+			_scoreSheet.UpperSectionTotal.Should().Be(34);
+		}
+
+		[TestMethod]
+		public void ScoreSheet_UpperSectionTotalsEnoughForBonus_ReturnsBonusOf35Points()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+		}
+
+		[TestMethod]
+		public void ScoreSheet_UpperSectionDoesNotTotalEnoughForBonus_ReturnsBonusOf0Points()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+		}
+
+		[TestMethod]
+		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusExists_ReturnsUpperSectionScoresPlus35BonusPoints()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+		}
+
+		[TestMethod]
+		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusDoesntExist_ReturnsUpperSectionScoresOnly()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+		}
+
 		#endregion
 
 		//Lower Section
@@ -460,6 +536,32 @@ namespace YahtzeeTests
 		 * 
 		 * I'm not certain how the API should work for this behavior so I'll leave it for later */
 
+		#endregion
+
+		#region Total tests
+		[TestMethod]
+		public void ScoreSheet_LowerSectionTotal_ReturnsSumOfAllLowerSectionItems()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+		}
+
+		[TestMethod]
+		public void ScoreSheet_GrandTotal_ReturnsSumOfUpperSectionTotalWithBonusAndLowerSectionTotal()
+		{
+			// Arrange
+
+
+			// Act
+			throw new NotImplementedException();
+
+			// Assert
+      }
 		#endregion
 	}
 }

@@ -10,6 +10,7 @@ namespace Yahtzee.Framework
 		int? Fours { get; }
 		int? Fives { get; }
 		int? Sixes { get; }
+		int UpperSectionTotal { get; }
 
 		int? ThreeOfAKind { get; }
 		int? FourOfAKind { get; }

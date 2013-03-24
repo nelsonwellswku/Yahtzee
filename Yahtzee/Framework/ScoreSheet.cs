@@ -5,7 +5,7 @@ using Yahtzee.Framework.DiceCombinationValidators;
 
 namespace Yahtzee.Framework
 {
-	public class ScoreSheet
+	public class ScoreSheet : IScoreSheet
 	{
 		private readonly IDiceOfAKindValidator _diceOfAKindValidator;
 		private readonly IFullHouseValidator _fullHouseValidator;
@@ -17,6 +17,14 @@ namespace Yahtzee.Framework
 		public int? Fours { get; private set; }
 		public int? Fives { get; private set; }
 		public int? Sixes { get; private set; }
+		public int UpperSectionTotal
+		{
+			get
+			{
+				return (int)(Ones + Twos + Threes + Fours + Fives + Sixes);
+			}
+		}
+
 
 		public int? ThreeOfAKind { get; private set; }
 		public int? FourOfAKind { get; private set; }
@@ -60,14 +68,17 @@ namespace Yahtzee.Framework
 				case UpperSectionItem.Fours:
 					if (Fours != null) return null;
 					sum = SumDiceOfValue(diceCup, 4);
+					Fours = sum;
 					break;
 				case UpperSectionItem.Fives:
 					if (Fives != null) return null;
 					sum = SumDiceOfValue(diceCup, 5);
+					Fives = sum;
 					break;
 				case UpperSectionItem.Sixes:
 					if (Sixes != null) return null;
 					sum = SumDiceOfValue(diceCup, 6);
+					Sixes = sum;
 					break;
 			}
 
