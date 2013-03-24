@@ -46,7 +46,7 @@ namespace YahtzeeTests
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
-			var onesScore = _scoreSheet.RecordUpperSection(UpperSection.Ones, _diceCup.Object);
+			var onesScore = _scoreSheet.RecordUpperSection(UpperSectionItem.Ones, _diceCup.Object);
 
 			// Assert
 			onesScore.Should().Be(2);
@@ -61,7 +61,7 @@ namespace YahtzeeTests
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
-			var threesScore = _scoreSheet.RecordUpperSection(UpperSection.Threes, _diceCup.Object);
+			var threesScore = _scoreSheet.RecordUpperSection(UpperSectionItem.Threes, _diceCup.Object);
 
 			// Assert
 			threesScore.Should().Be(9);
@@ -76,8 +76,8 @@ namespace YahtzeeTests
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
-			_scoreSheet.RecordUpperSection(UpperSection.Twos, _diceCup.Object);
-			var twosScore = _scoreSheet.RecordUpperSection(UpperSection.Twos, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Twos, _diceCup.Object);
+			var twosScore = _scoreSheet.RecordUpperSection(UpperSectionItem.Twos, _diceCup.Object);
 
 			// Assert
 			twosScore.Should().NotHaveValue();

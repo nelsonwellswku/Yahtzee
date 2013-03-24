@@ -6,7 +6,7 @@
 		Held
 	};
 
-	public enum UpperSection
+	public enum UpperSectionItem
 	{
 		Ones,
 		Twos,

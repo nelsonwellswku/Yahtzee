@@ -36,36 +36,36 @@ namespace Yahtzee.Framework
 			YahtzeeBonus = new List<int>();
 		}
 
-		public int? RecordUpperSection(UpperSection upperSection, IDiceCup diceCup)
+		public int? RecordUpperSection(UpperSectionItem upperSection, IDiceCup diceCup)
 		{
 			int? sum = null;
 
 			switch (upperSection)
 			{
-				case UpperSection.Ones:
+				case UpperSectionItem.Ones:
 					if (Ones != null) return null;
 					sum = SumDiceOfValue(diceCup, 1);
 					Ones = sum;
 					break;
-				case UpperSection.Twos:
+				case UpperSectionItem.Twos:
 					if (Twos != null) return null;
 					sum = SumDiceOfValue(diceCup, 2);
 					Twos = sum;
 					break;
-				case UpperSection.Threes:
+				case UpperSectionItem.Threes:
 					if (Threes != null) return null;
 					sum = SumDiceOfValue(diceCup, 3);
 					Threes = sum;
 					break;
-				case UpperSection.Fours:
+				case UpperSectionItem.Fours:
 					if (Fours != null) return null;
 					sum = SumDiceOfValue(diceCup, 4);
 					break;
-				case UpperSection.Fives:
+				case UpperSectionItem.Fives:
 					if (Fives != null) return null;
 					sum = SumDiceOfValue(diceCup, 5);
 					break;
-				case UpperSection.Sixes:
+				case UpperSectionItem.Sixes:
 					if (Sixes != null) return null;
 					sum = SumDiceOfValue(diceCup, 6);
 					break;
