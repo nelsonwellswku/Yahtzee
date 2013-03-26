@@ -554,13 +554,22 @@ namespace YahtzeeTests
 		public void ScoreSheet_GrandTotal_ReturnsSumOfUpperSectionTotalWithBonusAndLowerSectionTotal()
 		{
 			// Arrange
+			SetupBonusDiceCupMock();
+			RecordAllUpperSection(_diceCup.Object);
 
+			_diceOfAKindValidator.Setup(x => x.IsValid(It.IsAny<int>(), It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_straightValidator.Setup(x => x.IsValid(It.IsAny<int>(), It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			SetupLowerSectionMock();
+			RecordAllLowerSection(_diceCup.Object);
 
 			// Act
-			throw new NotImplementedException();
+			var grandTotal = _scoreSheet.GrandTotal;
 
 			// Assert
+			grandTotal.Should().Be(405);
 		}
+
 		#endregion
 
 		#region Private helper methods

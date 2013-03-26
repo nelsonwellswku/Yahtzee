@@ -54,6 +54,14 @@ namespace Yahtzee.Framework
 				return (int)(ThreeOfAKind + FourOfAKind + FullHouse + SmallStraight + LargeStraight + Chance + Yahtzee + YahtzeeBonus.Sum());
 			}
 		}
+		public int GrandTotal
+		{
+			get
+			{
+				return UpperSectionTotalWithBonus + LowerSectionTotal;
+			}
+		}
+
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{
