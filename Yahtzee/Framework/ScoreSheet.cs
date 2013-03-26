@@ -47,6 +47,13 @@ namespace Yahtzee.Framework
 		public int? Chance { get; private set; }
 		public int? Yahtzee { get; private set; }
 		public IEnumerable<int> YahtzeeBonus { get; private set; }
+		public int LowerSectionTotal
+		{
+			get
+			{
+				return (int)(ThreeOfAKind + FourOfAKind + FullHouse + SmallStraight + LargeStraight + Chance + Yahtzee + YahtzeeBonus.Sum());
+			}
+		}
 
 		public ScoreSheet(IDiceOfAKindValidator diceOfAKindValidator, IFullHouseValidator fullHouseValidator, IStraightValidator straightValidator)
 		{

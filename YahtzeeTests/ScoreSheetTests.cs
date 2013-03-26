@@ -537,12 +537,17 @@ namespace YahtzeeTests
 		public void ScoreSheet_LowerSectionTotal_ReturnsSumOfAllLowerSectionItems()
 		{
 			// Arrange
-
+			_diceOfAKindValidator.Setup(x => x.IsValid(It.IsAny<int>(), It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			_straightValidator.Setup(x => x.IsValid(It.IsAny<int>(), It.IsAny<IEnumerable<IDie>>())).Returns(true);
+			SetupLowerSectionMock();
+			RecordAllLowerSection(_diceCup.Object);
 
 			// Act
-			throw new NotImplementedException();
+			var lowerTotal = _scoreSheet.LowerSectionTotal;
 
 			// Assert
+			lowerTotal.Should().Be(304);
 		}
 
 		[TestMethod]
@@ -586,6 +591,26 @@ namespace YahtzeeTests
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
 		}
 
+		private void SetupLowerSectionMock()
+		{
+			var threeOfAKind = _testDieFactory.CreateDieEnumerable(new[] { 4, 4, 4, 3, 1 });		// 16
+			var fourOfAKind = _testDieFactory.CreateDieEnumerable(new[] { 6, 6, 6, 6, 1 });		// 25
+			var fullHouse = _testDieFactory.CreateDieEnumerable(new[] { 1, 1, 1, 4, 4 });			// 25
+			var smallStraight = _testDieFactory.CreateDieEnumerable(new[] { 2, 3, 4, 6, 5 });	// 30
+			var largeStraight = _testDieFactory.CreateDieEnumerable(new[] { 1, 2, 3, 4, 5 });	// 40
+			var yahtzee = _testDieFactory.CreateDieEnumerable(new[] { 4, 4, 4, 4, 4 });			// 50
+			var yahtzeeBonus = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 2, 2, 2 });		// 100
+			var chance = _testDieFactory.CreateDieEnumerable(new[] { 3, 6, 3, 2, 4 });				// 18
+			// total = 304
+
+
+			// Three of a kind and four of a kind are duplicated because setting them requires the dice in the cup
+			// to be examined twice.  It's a leaky abstraction but it will do for a test.
+			_diceCup.Setup(x => x.Dice).ReturnsInOrder(threeOfAKind, threeOfAKind, fourOfAKind, fourOfAKind, fullHouse, smallStraight, largeStraight,
+				yahtzee, yahtzeeBonus, chance);
+			
+		}
+
 		private void RecordAllUpperSection(IDiceCup diceCup)
 		{
 			_scoreSheet.RecordUpperSection(UpperSectionItem.Ones, diceCup);
@@ -594,6 +619,18 @@ namespace YahtzeeTests
 			_scoreSheet.RecordUpperSection(UpperSectionItem.Fours, diceCup);
 			_scoreSheet.RecordUpperSection(UpperSectionItem.Fives, diceCup);
 			_scoreSheet.RecordUpperSection(UpperSectionItem.Sixes, diceCup);
+		}
+
+		private void RecordAllLowerSection(IDiceCup diceCup)
+		{
+			_scoreSheet.RecordThreeOfAKind(diceCup);
+			_scoreSheet.RecordFourOfAKind(diceCup);
+			_scoreSheet.RecordFullHouse(diceCup);
+			_scoreSheet.RecordSmallStraight(diceCup);
+			_scoreSheet.RecordLargeStraight(diceCup);
+			_scoreSheet.RecordYahtzee(diceCup);
+			_scoreSheet.RecordYahtzee(diceCup);
+			_scoreSheet.RecordChance(diceCup);
 		}
 
 		#endregion
