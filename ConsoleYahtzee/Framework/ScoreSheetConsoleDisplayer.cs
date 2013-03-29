@@ -36,9 +36,9 @@ namespace ConsoleYahtzee.Framework
 			templateParameters["fours"] = scoreSheet.Fours.ToString();
 			templateParameters["fives"] = scoreSheet.Fives.ToString();
 			templateParameters["sixes"] = scoreSheet.Sixes.ToString();
-			templateParameters["upperSectionTotal"] = String.Empty; // TODO: Write a method in IScoreSheet to return this value
-			templateParameters["bonus"] = String.Empty; // TODO: Same as above
-			templateParameters["upperSectionTotalWithBonus"] = String.Empty; // TODO: Same as above
+			templateParameters["upperSectionTotal"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionBonus.ToString() : string.Empty;
+			templateParameters["bonus"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionBonus.ToString() : string.Empty;
+			templateParameters["upperSectionTotalWithBonus"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionTotalWithBonus.ToString() : string.Empty;
 
 			templateParameters["threeOfAKind"] = scoreSheet.ThreeOfAKind.ToString();
 			templateParameters["fourOfAKind"] = scoreSheet.FourOfAKind.ToString();
@@ -57,10 +57,37 @@ namespace ConsoleYahtzee.Framework
 			templateParameters["yahtzeeBonus2"] = yahtzeeBonus[1] == 0 ? "  " : yahtzeeBonus[1].ToString();
 			templateParameters["yahtzeeBonus3"] = yahtzeeBonus[2] == 0 ? "  " : yahtzeeBonus[2].ToString();
 
-			templateParameters["lowerSectionTotal"] = string.Empty; // TODO: Write a method in IScoreSheet to return this value
-			templateParameters["grandTotal"] = string.Empty; // TODO: Write a method in IScoreSheet to return this value
+			templateParameters["lowerSectionTotal"] = IsLowerSectionComplete(scoreSheet) ? scoreSheet.LowerSectionTotal.ToString() : string.Empty;
+			templateParameters["grandTotal"] = IsSheetComplete(scoreSheet) ? scoreSheet.GrandTotal.ToString() : string.Empty;
 
 			return templateParameters;
+		}
+
+		private bool IsUpperSectionComplete(IScoreSheet scoreSheet)
+		{
+			if (scoreSheet.Ones == null || scoreSheet.Twos == null || scoreSheet.Threes == null ||
+				scoreSheet.Fours == null || scoreSheet.Fives == null || scoreSheet.Sixes == null)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private bool IsLowerSectionComplete(IScoreSheet scoreSheet)
+		{
+			if (scoreSheet.ThreeOfAKind == null || scoreSheet.FourOfAKind == null || scoreSheet.FullHouse == null ||
+				scoreSheet.SmallStraight == null || scoreSheet.LargeStraight == null || scoreSheet.Chance == null || scoreSheet.Yahtzee == null)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		private bool IsSheetComplete(IScoreSheet scoreSheet)
+		{
+			return IsUpperSectionComplete(scoreSheet) && IsLowerSectionComplete(scoreSheet);
 		}
 	}
 }
