@@ -36,7 +36,7 @@ namespace ConsoleYahtzee.Framework
 			templateParameters["fours"] = scoreSheet.Fours.ToString();
 			templateParameters["fives"] = scoreSheet.Fives.ToString();
 			templateParameters["sixes"] = scoreSheet.Sixes.ToString();
-			templateParameters["upperSectionTotal"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionBonus.ToString() : string.Empty;
+			templateParameters["upperSectionTotal"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionTotal.ToString() : string.Empty;
 			templateParameters["bonus"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionBonus.ToString() : string.Empty;
 			templateParameters["upperSectionTotalWithBonus"] = IsUpperSectionComplete(scoreSheet) ? scoreSheet.UpperSectionTotalWithBonus.ToString() : string.Empty;
 
@@ -45,7 +45,7 @@ namespace ConsoleYahtzee.Framework
 			templateParameters["fullHouse"] = scoreSheet.FullHouse.ToString();
 			templateParameters["smallStraight"] = scoreSheet.SmallStraight.ToString();
 			templateParameters["largeStraight"] = scoreSheet.LargeStraight.ToString();
-			templateParameters["chance"] = scoreSheet.LargeStraight.ToString();
+			templateParameters["chance"] = scoreSheet.Chance.ToString();
 			templateParameters["yahtzee"] = scoreSheet.Yahtzee.ToString();
 
 			var yahtzeeBonus = new int[3];
@@ -53,9 +53,9 @@ namespace ConsoleYahtzee.Framework
 			yahtzeeBonus[1] = scoreSheet.YahtzeeBonus.ElementAtOrDefault(1);
 			yahtzeeBonus[2] = scoreSheet.YahtzeeBonus.ElementAtOrDefault(2);
 
-			templateParameters["yahtzeeBonus1"] = yahtzeeBonus[0] == 0 ? "  " : yahtzeeBonus[0].ToString();
-			templateParameters["yahtzeeBonus2"] = yahtzeeBonus[1] == 0 ? "  " : yahtzeeBonus[1].ToString();
-			templateParameters["yahtzeeBonus3"] = yahtzeeBonus[2] == 0 ? "  " : yahtzeeBonus[2].ToString();
+            templateParameters["yahtzeeBonus1"] = yahtzeeBonus[0] == 0 ? " " : "X";
+            templateParameters["yahtzeeBonus2"] = yahtzeeBonus[1] == 0 ? " " : "X";
+            templateParameters["yahtzeeBonus3"] = yahtzeeBonus[2] == 0 ? " " : "X";
 
 			templateParameters["lowerSectionTotal"] = IsLowerSectionComplete(scoreSheet) ? scoreSheet.LowerSectionTotal.ToString() : string.Empty;
 			templateParameters["grandTotal"] = IsSheetComplete(scoreSheet) ? scoreSheet.GrandTotal.ToString() : string.Empty;
