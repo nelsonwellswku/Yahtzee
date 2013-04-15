@@ -53,9 +53,9 @@ namespace ConsoleYahtzee.Framework
 			yahtzeeBonus[1] = scoreSheet.YahtzeeBonus.ElementAtOrDefault(1);
 			yahtzeeBonus[2] = scoreSheet.YahtzeeBonus.ElementAtOrDefault(2);
 
-            templateParameters["yahtzeeBonus1"] = yahtzeeBonus[0] == 0 ? " " : "X";
-            templateParameters["yahtzeeBonus2"] = yahtzeeBonus[1] == 0 ? " " : "X";
-            templateParameters["yahtzeeBonus3"] = yahtzeeBonus[2] == 0 ? " " : "X";
+			templateParameters["yahtzeeBonus1"] = yahtzeeBonus[0] == 0 ? " " : "X";
+			templateParameters["yahtzeeBonus2"] = yahtzeeBonus[1] == 0 ? " " : "X";
+			templateParameters["yahtzeeBonus3"] = yahtzeeBonus[2] == 0 ? " " : "X";
 
 			templateParameters["lowerSectionTotal"] = IsLowerSectionComplete(scoreSheet) ? scoreSheet.LowerSectionTotal.ToString() : string.Empty;
 			templateParameters["grandTotal"] = IsSheetComplete(scoreSheet) ? scoreSheet.GrandTotal.ToString() : string.Empty;
