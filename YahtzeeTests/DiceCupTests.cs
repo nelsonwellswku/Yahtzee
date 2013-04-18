@@ -150,8 +150,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		[ExpectedException(typeof(InvalidOperationException))]
-		public void RollThreeTimesAndThrowExceptionOnTheFourth()
+		public void RollThreeTimesAndPreventFourthRoll()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -163,16 +162,9 @@ namespace YahtzeeTests
 			diceCup.Roll();
 			diceCup.Roll();
 
-			// Assert taken care of by ExpectedException decorator
-			try
-			{
-				diceCup.Roll();
-			}
-			catch (InvalidOperationException e)
-			{
-				e.Message.Should().Be("Dice can not be thrown after three rolls.");
-				throw;
-			}
+			// Assert
+			IEnumerable<IDie> finalRoll = diceCup.Roll();
+			finalRoll.Should().BeNull();
 		}
 	}
 }

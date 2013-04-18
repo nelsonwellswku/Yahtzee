@@ -21,7 +21,7 @@ namespace Yahtzee.Framework
 		{
 			if (IsFinal())
 			{
-				throw new InvalidOperationException(_invalidRollExceptionMessage);
+				return null;
 			}
 
 			foreach (var die in Dice)
