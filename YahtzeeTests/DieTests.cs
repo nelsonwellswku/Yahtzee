@@ -11,7 +11,7 @@ namespace YahtzeeTests
 	public class DieTests
 	{
 		[TestMethod]
-		public void RollDie()
+		public void Die_RollDie_ValueShouldBeInSixSidedDieRange()
 		{
 			// Arrange
 			var die = new Die();
@@ -29,7 +29,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void TestRollFrequency()
+		public void Die_RollDie_ValueFrequencyShouldBeRelativelyEvenlyDistributed()
 		{
 			// Arrange
 			var die = new Die();
@@ -51,7 +51,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void VerifyDieStates()
+		public void Die_StatesChangeFromThrowableToHeldAndBackToThrowable_StateShouldMatchThrowableHeldThrowableInSequence()
 		{
 			// I'm not convinced about the value of testing automatic properties,
 			// but I'm not positive it isn't valuable either.
