@@ -16,7 +16,7 @@ namespace YahtzeeTests
 
 		#region Dice of a kind tests
 		[TestMethod]
-		public void ValidateThreeOfAKind()
+		public void DiceOfAKindValidator_ValidThreeOfAKindSet_ReturnsTrue()
 		{
 			var dice =  _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 5, 3 });
 
@@ -26,7 +26,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateInvalidThreeOfAKind()
+		public void DiceOfAKindValidator_InvalidThreeOfAKindSet_ReturnsFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 1, 5, 3, 4 });
 
@@ -36,7 +36,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateFourOfAKind()
+		public void DiceOfAKindValidator_ValidFourOfAKindSet_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 6, 2, 2 });
 
@@ -46,7 +46,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateInvalidFourOfAKind()
+		public void DiceOfAKindValidator_InvalidFourOfAKindSet_ReturnFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 5, 2, 5 });
 
@@ -56,7 +56,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateFiveOfAKind()
+		public void DiceOfAKindValidator_ValidFiveOfAKindSet_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 3, 3, 3 });
 
@@ -66,7 +66,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateInvalidFiveOfAKind()
+		public void DiceOfAKindValidator_InvalidFiveOfAKindSet_ReturnsFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 3, 3, 6 });
 
@@ -78,7 +78,7 @@ namespace YahtzeeTests
 
 		#region Full house tests
 		[TestMethod]
-		public void ValidateFullHouse()
+		public void FullHouseValidator_ValidFullHouseSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 3, 2, 3 });
 
@@ -88,7 +88,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateInvalidFullHouse()
+		public void FullHouseValidator_InvalidFullHouseSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 3, 4, 3 });
 
@@ -100,7 +100,7 @@ namespace YahtzeeTests
 
 		#region Straight tests
 		[TestMethod]
-		public void ValidateSmallStraight()
+		public void StraightValidator_ValidSmallStraightSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[]{ 1, 3, 2, 4, 6 });
 
@@ -110,7 +110,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateSmallInvalidStraight()
+		public void StraightValidator_InvalidSmallStraightSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 5, 2, 6 });
 
@@ -120,7 +120,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateLargeStraight()
+		public void StraightValidator_ValidLargeStraightSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 2, 6, 5 });
 
@@ -130,7 +130,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ValidateInvalidLargeStraight()
+		public void StraightValidator_InvalidLargeStraightSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 4, 1, 6 });
 
