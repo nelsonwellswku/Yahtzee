@@ -37,7 +37,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ConstructAProperlySizedDiceCup()
+		public void DiceCup_ConstructorTakesFiveDice_DiceCupConstructedSuccessfully()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -52,7 +52,7 @@ namespace YahtzeeTests
 
 		[TestMethod]
 		[ExpectedException(typeof(ArgumentOutOfRangeException))]
-		public void ConstructAnImproperlySizedDiceCup()
+		public void DiceCup_ConstructorTakesMoreThanFiveDice_ArgumentOutOfRangeExceptionThrown()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -66,7 +66,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void InitialRoll()
+		public void DiceCup_InitialRoll_DieValuesMatchMockedDieValues()
 		{ 
 			// Arrange
 			var die = _dieMock.Object;
@@ -83,7 +83,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void InitialRollSaveFirstThreeValues()
+		public void DiceCup_InitialRollSaveFirstThreeValues_ThreeDiceInTheCupWerePlacedInTheHeldState()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -99,7 +99,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void InitialRollHoldThreeValuesUnholdTwoValues()
+		public void DiceCup_InitialRollHoldThreeValuesUnholdTwoValues_ThreeDiceInTheCupWerePlacedInTheHeldStateAndTwoDiceInTheCupWerePlacedInTheThrowableState()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -117,7 +117,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RollTwoTimesAndCheckFinalizedStateForUnfinalized()
+		public void DiceCup_RollTwoTimesAndCheckFinalizedState_FinalizedStateIsFalse()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -133,7 +133,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RollThreeTimesAndCheckFinalizedStateForFinalized()
+		public void DiceCup_RollThreeTimesAndCheckFinalizedState_FinalizedStateIsTrue()
 		{
 			// Arrange
 			var die = _dieMock.Object;
@@ -150,7 +150,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RollThreeTimesAndPreventFourthRoll()
+		public void DiceCup_RollThreeTimesAndPreventFourthRoll_ReturnsNull()
 		{
 			// Arrange
 			var die = _dieMock.Object;
