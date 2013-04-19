@@ -13,14 +13,14 @@ using Yahtzee.Framework;
 namespace YahtzeeTests
 {
 	[TestClass]
-	public class ScoreSheetDisplayerTests
+	public class ScoreSheetConsoleDisplayerTests
 	{
 
 		private IScoreSheetDisplayer _scoreSheetDisplayer;
 		private Mock<IScoreSheet> _scoreSheetMock;
 
 		[TestMethod]
-		public void DisplayAnEmptyScoreSheetToConsole()
+		public void ScoreSheetConsoleDisplayer_ScoreSheetIsEmpty_WriteEmptyScoreSheetToStandardOut()
 		{
 			// Arrange
 			_scoreSheetMock = new Mock<IScoreSheet>();
@@ -43,7 +43,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisplayCompletedScoreSheet()
+		public void ScoreSheetConsoleDisplayer_ScoreSheetIsComplete_WriteCompletedScoreSheetToStandardOut()
 		{
 			// Arrange
 			_scoreSheetMock = new Mock<IScoreSheet>();
@@ -67,7 +67,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisplayPartiallyCompleteScoreSheet()
+		public void ScoreSheetConsoleDisplayer_ScoreSheetIsPartiallyComplete_WritePartiallyCompletedScoreSheetToStandardOut()
 		{
 			// Arrange
 			_scoreSheetMock = new Mock<IScoreSheet>();

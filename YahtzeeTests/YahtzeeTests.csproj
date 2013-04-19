@@ -69,7 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ScoreSheetDisplayerTests.cs" />
+    <Compile Include="ScoreSheetConsoleDisplayerTests.cs" />
     <Compile Include="Support\MoqExtensions.cs" />
     <Compile Include="Support\TestDieFactory.cs" />
     <Compile Include="ScoreSheetTests.cs" />
