@@ -39,7 +39,7 @@ namespace YahtzeeTests
 		//			Maybe elaborate on tests for 1 and 3
 
 		[TestMethod]
-		public void RecordUpperSectionOnesWithValidValues()
+		public void ScoreSheet_RecordUpperSectionOnes_RecordTwo()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 4, 1, 3, 1 });
@@ -54,7 +54,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordUpperSectionThreesWithValidValues()
+		public void ScoreSheet_RecordUpperSectionThrees_RecordNine()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 1, 3 });
@@ -69,7 +69,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordUpperSectionTwosAfterItsAlreadyBeenRecorded()
+		public void ScoreSheet_RecordUpperSectionTwosAfterItsAlreadyBeenRecorded_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 2, 5, 2 });
@@ -85,7 +85,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void ScoreSheet_UpperSectionTotal_ReturnsSumOfUpperSectionValues()
+		public void ScoreSheet_UpperSectionNoBonus_ReturnsSumOfUpperSectionValuesAsThirtyFour()
 		{
 			// Arrange
 			SetupNoBonusDiceCupMock();
@@ -161,7 +161,7 @@ namespace YahtzeeTests
 		#region Three and four of a kind tests
 
 		[TestMethod]
-		public void RecordThreeOfAKindWithValidSet()
+		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithValidSetAsTwenty()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 6, 3 });
@@ -177,7 +177,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordThreeOfAKindWithInvalidSet()
+		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
@@ -194,7 +194,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowSettingThreeOfAKindOnceItsBeenSet()
+		public void ScoreSheet_ThreeOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 3 });
@@ -215,7 +215,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordFourOfAKindWithValidSet()
+		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithValidSetAsSeventeen()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 3, 3 });
@@ -232,7 +232,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordFourOfAKindWithInvalidSet()
+		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
@@ -248,7 +248,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowSettingFourOfAKindOnceItsBeenSet()
+		public void ScoreSheet_FourOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 4 });
@@ -272,7 +272,7 @@ namespace YahtzeeTests
 		#region Full house tests
 
 		[TestMethod]
-		public void RecordFullHouseWithValidSet()
+		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithValidSetAsTwentyFive()
 		{
 			// Arrange
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -286,7 +286,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordFullHouseWithInvalidSet()
+		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithInvalidSetAsZero()
 		{
 			// Arrange
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
@@ -300,7 +300,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowSettingFullHouseOnceItsBeenSet()
+		public void ScoreSheet_FullHouseAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -319,7 +319,7 @@ namespace YahtzeeTests
 		#region Straight tests
 
 		[TestMethod]
-		public void RecordSmallStraightWithValidSet()
+		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithValidSetAsThirty()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -333,7 +333,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordSmallStraightWithInvalidSet()
+		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithInvalidSetAsZero()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
@@ -347,7 +347,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowSettingSmallStraightOnceItsBeenSet()
+		public void ScoreSheet_SmallStraightAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -362,7 +362,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordLargeStraightWithValidSet()
+		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithValidSetAsFourty()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -376,7 +376,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordLargeStraightWithInvalidSet()
+		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithInvalidSetAsZero()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
@@ -390,7 +390,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowSettingLargeStraightOnceItsBeenSet()
+		public void ScoreSheet_LargeStraightUnset_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);

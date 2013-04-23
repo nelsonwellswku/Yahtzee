@@ -15,7 +15,6 @@ namespace ConsoleYahtzee.Framework
 
 		public ScoreSheetConsoleDisplayer()
 		{
-			// TODO: Does this break dependency inversion?  Should the template be passed into the constructor?
 			_template = Resources.ScoreSheetTemplate;
 		}
 
