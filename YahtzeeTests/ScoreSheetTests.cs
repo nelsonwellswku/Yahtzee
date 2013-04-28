@@ -409,7 +409,7 @@ namespace YahtzeeTests
 		#region Chance tests
 
 		[TestMethod]
-		public void RecordChance()
+		public void ScoreSheet_ChanceUnset_RecordChanceAsValidValueOfEighteen()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 2, 4, 3 });
@@ -424,7 +424,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void DisallowChanceFromBeingSetOnceItsBeenSet()
+		public void ScoreSheet_ChanceHasAlreadyBeenSet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
@@ -447,7 +447,7 @@ namespace YahtzeeTests
 		#region Yahtzee tests
 
 		[TestMethod]
-		public void RecordYahtzeeWithValidSet()
+		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithValidSet()
 		{
 			// Arrange
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -461,7 +461,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordYahtzeeWithInvalidSet()
+		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithInvalidSetAsZero()
 		{
 			// Arrange
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
@@ -475,7 +475,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordYahtzeeBonusAfterYahtzeeWithValidSet()
+		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusAfterYahtzeeWithValidSet()
 		{
 			// Arrange
 			var expectedArray = new int?[] { 100 };
@@ -490,7 +490,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordYahtzeeBonusAfterFailedYahtzeeRecord()
+		public void ScoreSheet_YahtzeeIsZero_DoNotSetYahtzeeBonus()
 		{
 			// Arrange
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).ReturnsInOrder(false, true);
@@ -507,7 +507,7 @@ namespace YahtzeeTests
 		}
 
 		[TestMethod]
-		public void RecordYahtzeeBonusOnlyThreeTimes()
+		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusOnlyThreeTimes()
 		{
 			// Arrange
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).ReturnsInOrder(true, true, true, true, true);
