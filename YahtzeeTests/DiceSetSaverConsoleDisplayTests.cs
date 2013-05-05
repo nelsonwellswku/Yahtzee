@@ -7,6 +7,7 @@ using FluentAssertions;
 
 using Yahtzee.Framework;
 using ConsoleYahtzee.Framework;
+using YahtzeeTests.Properties;
 
 namespace YahtzeeTests
 {
@@ -31,25 +32,17 @@ namespace YahtzeeTests
 		public void DiceSetSaverConsoleDisplay_DiceCupCanBeRolledAgain_PromptTheUserToRecordOrSave()
 		{
 			// Arrange
-			string actual;
-			string expected = _prompt;
+			_expected = _prompt;
 			SetupDiceCupWithUnfinishedTurn();
 			
 			_diceSetSaverDisplay = new DiceSetSaverConsoleDisplay(_diceCupMock.Object);
 
 			// Act
 			var currentConsoleOut = Console.Out;
-			using (StringWriter stringWriter = new StringWriter())
-			{
-				Console.SetOut(stringWriter);
-				_diceSetSaverDisplay.RollOrSave();
-
-				actual = stringWriter.ToString();
-				Console.SetOut(currentConsoleOut);
-			}
+			_actual = GetConsoleOutput(_diceSetSaverDisplay.RollOrSave);
 
 			// Assert
-			actual.Should().Be(expected);
+			_actual.Should().Be(_expected);
 		}
 
 		[TestMethod]
@@ -62,25 +55,25 @@ namespace YahtzeeTests
 			_diceSetSaverDisplay = new DiceSetSaverConsoleDisplay(_diceCupMock.Object);
 
 			// Act
-			var currentConsoleOut = Console.Out;
-			using (StringWriter stringWriter = new StringWriter())
-			{
-				Console.SetOut(stringWriter);
-				_diceSetSaverDisplay.RollOrSave();
-
-				_actual = stringWriter.ToString();
-				Console.SetOut(currentConsoleOut);
-			}
+			_actual = GetConsoleOutput(_diceSetSaverDisplay.RollOrSave);
 
 			// Assert
 			_actual.Should().Be(_expected);
 		}
 
-		/*[TestMethod]
+		[TestMethod]
 		public void DiceSetSaverConsoleDisplay_UserWantsToSave_DisplayPromptWithOptions()
 		{
-			
-		}*/
+			// Arrange
+			_expected = Resources.SaveScoreOptions;
+			_diceSetSaverDisplay = new DiceSetSaverConsoleDisplay(_diceCupMock.Object);
+
+			// Act
+			_actual = GetConsoleOutput(_diceSetSaverDisplay.SaveScore);
+
+			// Assert
+			_actual.Should().Be(_expected);
+		}
 
 		private void SetupDiceCupWithUnfinishedTurn()
 		{
@@ -90,6 +83,21 @@ namespace YahtzeeTests
 		private void SetupDiceCupWithFinishedTurn()
 		{
 			_diceCupMock.Setup(x => x.IsFinal()).Returns(true);
+		}
+
+		private string GetConsoleOutput(Action action)
+		{
+			string result;
+			var currentConsoleOut = Console.Out;
+			using (var stringWriter = new StringWriter())
+			{
+				Console.SetOut(stringWriter);
+				action();
+				result = stringWriter.ToString();
+				Console.SetOut(currentConsoleOut);
+			}
+
+			return result;
 		}
 	}
 }

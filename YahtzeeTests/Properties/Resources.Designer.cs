@@ -147,12 +147,34 @@ namespace YahtzeeTests.Properties {
         ///| Sixes  |...................
         ///----------
         ///---------------
-        ///| Total Score |..............24
-        ///------- [rest of string was truncated]&quot;;.
+        ///| Total Score |..............
+        ///--------- [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string PartiallyCompletedScoreSheetConsoleOutput {
             get {
                 return ResourceManager.GetString("PartiallyCompletedScoreSheetConsoleOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save to where?
+        ///
+        ///...Display ScoreSheet (0)
+        ///...Upper Section (1 - 6)
+        ///...Lower Section
+        ///......Three of a Kind (Three or t)
+        ///......Four of a Kind (Four or f)
+        ///......Full House (Full or fu)
+        ///......Small Straight (Small or sm)
+        ///......Large Straight (Large or lg)
+        ///......Chance (Chance or c)
+        ///......Yahtzee (Yahtzee or y)
+        ///
+        ///Make you selection: .
+        /// </summary>
+        internal static string SaveScoreOptions {
+            get {
+                return ResourceManager.GetString("SaveScoreOptions", resourceCulture);
             }
         }
     }

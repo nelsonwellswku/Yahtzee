@@ -92,6 +92,7 @@
     <Content Include="Resources\CompletedScoreSheetConsoleOutput.txt" />
     <Content Include="Resources\EmptyScoreSheetConsoleOutput.txt" />
     <Content Include="Resources\PartiallyCompletedScoreSheetConsoleOutput.txt" />
+    <Content Include="Resources\SaveScoreOptions.txt" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -1,5 +1,5 @@
-﻿using System;
-
+﻿using ConsoleYahtzee.Properties;
+using System;
 using Yahtzee.Framework;
 
 namespace ConsoleYahtzee.Framework
@@ -25,6 +25,11 @@ namespace ConsoleYahtzee.Framework
 			{
 				Console.Write(_prompt);
 			}
+		}
+
+		public void SaveScore()
+		{
+			Console.Write(Resources.SaveScoreOptions);
 		}
 	}
 }

@@ -55,6 +55,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\SaveScoreOptions.txt" />
     <Content Include="Resources\ScoreSheetTemplate.txt" />
   </ItemGroup>
   <ItemGroup>
