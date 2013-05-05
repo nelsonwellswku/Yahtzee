@@ -49,6 +49,7 @@
     <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
     <Compile Include="Framework\Enums.cs" />
     <Compile Include="Framework\IDiceCup.cs" />
+    <Compile Include="Framework\IDiceSetSaverDisplay.cs" />
     <Compile Include="Framework\IDie.cs" />
     <Compile Include="Framework\IScoreSheet.cs" />
     <Compile Include="Framework\IScoreSheetDisplayer.cs" />
