@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="DiceCupConsoleDisplayTests.cs" />
     <Compile Include="DiceCupTests.cs" />
     <Compile Include="DiceCombinationValidatorsTests.cs" />
     <Compile Include="DiceSetSaverConsoleDisplayTests.cs" />
@@ -71,6 +72,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ScoreSheetConsoleDisplayerTests.cs" />
+    <Compile Include="Support\ConsoleCapturer.cs" />
     <Compile Include="Support\MoqExtensions.cs" />
     <Compile Include="Support\TestDieFactory.cs" />
     <Compile Include="ScoreSheetTests.cs" />
