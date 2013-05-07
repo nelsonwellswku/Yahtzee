@@ -6,6 +6,7 @@ using Moq;
 using FluentAssertions;
 using Yahtzee.Framework;
 using YahtzeeTests.Support;
+using ConsoleYahtzee.Framework;
 using System.Text;
 
 namespace YahtzeeTests
@@ -21,7 +22,7 @@ namespace YahtzeeTests
 		Mock<IDiceCup> _diceCupMock;
 		TestDieFactory _testDieFactory;
 
-		IDiceCupConsoleDisplay _diceCupConsoleDisplay;
+		IDiceCupDisplay _diceCupConsoleDisplay;
 
 		public DiceCupConsoleDisplayTests()
 		{
@@ -65,28 +66,6 @@ namespace YahtzeeTests
 
 			// Assert
 			_actual.Should().Be(_expected);
-		}
-	}
-
-	public interface IDiceCupConsoleDisplay
-	{
-		void Show(IDiceCup diceCup);
-	}
-
-	public class DiceCupConsoleDisplay : IDiceCupConsoleDisplay
-	{
-		public const string _prompt = "Your current dice cup contents:\r\n";
-
-		public void Show(IDiceCup diceCup)
-		{
-			StringBuilder sb = new StringBuilder(_prompt);
-			foreach (var die in diceCup.Dice)
-			{
-				sb.Append("| ");
-				sb.Append(die.Value);
-				sb.Append(" | ");
-			}
-			Console.Write(sb.ToString().Trim());
 		}
 	}
 }
