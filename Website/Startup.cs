@@ -4,7 +4,7 @@ using Microsoft.Owin;
 using Owin;
 using System.Reflection;
 using Autofac.Integration.SignalR;
-
+using Yahtzee;
 
 [assembly: OwinStartupAttribute(typeof(Website.Startup))]
 namespace Website
@@ -17,6 +17,7 @@ namespace Website
 
 			var config = new HubConfiguration();
 			builder.RegisterHubs(Assembly.GetExecutingAssembly());
+			builder.RegisterYahtzee();
 
 			var container = builder.Build();
 			config.Resolver = new AutofacDependencyResolver(container);

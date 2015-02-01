@@ -4,9 +4,9 @@ namespace Yahtzee.Framework
 {
 	public interface IDiceCup
 	{
-		IEnumerable<IDie> Dice { get; }
+		IList<IDie> Dice { get; }
 		
-		IEnumerable<IDie> Roll();
+		IList<IDie> Roll();
 		void Hold(params int[] indicesToHold);
 		void Unhold(params int[] indicesToHold);
 		bool IsFinal();

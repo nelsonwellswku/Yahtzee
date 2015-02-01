@@ -6,7 +6,7 @@ namespace Yahtzee.Framework
 	{
 		private const int _lowestPossibleRoll = 1;
 		private const int _highestPossibleRoll = 6;
-		private readonly Random _random;
+		private static Random _random = new Random();
 
 		public DieState State { get; set; }
 		public int Value { get; private set; }
@@ -16,7 +16,6 @@ namespace Yahtzee.Framework
 		private Die(DieState state)
 		{
 			State = state;
-			_random = new Random();
 		}
 
 		public int Roll()

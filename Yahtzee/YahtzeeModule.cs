@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using System.Collections.Generic;
 using System.Linq;
 using Yahtzee.Framework;
 using Yahtzee.Framework.DiceCombinationValidators;
@@ -16,7 +17,7 @@ namespace Yahtzee
 			builder.Register(context =>
 			{
 				IDiceCup diceCup;
-				var dice = Enumerable.Range(0, 5).Select(x => new Die());
+				var dice = Enumerable.Range(0, 5).Select(x => new Die() as IDie).ToList();
 				diceCup = new DiceCup(dice);
 				return diceCup;
 			});

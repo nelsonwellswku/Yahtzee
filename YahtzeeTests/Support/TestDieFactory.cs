@@ -11,7 +11,7 @@ namespace YahtzeeTests.Support
 {
 	public class TestDieFactory
 	{
-		public IEnumerable<IDie> CreateDieEnumerable(params int[] diceValues)
+		public IList<IDie> CreateDieEnumerable(params int[] diceValues)
 		{
 			var dice = new IDie[diceValues.Length];
 
@@ -24,7 +24,7 @@ namespace YahtzeeTests.Support
 				counter++;
 			}
 
-			return dice.AsEnumerable();
+			return dice.ToList();
 		}
 	}
 }

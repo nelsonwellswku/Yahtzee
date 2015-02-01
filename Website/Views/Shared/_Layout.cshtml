@@ -35,6 +35,25 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="~/Scripts/jquery.signalR-2.2.0.min.js"></script>
+    <script src="~/signalr/hubs"></script>
     @RenderSection("scripts", required: false)
+    <script>
+    $(function () {
+        var yahtzee = $.connection.yahtzeeHub;
+
+        yahtzee.client.displayDice = function (data) {
+            for(i = 0; i < 5; i++) {
+                $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data[i] + ".png");
+            }
+        };
+
+        $.connection.hub.start().done(function () {
+            $("#roll_dice").click(function () {
+                yahtzee.server.rollDice();
+            });
+        });
+    });
+    </script>
 </body>
 </html>
