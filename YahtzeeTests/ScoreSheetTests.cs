@@ -9,7 +9,6 @@ using NUnit.Framework;
 
 namespace YahtzeeTests
 {
-
 	public class ScoreSheetTests
 	{
 		private TestDieFactory _testDieFactory;
