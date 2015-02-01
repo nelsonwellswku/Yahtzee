@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Specialized;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿
 using FluentAssertions;
 using Yahtzee.Framework;
+using NUnit.Framework;
 
 namespace YahtzeeTests
 {
-	[TestClass]
+
 	public class DieTests
 	{
-		[TestMethod]
+		[Test]
 		public void Die_RollDie_ValueShouldBeInSixSidedDieRange()
 		{
 			// Arrange
@@ -28,7 +26,7 @@ namespace YahtzeeTests
 			}
 		}
 
-		[TestMethod]
+		[Test]
 		public void Die_RollDie_ValueFrequencyShouldBeRelativelyEvenlyDistributed()
 		{
 			// Arrange
@@ -50,7 +48,7 @@ namespace YahtzeeTests
 			}
 		}
 
-		[TestMethod]
+		[Test]
 		public void Die_StatesChangeFromThrowableToHeldAndBackToThrowable_StateShouldMatchThrowableHeldThrowableInSequence()
 		{
 			// I'm not convinced about the value of testing automatic properties,

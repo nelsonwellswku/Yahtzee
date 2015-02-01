@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Moq;
 using FluentAssertions;
@@ -8,10 +7,11 @@ using FluentAssertions;
 using Yahtzee.Framework;
 using ConsoleYahtzee.Framework;
 using YahtzeeTests.Properties;
+using NUnit.Framework;
 
 namespace YahtzeeTests
 {
-	[TestClass]
+
 	public class DiceSetSaverConsoleDisplayTests
 	{
 		private const string _prompt = "Roll again (R) or save score (S)? ";
@@ -28,13 +28,13 @@ namespace YahtzeeTests
 			_diceCupMock = new Mock<IDiceCup>();
 		}
 
-		[TestMethod]
+		[Test]
 		public void DiceSetSaverConsoleDisplay_DiceCupCanBeRolledAgain_PromptTheUserToRecordOrSave()
 		{
 			// Arrange
 			_expected = _prompt;
 			SetupDiceCupWithUnfinishedTurn();
-			
+
 			_diceSetSaverDisplay = new DiceSetSaverConsoleDisplay(_diceCupMock.Object);
 
 			// Act
@@ -45,7 +45,7 @@ namespace YahtzeeTests
 			_actual.Should().Be(_expected);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DiceSetSaverConsoleDisplay_DiceCupCannotBeRolledAgain_TellTheUserTheyAreGoingToSaveTheirScore()
 		{
 			// Arrange
@@ -61,7 +61,7 @@ namespace YahtzeeTests
 			_actual.Should().Be(_expected);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DiceSetSaverConsoleDisplay_UserWantsToSave_DisplayPromptWithOptions()
 		{
 			// Arrange

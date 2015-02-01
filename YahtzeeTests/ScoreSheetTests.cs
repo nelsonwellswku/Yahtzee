@@ -1,27 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Collections.Generic;
 
 using FluentAssertions;
 using Moq;
 using Yahtzee.Framework;
 using Yahtzee.Framework.DiceCombinationValidators;
 using YahtzeeTests.Support;
+using NUnit.Framework;
 
 namespace YahtzeeTests
-{ 
-	[TestClass]
+{
+
 	public class ScoreSheetTests
 	{
-		private readonly TestDieFactory _testDieFactory;
-		private readonly Mock<IDiceCup> _diceCup;
-		private readonly Mock<IDiceCup> _diceCup2;
-		private readonly Mock<IDiceOfAKindValidator> _diceOfAKindValidator;
-		private readonly Mock<IFullHouseValidator> _fullHouseValidator;
-		private readonly Mock<IStraightValidator> _straightValidator;
-		private readonly ScoreSheet _scoreSheet;
+		private TestDieFactory _testDieFactory;
+		private Mock<IDiceCup> _diceCup;
+		private Mock<IDiceCup> _diceCup2;
+		private Mock<IDiceOfAKindValidator> _diceOfAKindValidator;
+		private Mock<IFullHouseValidator> _fullHouseValidator;
+		private Mock<IStraightValidator> _straightValidator;
+		private ScoreSheet _scoreSheet;
 
-		public ScoreSheetTests ()
+		[SetUp]
+		public void SetUp()
 		{
 			_testDieFactory = new TestDieFactory();
 			_diceCup = new Mock<IDiceCup>();
@@ -38,7 +38,7 @@ namespace YahtzeeTests
 		// TODO: Comprehensive tests for 2, 4, 5, 6
 		//			Maybe elaborate on tests for 1 and 3
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_RecordUpperSectionOnes_RecordTwo()
 		{
 			// Arrange
@@ -53,7 +53,7 @@ namespace YahtzeeTests
 			_scoreSheet.Ones.Should().Be(2);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_RecordUpperSectionThrees_RecordNine()
 		{
 			// Arrange
@@ -68,7 +68,7 @@ namespace YahtzeeTests
 			_scoreSheet.Threes.Should().Be(9);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_RecordUpperSectionTwosAfterItsAlreadyBeenRecorded_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -84,7 +84,7 @@ namespace YahtzeeTests
 			_scoreSheet.Twos.Should().Be(4);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_UpperSectionNoBonus_ReturnsSumOfUpperSectionValuesAsThirtyFour()
 		{
 			// Arrange
@@ -98,7 +98,7 @@ namespace YahtzeeTests
 			total.Should().Be(34);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_UpperSectionTotalsEnoughForBonus_ReturnsBonusOf35Points()
 		{
 			// Arrange
@@ -112,7 +112,7 @@ namespace YahtzeeTests
 			bonus.Should().Be(35);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_UpperSectionDoesNotTotalEnoughForBonus_ReturnsBonusOf0Points()
 		{
 			// Arrange
@@ -126,7 +126,7 @@ namespace YahtzeeTests
 			bonus.Should().Be(0);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusExists_ReturnsUpperSectionScoresPlus35BonusPoints()
 		{
 			// Arrange
@@ -140,7 +140,7 @@ namespace YahtzeeTests
 			totalWithBonus.Should().Be(101);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusDoesntExist_ReturnsUpperSectionScoresOnly()
 		{
 			// Arrange
@@ -160,7 +160,7 @@ namespace YahtzeeTests
 
 		#region Three and four of a kind tests
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithValidSetAsTwenty()
 		{
 			// Arrange
@@ -176,7 +176,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -185,7 +185,7 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(false);
 
 			// Act
-			
+
 			int? threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
@@ -193,7 +193,7 @@ namespace YahtzeeTests
 			_scoreSheet.ThreeOfAKind.Should().Be(0);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_ThreeOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -214,7 +214,7 @@ namespace YahtzeeTests
 			_scoreSheet.ThreeOfAKind.Should().Be(17);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithValidSetAsSeventeen()
 		{
 			// Arrange
@@ -231,7 +231,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -247,7 +247,7 @@ namespace YahtzeeTests
 			_scoreSheet.FourOfAKind.Should().Be(0);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FourOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -271,7 +271,7 @@ namespace YahtzeeTests
 
 		#region Full house tests
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithValidSetAsTwentyFive()
 		{
 			// Arrange
@@ -285,7 +285,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -299,7 +299,7 @@ namespace YahtzeeTests
 			_scoreSheet.FullHouse.Should().Be(0);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_FullHouseAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -318,7 +318,7 @@ namespace YahtzeeTests
 
 		#region Straight tests
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithValidSetAsThirty()
 		{
 			// Arrange
@@ -332,7 +332,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -346,7 +346,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_SmallStraightAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -361,7 +361,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithValidSetAsFourty()
 		{
 			// Arrange
@@ -375,7 +375,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -389,7 +389,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_LargeStraightUnset_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -408,7 +408,7 @@ namespace YahtzeeTests
 
 		#region Chance tests
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_ChanceUnset_RecordChanceAsValidValueOfEighteen()
 		{
 			// Arrange
@@ -423,7 +423,7 @@ namespace YahtzeeTests
 
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_ChanceHasAlreadyBeenSet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -446,7 +446,7 @@ namespace YahtzeeTests
 
 		#region Yahtzee tests
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithValidSet()
 		{
 			// Arrange
@@ -460,7 +460,7 @@ namespace YahtzeeTests
 			_scoreSheet.Yahtzee.Should().Be(50);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -474,7 +474,7 @@ namespace YahtzeeTests
 			_scoreSheet.Yahtzee.Should().Be(0);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusAfterYahtzeeWithValidSet()
 		{
 			// Arrange
@@ -489,7 +489,7 @@ namespace YahtzeeTests
 			_scoreSheet.YahtzeeBonus.Should().BeEquivalentTo(expectedArray);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_YahtzeeIsZero_DoNotSetYahtzeeBonus()
 		{
 			// Arrange
@@ -506,7 +506,7 @@ namespace YahtzeeTests
 			scoresheet.YahtzeeBonus.ShouldAllBeEquivalentTo(new int[0]);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusOnlyThreeTimes()
 		{
 			// Arrange
@@ -533,7 +533,7 @@ namespace YahtzeeTests
 		#endregion
 
 		#region Total tests
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_LowerSectionTotal_ReturnsSumOfAllLowerSectionItems()
 		{
 			// Arrange
@@ -550,7 +550,7 @@ namespace YahtzeeTests
 			lowerTotal.Should().Be(304);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheet_GrandTotal_ReturnsSumOfUpperSectionTotalWithBonusAndLowerSectionTotal()
 		{
 			// Arrange
@@ -617,7 +617,7 @@ namespace YahtzeeTests
 			// to be examined twice.  It's a leaky abstraction but it will do for a test.
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(threeOfAKind, threeOfAKind, fourOfAKind, fourOfAKind, fullHouse, smallStraight, largeStraight,
 				yahtzee, yahtzeeBonus, chance);
-			
+
 		}
 
 		private void RecordAllUpperSection(IDiceCup diceCup)

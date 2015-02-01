@@ -1,25 +1,25 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using YahtzeeTests.Properties;
 
 using ConsoleYahtzee.Framework;
 using FluentAssertions;
 using Moq;
 using Yahtzee.Framework;
+using NUnit.Framework;
 
 
 namespace YahtzeeTests
 {
-	[TestClass]
+
 	public class ScoreSheetConsoleDisplayerTests
 	{
 
 		private IScoreSheetDisplayer _scoreSheetDisplayer;
 		private Mock<IScoreSheet> _scoreSheetMock;
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheetConsoleDisplayer_ScoreSheetIsEmpty_WriteEmptyScoreSheetToStandardOut()
 		{
 			// Arrange
@@ -42,7 +42,7 @@ namespace YahtzeeTests
 			expectedScoreSheetDisplayOutput.Should().Be(actualScoreSheetDisplayOutput);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheetConsoleDisplayer_ScoreSheetIsComplete_WriteCompletedScoreSheetToStandardOut()
 		{
 			// Arrange
@@ -66,7 +66,7 @@ namespace YahtzeeTests
 			expectedScoreSheetDisplayOutput.Should().Be(actualScoreSheetDisplayOutput);
 		}
 
-		[TestMethod]
+		[Test]
 		public void ScoreSheetConsoleDisplayer_ScoreSheetIsPartiallyComplete_WritePartiallyCompletedScoreSheetToStandardOut()
 		{
 			// Arrange

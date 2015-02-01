@@ -1,17 +1,14 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
+﻿
 using Moq;
 using FluentAssertions;
 using Yahtzee.Framework;
 using YahtzeeTests.Support;
 using ConsoleYahtzee.Framework;
-using System.Text;
+using NUnit.Framework;
 
 namespace YahtzeeTests
 {
-	[TestClass]
+
 	public class DiceCupConsoleDisplayTests
 	{
 		private const string _prompt = "Your current dice cup contents:";
@@ -30,7 +27,7 @@ namespace YahtzeeTests
 			_diceCupMock = new Mock<IDiceCup>();
 		}
 
-		[TestMethod]
+		[Test]
 		public void DiceCupConsoleDisplay_DiceCupHasSetOfOnes_DisplayOnConsole()
 		{
 			// Arrange
@@ -49,7 +46,7 @@ namespace YahtzeeTests
 			_actual.Should().Be(_expected);
 		}
 
-		[TestMethod]
+		[Test]
 		public void DiceCupConsoleDisplay_DIceCupHasRandomCollection_DisplayOnConsole()
 		{
 			// Arrange
