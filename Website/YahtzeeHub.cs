@@ -54,6 +54,45 @@ namespace Website
 			Clients.Caller.setUpper(new { upperNum = number, score = score });
 		}
 
+		public void TakeLower(string name)
+		{
+			var state = GetOrCreateState();
+			int score = 0;
+			switch(name)
+			{
+				case "threeofakind":
+					state.ScoreSheet.RecordThreeOfAKind(state.CurrentDiceCup);
+					score = state.ScoreSheet.ThreeOfAKind.Value;
+					break;
+				case "fourofakind":
+					state.ScoreSheet.RecordFourOfAKind(state.CurrentDiceCup);
+					score = state.ScoreSheet.FourOfAKind.Value;
+					break;
+				case "fullhouse":
+					state.ScoreSheet.RecordFullHouse(state.CurrentDiceCup);
+					score = state.ScoreSheet.FullHouse.Value;
+					break;
+				case "smallstraight":
+					state.ScoreSheet.RecordSmallStraight(state.CurrentDiceCup);
+					score = state.ScoreSheet.SmallStraight.Value;
+					break;
+				case "largestraight":
+					state.ScoreSheet.RecordLargeStraight(state.CurrentDiceCup);
+					score = state.ScoreSheet.LargeStraight.Value;
+					break;
+				case "yahtzee":
+					state.ScoreSheet.RecordYahtzee(state.CurrentDiceCup);
+					score = state.ScoreSheet.Yahtzee.Value;
+					break;
+				case "chance":
+					state.ScoreSheet.RecordChance(state.CurrentDiceCup);
+					score = state.ScoreSheet.Chance.Value;
+					break;
+			}
+
+			Clients.Caller.setLower(new { name = name, score = score });
+		}
+
 		private int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
 		{
 			switch(section)
