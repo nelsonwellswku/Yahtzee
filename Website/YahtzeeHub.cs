@@ -30,20 +30,7 @@ namespace Website
 
 		public void RollDice()
 		{
-			var currentConnectionId = Context.ConnectionId;
-			StateModel state;
-			var stateExists = _stateDict.TryGetValue(currentConnectionId, out state);
-
-			if(!stateExists)
-			{
-				state = new StateModel
-				{
-					ConnectionId = currentConnectionId,
-					ScoreSheet = _scoreSheetFactory(),
-					CurrentDiceCup = _diceCupFactory()
-				};
-				_stateDict.Add(currentConnectionId, state);
-			}
+			var state = GetOrCreateState();
 
 			var rollResult = state.CurrentDiceCup.Roll();
 			if (rollResult != null)
@@ -54,6 +41,58 @@ namespace Website
 			{
 				state.CurrentDiceCup = _diceCupFactory();
 			}
+		}
+
+		public void TakeUpper(int number)
+		{
+			var state = GetOrCreateState();
+			UpperSectionItem section = (UpperSectionItem) number;
+			state.ScoreSheet.RecordUpperSection(section, state.CurrentDiceCup);
+
+			var score = GetScoreForUpperSection(section, state.ScoreSheet);
+
+			Clients.Caller.setUpper(new { upperNum = number, score = score });
+		}
+
+		private int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
+		{
+			switch(section)
+			{
+				case UpperSectionItem.Ones:
+					return scoreSheet.Ones.Value;
+				case UpperSectionItem.Twos:
+					return scoreSheet.Twos.Value;
+				case UpperSectionItem.Threes:
+					return scoreSheet.Threes.Value;
+				case UpperSectionItem.Fours:
+					return scoreSheet.Fours.Value;
+				case UpperSectionItem.Fives:
+					return scoreSheet.Fives.Value;
+				case UpperSectionItem.Sixes:
+					return scoreSheet.Sixes.Value;
+			}
+
+			return 0;
+		}
+
+		private StateModel GetOrCreateState()
+		{
+			var currentConnectionId = Context.ConnectionId;
+			StateModel state;
+			var stateExists = _stateDict.TryGetValue(currentConnectionId, out state);
+
+			if (!stateExists)
+			{
+				state = new StateModel
+				{
+					ConnectionId = currentConnectionId,
+					ScoreSheet = _scoreSheetFactory(),
+					CurrentDiceCup = _diceCupFactory()
+				};
+				_stateDict.Add(currentConnectionId, state);
+			}
+
+			return state;
 		}
 
 		protected override void Dispose(bool disposing)

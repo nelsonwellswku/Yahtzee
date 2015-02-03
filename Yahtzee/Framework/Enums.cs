@@ -8,7 +8,7 @@
 
 	public enum UpperSectionItem
 	{
-		Ones,
+		Ones = 1,
 		Twos,
 		Threes,
 		Fours,
