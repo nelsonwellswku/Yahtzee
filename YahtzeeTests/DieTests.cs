@@ -64,5 +64,16 @@ namespace YahtzeeTests
 			die.State = DieState.Throwable;
 			die.State.Should().Be(DieState.Throwable);
 		}
+
+		[Test]
+		public void Die_HeldDieShouldNotChangeValueWhenThrown()
+		{
+			var die = new Die();
+			var oldValue = die.Roll();
+			die.State = DieState.Held;
+
+			var newValue = die.Roll();
+			newValue.Should().Be(oldValue);
+		}
 	}
 }

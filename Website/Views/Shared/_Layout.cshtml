@@ -56,6 +56,21 @@
             $("#" + data.name).replaceWith(data.score);
         }
 
+        yahtzee.client.toggleHoldDie = function (data) {
+            var sel = $("#hold-" + data.index);
+            if (data.dieState == "Held") {
+                sel.addClass("active");
+                sel.addClass("btn-success");
+                sel.text("Held");
+            }
+            else
+            {
+                sel.removeClass("active");
+                sel.removeClass("btn-success");
+                sel.text("Hold");
+            }
+        }
+
         $.connection.hub.start().done(function () {
             $("#roll_dice").click(function () {
                 yahtzee.server.rollDice();
@@ -64,6 +79,12 @@
             $.each([1, 2, 3, 4, 5, 6], function(index, value) {
                 $("#take-" + value.toString()).click(function () {
                     yahtzee.server.takeUpper(value);
+                });
+            });
+
+            $.each([0, 1, 2, 3, 4], function (index, value) {
+                $("#hold-" + value).click(function () {
+                    yahtzee.server.toggleHoldDie(value)
                 });
             });
 

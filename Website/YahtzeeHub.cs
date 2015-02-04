@@ -93,6 +93,25 @@ namespace Website
 			Clients.Caller.setLower(new { name = name, score = score });
 		}
 
+		public void ToggleHoldDie(int index)
+		{
+			var state = GetOrCreateState();
+			if (state.CurrentDiceCup.Dice[index].State == DieState.Held)
+			{
+				state.CurrentDiceCup.Unhold(index);
+			}
+			else
+			{
+				state.CurrentDiceCup.Hold(index);
+			}
+
+			Clients.Caller.toggleHoldDie(new
+			{
+				index = index,
+				dieState = state.CurrentDiceCup.Dice[index].State.ToString()
+			});
+		}
+
 		private int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
 		{
 			switch(section)

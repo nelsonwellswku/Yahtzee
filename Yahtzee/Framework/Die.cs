@@ -20,7 +20,7 @@ namespace Yahtzee.Framework
 
 		public int Roll()
 		{
-			Value = _random.Next(_lowestPossibleRoll, _highestPossibleRoll + 1);
+			Value = State == DieState.Held ? Value : _random.Next(_lowestPossibleRoll, _highestPossibleRoll + 1);
 			return Value;
 		}
 	}
