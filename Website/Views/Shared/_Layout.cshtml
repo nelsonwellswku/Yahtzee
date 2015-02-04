@@ -39,63 +39,88 @@
     <script src="~/signalr/hubs"></script>
     @RenderSection("scripts", required: false)
     <script>
-    $(function () {
-        var yahtzee = $.connection.yahtzeeHub;
+        $(function () {
 
-        yahtzee.client.displayDice = function (data) {
-            for(i = 0; i < 5; i++) {
-                $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data[i] + ".png");
+            var disableScoreButtons = function () {
+                $("#score-card tr td button").prop("disabled", true);
+            };
+
+            var enableScoreButtons = function () {
+                $("#score-card tr td button").prop("disabled", false);
             }
-        };
 
-        yahtzee.client.setUpper = function (data) {
-            $("#take-" + data.upperNum.toString()).replaceWith(data.score);
-        }
-
-        yahtzee.client.setLower = function (data) {
-            $("#" + data.name).replaceWith(data.score);
-        }
-
-        yahtzee.client.toggleHoldDie = function (data) {
-            var sel = $("#hold-" + data.index);
-            if (data.dieState == "Held") {
-                sel.addClass("active");
-                sel.addClass("btn-success");
-                sel.text("Held");
-            }
-            else
-            {
-                sel.removeClass("active");
-                sel.removeClass("btn-success");
-                sel.text("Hold");
-            }
-        }
-
-        $.connection.hub.start().done(function () {
-            $("#roll_dice").click(function () {
-                yahtzee.server.rollDice();
-            });
-
-            $.each([1, 2, 3, 4, 5, 6], function(index, value) {
-                $("#take-" + value.toString()).click(function () {
-                    yahtzee.server.takeUpper(value);
+            var setDiceToUnhold = function () {
+                $.each([0, 1, 2, 3, 4], function (index, value) {
+                    var sel = $("#hold-" + value);
+                    sel.removeClass("active");
+                    sel.removeClass("btn-success");
+                    sel.text("Hold");
                 });
-            });
+            }
 
-            $.each([0, 1, 2, 3, 4], function (index, value) {
-                $("#hold-" + value).click(function () {
-                    yahtzee.server.toggleHoldDie(value)
+            disableScoreButtons();
+
+            var yahtzee = $.connection.yahtzeeHub;
+
+            yahtzee.client.displayDice = function (data) {
+                for (i = 0; i < 5; i++) {
+                    $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data[i] + ".png");
+                }
+                enableScoreButtons();
+            };
+
+            yahtzee.client.setUpper = function (data) {
+                $("#take-" + data.upperNum.toString()).replaceWith(data.score);
+                disableScoreButtons();
+                setDiceToUnhold();
+            };
+
+            yahtzee.client.setLower = function (data) {
+                $("#" + data.name).replaceWith(data.score);
+                disableScoreButtons();
+                setDiceToUnhold();
+            };
+
+            yahtzee.client.toggleHoldDie = function (data) {
+                var sel = $("#hold-" + data.index);
+                if (data.dieState == "Held") {
+                    sel.addClass("active");
+                    sel.addClass("btn-success");
+                    sel.text("Held");
+                }
+                else {
+                    sel.removeClass("active");
+                    sel.removeClass("btn-success");
+                    sel.text("Hold");
+                }
+            };
+
+            $.connection.hub.start().done(function () {
+                $("#roll_dice").click(function () {
+                    yahtzee.server.rollDice();
                 });
-            });
 
-            var lowerItems = ["threeofakind", "fourofakind", "fullhouse", "smallstraight", "largestraight", "yahtzee", "chance"];
-            $.each(lowerItems, function (index, value) {
-                $("#" + value).click(function () {
-                    yahtzee.server.takeLower(value);
+                $.each([1, 2, 3, 4, 5, 6], function (index, value) {
+                    $("#take-" + value.toString()).click(function () {
+                        yahtzee.server.takeUpper(value);
+                    });
+                });
+
+                $.each([0, 1, 2, 3, 4], function (index, value) {
+                    $("#hold-" + value).click(function () {
+                        yahtzee.server.toggleHoldDie(value)
+                    });
+                });
+
+                var lowerItems = ["threeofakind", "fourofakind", "fullhouse", "smallstraight", "largestraight", "yahtzee", "chance"];
+                $.each(lowerItems, function (index, value) {
+                    $("#" + value).click(function () {
+                        yahtzee.server.takeLower(value);
+                    });
                 });
             });
         });
-    });
     </script>
+
 </body>
 </html>

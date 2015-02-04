@@ -54,5 +54,11 @@ namespace Yahtzee.Framework
 		{
 			return _rollCount == _maxRolls;
 		}
+
+
+		public int RollCount
+		{
+			get { return _rollCount; }
+		}
 	}
 }

@@ -167,5 +167,27 @@ namespace YahtzeeTests
 			IEnumerable<IDie> finalRoll = diceCup.Roll();
 			finalRoll.Should().BeNull();
 		}
+
+		[Test]
+		public void DiceCupKeepsTrackOfNumberOfRolls()
+		{
+			var die = _dieMock.Object;
+			var dice = new List<IDie> { die, die, die, /* my darling */ die, die };
+
+			var diceCup = new DiceCup(dice);
+			diceCup.RollCount.Should().Be(0);
+
+			diceCup.Roll();
+			diceCup.RollCount.Should().Be(1);
+
+			diceCup.Roll();
+			diceCup.RollCount.Should().Be(2);
+
+			diceCup.Roll();
+			diceCup.RollCount.Should().Be(3);
+
+			diceCup.Roll();
+			diceCup.RollCount.Should().Be(3);
+		}
 	}
 }

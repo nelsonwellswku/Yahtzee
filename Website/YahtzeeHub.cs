@@ -32,6 +32,11 @@ namespace Website
 		{
 			var state = GetOrCreateState();
 
+			if(state.CurrentDiceCup.IsFinal())
+			{
+				return;
+			}
+
 			var rollResult = state.CurrentDiceCup.Roll();
 			if (rollResult != null)
 			{
@@ -46,10 +51,18 @@ namespace Website
 		public void TakeUpper(int number)
 		{
 			var state = GetOrCreateState();
+
+			if (state.CurrentDiceCup.RollCount == 0)
+			{
+				return;
+			}
+
 			UpperSectionItem section = (UpperSectionItem) number;
 			state.ScoreSheet.RecordUpperSection(section, state.CurrentDiceCup);
 
 			var score = GetScoreForUpperSection(section, state.ScoreSheet);
+
+			state.CurrentDiceCup = _diceCupFactory();
 
 			Clients.Caller.setUpper(new { upperNum = number, score = score });
 		}
@@ -57,6 +70,12 @@ namespace Website
 		public void TakeLower(string name)
 		{
 			var state = GetOrCreateState();
+
+			if (state.CurrentDiceCup.RollCount == 0)
+			{
+				return;
+			}
+
 			int score = 0;
 			switch(name)
 			{
@@ -90,12 +109,20 @@ namespace Website
 					break;
 			}
 
+			state.CurrentDiceCup = _diceCupFactory();
+
 			Clients.Caller.setLower(new { name = name, score = score });
 		}
 
 		public void ToggleHoldDie(int index)
 		{
 			var state = GetOrCreateState();
+
+			if (state.CurrentDiceCup.IsFinal() || state.CurrentDiceCup.RollCount == 0)
+			{
+				return;
+			}
+
 			if (state.CurrentDiceCup.Dice[index].State == DieState.Held)
 			{
 				state.CurrentDiceCup.Unhold(index);

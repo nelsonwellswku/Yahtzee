@@ -10,5 +10,6 @@ namespace Yahtzee.Framework
 		void Hold(params int[] indicesToHold);
 		void Unhold(params int[] indicesToHold);
 		bool IsFinal();
+		int RollCount { get; }
 	}
 }
