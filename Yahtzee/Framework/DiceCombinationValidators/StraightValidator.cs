@@ -10,11 +10,17 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 	{
 		public bool IsValid(int lengthOfStraight, IEnumerable<IDie> diceValues)
 		{
-			IEnumerable<IDie> orderedDice = diceValues.OrderBy(x => x.Value);
+			IEnumerable<int> orderedDice = diceValues.OrderBy(x => x.Value).Select(x => x.Value).Distinct().ToList();
+
+			if(orderedDice.Count() < lengthOfStraight)
+			{
+				return false;
+			}
+
 			for (int i = 0; i < lengthOfStraight - 1; i++)
 			{
-				var currentIncrementedValue = orderedDice.ElementAt(i).Value + 1;
-				if (!(currentIncrementedValue == orderedDice.ElementAt(i + 1).Value)) return false;
+				var currentIncrementedValue = orderedDice.ElementAt(i) + 1;
+				if (!(currentIncrementedValue == orderedDice.ElementAt(i + 1))) return false;
 			}
 
 			return true;

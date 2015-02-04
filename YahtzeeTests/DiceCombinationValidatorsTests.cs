@@ -107,6 +107,16 @@ namespace YahtzeeTests
 		}
 
 		[Test]
+		public void StraightValidator_ValidSmallStraightSetWithDuplicate_ReturnsTrue()
+		{
+			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 3, 1, 3, 4, 2 });
+
+			StraightValidator straightValidator = new StraightValidator();
+			bool result = straightValidator.IsValid(4, diceValues);
+			result.Should().BeTrue();
+		}
+
+		[Test]
 		public void StraightValidator_InvalidSmallStraightSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 5, 2, 6 });
