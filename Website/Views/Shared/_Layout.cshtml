@@ -75,12 +75,22 @@
 
             var yahtzee = $.connection.yahtzeeHub;
 
-            yahtzee.client.displayDice = function (data) {
+            yahtzee.client.processRoll = function (data) {
+                console.log(data);
                 for (i = 0; i < 5; i++) {
-                    $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data[i] + ".png");
+                    $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data.dice[i] + ".png");
                 }
-                enableScoreButtons();
-                enableHoldButtons();
+                if (data.isFinal)
+                {
+                    disableHoldButtons();
+                    $("#roll-message").text("You've rolled " + data.rollCount + " times and that's your last roll this turn. Take a score.")
+                }
+                else
+                {
+                    enableScoreButtons();
+                    enableHoldButtons();
+                    $("#roll-message").text("You've rolled " + data.rollCount + " times.")
+                }
             };
 
             yahtzee.client.setUpper = function (data) {
@@ -88,6 +98,7 @@
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();
+                $("#roll-message").text("You've rolled 0 times.")
             };
 
             yahtzee.client.setLower = function (data) {
@@ -95,6 +106,7 @@
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();
+                $("#roll-message").text("You've rolled 0 times.")
             };
 
             yahtzee.client.disableHoldButtons = function () {

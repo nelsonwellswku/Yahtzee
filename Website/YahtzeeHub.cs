@@ -40,11 +40,14 @@ namespace Website
 			var rollResult = state.CurrentDiceCup.Roll();
 			if (rollResult != null)
 			{
-				Clients.Caller.displayDice(rollResult.Select(x => x.Value).ToList());
-				if(state.CurrentDiceCup.IsFinal())
+				var rollData = new
 				{
-					Clients.Caller.disableHoldButtons();
-				}
+					dice = rollResult.Select(x => x.Value).ToList(),
+					rollCount = state.CurrentDiceCup.RollCount,
+					isFinal = state.CurrentDiceCup.IsFinal()
+				};
+
+				Clients.Caller.processRoll(rollData);
 			}
 			else
 			{
