@@ -49,6 +49,18 @@
                 $("#score-card tr td button").prop("disabled", false);
             }
 
+            var disableHoldButtons = function() {
+                $.each([0, 1, 2, 3, 4], function (index, value) {
+                    $("#hold-" + value).prop("disabled", true);
+                });
+            }
+
+            var enableHoldButtons = function () {
+                $.each([0, 1, 2, 3, 4], function (index, value) {
+                    $("#hold-" + value).prop("disabled", false);
+                });
+            }
+
             var setDiceToUnhold = function () {
                 $.each([0, 1, 2, 3, 4], function (index, value) {
                     var sel = $("#hold-" + value);
@@ -59,6 +71,7 @@
             }
 
             disableScoreButtons();
+            disableHoldButtons();
 
             var yahtzee = $.connection.yahtzeeHub;
 
@@ -67,18 +80,25 @@
                     $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data[i] + ".png");
                 }
                 enableScoreButtons();
+                enableHoldButtons();
             };
 
             yahtzee.client.setUpper = function (data) {
                 $("#take-" + data.upperNum.toString()).replaceWith(data.score);
                 disableScoreButtons();
+                disableHoldButtons();
                 setDiceToUnhold();
             };
 
             yahtzee.client.setLower = function (data) {
                 $("#" + data.name).replaceWith(data.score);
                 disableScoreButtons();
+                disableHoldButtons();
                 setDiceToUnhold();
+            };
+
+            yahtzee.client.disableHoldButtons = function () {
+                disableHoldButtons();
             };
 
             yahtzee.client.toggleHoldDie = function (data) {

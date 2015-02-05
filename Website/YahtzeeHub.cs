@@ -41,6 +41,10 @@ namespace Website
 			if (rollResult != null)
 			{
 				Clients.Caller.displayDice(rollResult.Select(x => x.Value).ToList());
+				if(state.CurrentDiceCup.IsFinal())
+				{
+					Clients.Caller.disableHoldButtons();
+				}
 			}
 			else
 			{
