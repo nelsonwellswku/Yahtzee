@@ -23,6 +23,16 @@ namespace YahtzeeTests
 		}
 
 		[Test]
+		public void DiceOfAKindValidator_ValidThreeOfAKindSetMoreDups_ReturnsTrue()
+		{
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 3, 3 });
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(3, dice);
+			result.Should().BeTrue();
+		}
+
+		[Test]
 		public void DiceOfAKindValidator_InvalidThreeOfAKindSet_ReturnsFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 1, 5, 3, 4 });
@@ -36,6 +46,16 @@ namespace YahtzeeTests
 		public void DiceOfAKindValidator_ValidFourOfAKindSet_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 6, 2, 2 });
+
+			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
+			bool result = diceOfAKindValidator.IsValid(4, dice);
+			result.Should().BeTrue();
+		}
+
+		[Test]
+		public void DiceOfAKindValidator_ValidFourOfAKindSetMoreThanFourDups_ReturnTrue()
+		{
+			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 2, 2, 2 });
 
 			DiceOfAKindValidator diceOfAKindValidator = new DiceOfAKindValidator();
 			bool result = diceOfAKindValidator.IsValid(4, dice);

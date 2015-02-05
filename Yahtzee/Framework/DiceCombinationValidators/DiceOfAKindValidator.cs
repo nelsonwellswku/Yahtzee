@@ -9,7 +9,7 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 		{
 			foreach (var uniqueValue in dice.Select(x => x.Value).Distinct())
 			{
-				if (dice.Count(x => x.Value == uniqueValue) == numberOfDiceToMatch)
+				if (dice.Count(x => x.Value == uniqueValue) >= numberOfDiceToMatch)
 				{
 					return true;
 				}
