@@ -32,6 +32,61 @@ namespace YahtzeeTests
 			_scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
 		}
 
+		[Test]
+		public void IsUpperSectionComplete_Yes()
+		{
+			SetupNoBonusDiceCupMock();
+			SetupLowerSectionMock();
+
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Ones, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Twos, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Threes, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Fours, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Fives, _diceCup.Object);
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Sixes, _diceCup.Object);
+
+			_scoreSheet.IsUpperSectionComplete.Should().Be(true);
+		}
+
+		[Test]
+		public void IsUpperSectionComplete_No()
+		{
+			SetupNoBonusDiceCupMock();
+			SetupLowerSectionMock();
+
+			_scoreSheet.RecordUpperSection(UpperSectionItem.Ones, _diceCup.Object);
+
+			_scoreSheet.IsUpperSectionComplete.Should().Be(false);
+		}
+
+		[Test]
+		public void IsLowerSectionComplete_Yes()
+		{
+			SetupNoBonusDiceCupMock();
+			SetupLowerSectionMock();
+
+			_scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			_scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			_scoreSheet.RecordSmallStraight(_diceCup.Object);
+			_scoreSheet.RecordLargeStraight(_diceCup.Object);
+			_scoreSheet.RecordFullHouse(_diceCup.Object);
+			_scoreSheet.RecordChance(_diceCup.Object);
+			_scoreSheet.RecordYahtzee(_diceCup.Object);
+
+			_scoreSheet.IsLowerSectionComplete.Should().Be(true);
+		}
+
+		[Test]
+		public void IsLowerSectionComplete_No()
+		{
+			SetupNoBonusDiceCupMock();
+			SetupLowerSectionMock();
+
+			_scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+
+			_scoreSheet.IsLowerSectionComplete.Should().Be(false);
+		}
+
 		#region Upper section
 
 		// TODO: Comprehensive tests for 2, 4, 5, 6

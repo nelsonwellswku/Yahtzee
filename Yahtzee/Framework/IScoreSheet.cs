@@ -4,6 +4,9 @@ namespace Yahtzee.Framework
 {
 	public interface IScoreSheet
 	{
+		bool IsUpperSectionComplete { get; }
+		bool IsLowerSectionComplete { get; }
+
 		int? Ones { get; }
 		int? Twos { get; }
 		int? Threes { get; }

@@ -239,5 +239,15 @@ namespace Yahtzee.Framework
 		{
 			return diceCup.Dice.Where(x => x.Value == value).Sum(x => x.Value);
 		}
+
+		public bool IsUpperSectionComplete
+		{
+			get { return Ones.HasValue && Twos.HasValue && Threes.HasValue && Fours.HasValue && Fives.HasValue && Sixes.HasValue; }
+		}
+
+		public bool IsLowerSectionComplete
+		{
+			get { return ThreeOfAKind.HasValue && FourOfAKind.HasValue && FullHouse.HasValue && SmallStraight.HasValue && LargeStraight.HasValue && Yahtzee.HasValue && Chance.HasValue; }
+		}
 	}
 }
