@@ -8,22 +8,32 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 {
 	public class StraightValidator : IStraightValidator
 	{
-		public bool IsValid(int lengthOfStraight, IEnumerable<IDie> diceValues)
+		public bool IsValid(int lengthOfStraight, IEnumerable<IDie> dice)
 		{
-			IEnumerable<int> orderedDice = diceValues.OrderBy(x => x.Value).Select(x => x.Value).Distinct().ToList();
+			List<int> orderedValues = dice.OrderBy(x => x.Value).Select(x => x.Value).Distinct().ToList();
+			return CheckValidity(lengthOfStraight, orderedValues);
+		}
 
-			if(orderedDice.Count() < lengthOfStraight)
+		private bool CheckValidity(int lengthOfStraight, List<int> orderedValues)
+		{
+			if(orderedValues.Count < lengthOfStraight)
 			{
 				return false;
 			}
 
+			var isValid = true;
+
 			for (int i = 0; i < lengthOfStraight - 1; i++)
 			{
-				var currentIncrementedValue = orderedDice.ElementAt(i) + 1;
-				if (!(currentIncrementedValue == orderedDice.ElementAt(i + 1))) return false;
+				var expectedNextValue = orderedValues.ElementAt(i) + 1;
+				var nextValue = orderedValues.ElementAt(i + 1);
+				if (expectedNextValue != nextValue)
+				{
+					isValid = CheckValidity(lengthOfStraight, orderedValues.Skip(1).ToList());
+				}
 			}
 
-			return true;
+			return isValid;
 		}
 	}
 }
