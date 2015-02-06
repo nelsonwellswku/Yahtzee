@@ -136,8 +136,14 @@ namespace Website
 			}
 
 			state.CurrentDiceCup = _diceCupFactory();
+			bool isLowerSectionComplete = state.ScoreSheet.IsLowerSectionComplete;
+			int? lowerSectionTotal = null;
+			if (isLowerSectionComplete)
+			{
+				lowerSectionTotal = state.ScoreSheet.LowerSectionTotal;
+			}
 
-			Clients.Caller.setLower(new { name = name, score = score });
+			Clients.Caller.setLower(new { name = name, score = score, isLowerSectionComplete = isLowerSectionComplete, lowerSectionTotal = lowerSectionTotal });
 		}
 
 		public void ToggleHoldDie(int index)

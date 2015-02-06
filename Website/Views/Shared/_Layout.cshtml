@@ -108,6 +108,10 @@
 
             yahtzee.client.setLower = function (data) {
                 $("#" + data.name).replaceWith(data.score);
+                console.log(data);
+                if (data.isLowerSectionComplete) {
+                    $("#lower-section-total").html("<b>" + data.lowerSectionTotal + "</b>");
+                }
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();
