@@ -25,8 +25,8 @@ namespace Yahtzee.Framework.DiceCombinationValidators
 
 			for (int i = 0; i < lengthOfStraight - 1; i++)
 			{
-				var expectedNextValue = orderedValues.ElementAt(i) + 1;
-				var nextValue = orderedValues.ElementAt(i + 1);
+				var expectedNextValue = orderedValues[i] + 1;
+				var nextValue = orderedValues[i + 1];
 				if (expectedNextValue != nextValue)
 				{
 					isValid = CheckValidity(lengthOfStraight, orderedValues.Skip(1).ToList());

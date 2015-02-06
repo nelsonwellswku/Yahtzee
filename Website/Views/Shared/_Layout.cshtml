@@ -95,6 +95,11 @@
 
             yahtzee.client.setUpper = function (data) {
                 $("#take-" + data.upperNum.toString()).replaceWith(data.score);
+                if (data.isUpperSectionComplete) {
+                    $("#upper-section-score").html("<b>" + data.upperSectionScore + "</b>");
+                    $("#upper-section-bonus").html(data.upperSectionBonus);
+                    $("#upper-section-total").html("<b>" + data.upperSectionTotal + "</b>");
+                }
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();

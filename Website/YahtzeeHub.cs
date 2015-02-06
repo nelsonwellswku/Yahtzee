@@ -71,7 +71,26 @@ namespace Website
 
 			state.CurrentDiceCup = _diceCupFactory();
 
-			Clients.Caller.setUpper(new { upperNum = number, score = score });
+			var isUpperSectionComplete = state.ScoreSheet.IsUpperSectionComplete;
+			int? upperSectionScore = null;
+			int? upperSectionBonus = null;
+			int? upperSectionTotal = null;
+			if(isUpperSectionComplete)
+			{
+				upperSectionScore = state.ScoreSheet.UpperSectionTotal;
+				upperSectionBonus = state.ScoreSheet.UpperSectionBonus;
+				upperSectionTotal = state.ScoreSheet.UpperSectionTotalWithBonus;
+			}
+
+			Clients.Caller.setUpper(new
+			{
+				upperNum = number,
+				score = score,
+				isUpperSectionComplete = isUpperSectionComplete,
+				upperSectionScore = upperSectionScore,
+				upperSectionBonus = upperSectionBonus,
+				upperSectionTotal = upperSectionTotal
+			});
 		}
 
 		public void TakeLower(string name)
