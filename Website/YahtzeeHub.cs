@@ -82,6 +82,13 @@ namespace Website
 				upperSectionTotal = state.ScoreSheet.UpperSectionTotalWithBonus;
 			}
 
+			bool isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
+			int? grandTotal = null;
+			if(state.ScoreSheet.IsScoreSheetComplete)
+			{
+				grandTotal = state.ScoreSheet.GrandTotal;
+			}
+
 			Clients.Caller.setUpper(new
 			{
 				upperNum = number,
@@ -89,7 +96,9 @@ namespace Website
 				isUpperSectionComplete = isUpperSectionComplete,
 				upperSectionScore = upperSectionScore,
 				upperSectionBonus = upperSectionBonus,
-				upperSectionTotal = upperSectionTotal
+				upperSectionTotal = upperSectionTotal,
+				isScoreSheetComplete = isScoreSheetComplete,
+				grandTotal = grandTotal
 			});
 		}
 
@@ -142,8 +151,22 @@ namespace Website
 			{
 				lowerSectionTotal = state.ScoreSheet.LowerSectionTotal;
 			}
+			bool isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
+			int? grandTotal = null;
+			if (state.ScoreSheet.IsScoreSheetComplete)
+			{
+				grandTotal = state.ScoreSheet.GrandTotal;
+			}
 
-			Clients.Caller.setLower(new { name = name, score = score, isLowerSectionComplete = isLowerSectionComplete, lowerSectionTotal = lowerSectionTotal });
+			Clients.Caller.setLower(new
+			{
+				name = name,
+				score = score,
+				isLowerSectionComplete = isLowerSectionComplete,
+				lowerSectionTotal = lowerSectionTotal,
+				isScoreSheetComplete = isScoreSheetComplete,
+				grandTotal = grandTotal
+			});
 		}
 
 		public void ToggleHoldDie(int index)

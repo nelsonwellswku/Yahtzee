@@ -41,6 +41,10 @@
     <script>
         $(function () {
 
+            var disableRollButton = function () {
+                $("#roll_dice").prop("disabled", true);
+            };
+
             var disableScoreButtons = function () {
                 $("#score-card tr td button").prop("disabled", true);
             };
@@ -49,7 +53,7 @@
                 $("#score-card tr td button").prop("disabled", false);
             }
 
-            var disableHoldButtons = function() {
+            var disableHoldButtons = function () {
                 $.each([0, 1, 2, 3, 4], function (index, value) {
                     $("#hold-" + value).prop("disabled", true);
                 });
@@ -80,13 +84,11 @@
                 for (i = 0; i < 5; i++) {
                     $("#die_" + i).attr("src", "/Content/Images/R_Dice_" + data.dice[i] + ".png");
                 }
-                if (data.isFinal)
-                {
+                if (data.isFinal) {
                     disableHoldButtons();
                     $("#roll-message").text("You've rolled " + data.rollCount + " times and that's your last roll this turn. Take a score.")
                 }
-                else
-                {
+                else {
                     enableScoreButtons();
                     enableHoldButtons();
                     $("#roll-message").text("You've rolled " + data.rollCount + " times.")
@@ -100,22 +102,38 @@
                     $("#upper-section-bonus").html(data.upperSectionBonus);
                     $(".upper-section-total").html("<b>" + data.upperSectionTotal + "</b>");
                 }
+
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();
-                $("#roll-message").text("You've rolled 0 times.")
+                if (data.isScoreSheetComplete) {
+                    $("#grand-total").html("<b>" + data.grandTotal + "</b>");
+                    $("#roll-message").text("The game is over. Your grand total is " + data.grandTotal + " points!")
+                    disableRollButton();
+                }
+                else {
+                    $("#roll-message").text("You've rolled 0 times.")
+                }
             };
 
             yahtzee.client.setLower = function (data) {
                 $("#" + data.name).replaceWith(data.score);
-                console.log(data);
                 if (data.isLowerSectionComplete) {
                     $("#lower-section-total").html("<b>" + data.lowerSectionTotal + "</b>");
                 }
+
                 disableScoreButtons();
                 disableHoldButtons();
                 setDiceToUnhold();
-                $("#roll-message").text("You've rolled 0 times.")
+                if (data.isScoreSheetComplete) {
+                    $("#grand-total").html("<b>" + data.grandTotal + "</b>");
+                    $("#roll-message").text("The game is over. Your grand total is " + data.grandTotal + " points!")
+                    disableRollButton();
+                }
+                else {
+                    $("#roll-message").text("You've rolled 0 times.")
+                }
+
             };
 
             yahtzee.client.disableHoldButtons = function () {
