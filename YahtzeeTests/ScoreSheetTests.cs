@@ -87,6 +87,24 @@ namespace YahtzeeTests
 			_scoreSheet.IsLowerSectionComplete.Should().Be(false);
 		}
 
+		[Test]
+		public void IsScoreSheetComplete_Yes()
+		{
+			IsUpperSectionComplete_Yes();
+			IsLowerSectionComplete_Yes();
+
+			_scoreSheet.IsScoreSheetComplete.Should().BeTrue();
+		}
+
+		[Test]
+		public void IsScoreSheetComplete_No()
+		{
+			IsUpperSectionComplete_Yes();
+			IsLowerSectionComplete_No();
+
+			_scoreSheet.IsScoreSheetComplete.Should().BeFalse();
+		}
+
 		#region Upper section
 
 		// TODO: Comprehensive tests for 2, 4, 5, 6

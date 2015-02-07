@@ -6,6 +6,7 @@ namespace Yahtzee.Framework
 	{
 		bool IsUpperSectionComplete { get; }
 		bool IsLowerSectionComplete { get; }
+		bool IsScoreSheetComplete { get; }
 
 		int? Ones { get; }
 		int? Twos { get; }

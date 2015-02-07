@@ -249,5 +249,10 @@ namespace Yahtzee.Framework
 		{
 			get { return ThreeOfAKind.HasValue && FourOfAKind.HasValue && FullHouse.HasValue && SmallStraight.HasValue && LargeStraight.HasValue && Yahtzee.HasValue && Chance.HasValue; }
 		}
+
+		public bool IsScoreSheetComplete
+		{
+			get { return IsUpperSectionComplete && IsLowerSectionComplete; }
+		}
 	}
 }
