@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yahtzee", "Yahtzee\Yahtzee.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahtzeeTests", "YahtzeeTests\YahtzeeTests.csproj", "{7967288E-279E-45F4-BEDA-F8A3F325782F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleYahtzee", "ConsoleYahtzee\ConsoleYahtzee.csproj", "{F185D5D2-2DE9-482E-A04C-0AD0979A317D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{A8B3653D-9CFA-41CB-A1B4-6428324D7450}"
 EndProject
 Global
@@ -25,10 +23,6 @@ Global
 		{7967288E-279E-45F4-BEDA-F8A3F325782F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7967288E-279E-45F4-BEDA-F8A3F325782F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7967288E-279E-45F4-BEDA-F8A3F325782F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F185D5D2-2DE9-482E-A04C-0AD0979A317D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F185D5D2-2DE9-482E-A04C-0AD0979A317D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F185D5D2-2DE9-482E-A04C-0AD0979A317D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F185D5D2-2DE9-482E-A04C-0AD0979A317D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8B3653D-9CFA-41CB-A1B4-6428324D7450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8B3653D-9CFA-41CB-A1B4-6428324D7450}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8B3653D-9CFA-41CB-A1B4-6428324D7450}.Release|Any CPU.ActiveCfg = Release|Any CPU
