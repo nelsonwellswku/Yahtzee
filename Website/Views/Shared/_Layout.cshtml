@@ -74,9 +74,6 @@
                 });
             }
 
-            disableScoreButtons();
-            disableHoldButtons();
-
             var yahtzee = $.connection.yahtzeeHub;
 
             yahtzee.client.processRoll = function (data) {
