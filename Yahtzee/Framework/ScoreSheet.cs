@@ -21,7 +21,7 @@ namespace Yahtzee.Framework
 		{
 			get
 			{
-				return UpperSectionTotal > 63 ? 35 : 0;
+				return UpperSectionTotal >= 63 ? 35 : 0;
 			}
 		}
 		public int UpperSectionTotal
