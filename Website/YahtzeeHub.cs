@@ -5,6 +5,8 @@ using System.Linq;
 using Autofac;
 using Website.Models;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using Website.HubHelpers;
 
 namespace Website
 {
@@ -112,38 +114,7 @@ namespace Website
 				return;
 			}
 
-			int score = 0;
-			switch (name)
-			{
-				case "threeofakind":
-					state.ScoreSheet.RecordThreeOfAKind(state.CurrentDiceCup);
-					score = state.ScoreSheet.ThreeOfAKind.Value;
-					break;
-				case "fourofakind":
-					state.ScoreSheet.RecordFourOfAKind(state.CurrentDiceCup);
-					score = state.ScoreSheet.FourOfAKind.Value;
-					break;
-				case "fullhouse":
-					state.ScoreSheet.RecordFullHouse(state.CurrentDiceCup);
-					score = state.ScoreSheet.FullHouse.Value;
-					break;
-				case "smallstraight":
-					state.ScoreSheet.RecordSmallStraight(state.CurrentDiceCup);
-					score = state.ScoreSheet.SmallStraight.Value;
-					break;
-				case "largestraight":
-					state.ScoreSheet.RecordLargeStraight(state.CurrentDiceCup);
-					score = state.ScoreSheet.LargeStraight.Value;
-					break;
-				case "yahtzee":
-					state.ScoreSheet.RecordYahtzee(state.CurrentDiceCup);
-					score = state.ScoreSheet.Yahtzee.Value;
-					break;
-				case "chance":
-					state.ScoreSheet.RecordChance(state.CurrentDiceCup);
-					score = state.ScoreSheet.Chance.Value;
-					break;
-			}
+			int? score = LowerSectionScorer.Score[name](state.ScoreSheet, state.CurrentDiceCup);
 
 			state.CurrentDiceCup = _diceCupFactory();
 			bool isLowerSectionComplete = state.ScoreSheet.IsLowerSectionComplete;
@@ -162,7 +133,7 @@ namespace Website
 			Clients.Caller.setLower(new
 			{
 				name = name,
-				score = score,
+				score = score.Value,
 				isLowerSectionComplete = isLowerSectionComplete,
 				lowerSectionTotal = lowerSectionTotal,
 				isScoreSheetComplete = isScoreSheetComplete,

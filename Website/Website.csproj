@@ -180,6 +180,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HubHelpers\LowerSectionScorer.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GameStateModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
