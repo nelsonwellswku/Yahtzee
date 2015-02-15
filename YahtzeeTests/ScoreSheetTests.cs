@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-
 using FluentAssertions;
 using Moq;
+using NUnit.Framework;
 using Yahtzee.Framework;
 using Yahtzee.Framework.DiceCombinationValidators;
 using YahtzeeTests.Support;
-using NUnit.Framework;
 
 namespace YahtzeeTests
 {
@@ -108,13 +107,13 @@ namespace YahtzeeTests
 		#region Upper section
 
 		// TODO: Comprehensive tests for 2, 4, 5, 6
-		//			Maybe elaborate on tests for 1 and 3
+		// Maybe elaborate on tests for 1 and 3
 
 		[Test]
 		public void ScoreSheet_RecordUpperSectionOnes_RecordTwo()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 2, 4, 1, 3, 1 });
+			var dice = _testDieFactory.CreateDieEnumerable(2, 4, 1, 3, 1);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
@@ -129,7 +128,7 @@ namespace YahtzeeTests
 		public void ScoreSheet_RecordUpperSectionThrees_RecordNine()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 1, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 1, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
@@ -144,7 +143,7 @@ namespace YahtzeeTests
 		public void ScoreSheet_RecordUpperSectionTwosAfterItsAlreadyBeenRecorded_DoNotOverwritePreviousValue()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 2, 5, 2 });
+			var dice = _testDieFactory.CreateDieEnumerable(1, 3, 2, 5, 2);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
@@ -250,29 +249,29 @@ namespace YahtzeeTests
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithValidSetAsTwenty()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 6, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 3, 5, 6, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(true);
 
 			// Act
-			int? threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			var threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.ThreeOfAKind.Should().Be(20);
-
+			threeOfAKindScore.Should().Be(20);
 		}
 
 		[Test]
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 2, 5, 6, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, dice)).Returns(false);
 
 			// Act
 
-			int? threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
+			var threeOfAKindScore = _scoreSheet.RecordThreeOfAKind(_diceCup.Object);
 
 			//Assert
 			threeOfAKindScore.Should().Be(0);
@@ -283,10 +282,10 @@ namespace YahtzeeTests
 		public void ScoreSheet_ThreeOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(4, 2, 4, 4, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
-			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 3, 4 });
+			var dice2 = _testDieFactory.CreateDieEnumerable(3, 3, 5, 3, 4);
 			_diceCup2.Setup(x => x.Dice).Returns(dice2);
 
 			_diceOfAKindValidator.Setup(x => x.IsValid(3, It.IsAny<IEnumerable<IDie>>())).Returns(true);
@@ -304,29 +303,28 @@ namespace YahtzeeTests
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithValidSetAsSeventeen()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 3, 5, 3, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 3, 5, 3, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(true);
 
 			// Act
-			int? fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			var fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(17);
 			_scoreSheet.FourOfAKind.Should().Be(17);
-
 		}
 
 		[Test]
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 2, 5, 6, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, dice)).Returns(false);
 
 			// Act
-			int? fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
+			var fourOfAKindScore = _scoreSheet.RecordFourOfAKind(_diceCup.Object);
 
 			//Assert
 			fourOfAKindScore.Should().Be(0);
@@ -337,10 +335,10 @@ namespace YahtzeeTests
 		public void ScoreSheet_FourOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 4, 2, 4, 4, 4 });
+			var dice = _testDieFactory.CreateDieEnumerable(4, 2, 4, 4, 4);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
-			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 5, 5, 5, 3, 5 });
+			var dice2 = _testDieFactory.CreateDieEnumerable(5, 5, 5, 3, 5);
 			_diceCup2.Setup(x => x.Dice).Returns(dice2);
 			_diceOfAKindValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
@@ -364,11 +362,11 @@ namespace YahtzeeTests
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			int? fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
+			var fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.FullHouse.Should().Be(25);
-
+			fullHouseScore.Should().Be(25);
 		}
 
 		[Test]
@@ -378,7 +376,7 @@ namespace YahtzeeTests
 			_fullHouseValidator.Setup(x => x.IsValid(It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			int? fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
+			var fullHouseScore = _scoreSheet.RecordFullHouse(_diceCup.Object);
 
 			//Assert
 			fullHouseScore.Should().Be(0);
@@ -411,11 +409,11 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			int? smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
+			var smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.SmallStraight.Should().Be(30);
-
+			smallStraightScore.Should().Be(30);
 		}
 
 		[Test]
@@ -425,11 +423,11 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(4, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			int? smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
+			var smallStraightScore = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.SmallStraight.Should().Be(0);
-
+			smallStraightScore.Should().Be(0);
 		}
 
 		[Test]
@@ -440,11 +438,10 @@ namespace YahtzeeTests
 
 			// Act
 			_scoreSheet.RecordSmallStraight(_diceCup.Object);
-			int? secondRecord = _scoreSheet.RecordSmallStraight(_diceCup.Object);
+			var secondRecord = _scoreSheet.RecordSmallStraight(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
-
 		}
 
 		[Test]
@@ -454,11 +451,11 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			int? largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
+			var largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.LargeStraight.Should().Be(40);
-
+			largeStraightScore.Should().Be(40);
 		}
 
 		[Test]
@@ -468,11 +465,11 @@ namespace YahtzeeTests
 			_straightValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			int? largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
+			var largeStraightScore = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.LargeStraight.Should().Be(0);
-
+			largeStraightScore.Should().Be(0);
 		}
 
 		[Test]
@@ -483,11 +480,10 @@ namespace YahtzeeTests
 
 			// Act
 			_scoreSheet.RecordLargeStraight(_diceCup.Object);
-			int? secondRecord = _scoreSheet.RecordLargeStraight(_diceCup.Object);
+			var secondRecord = _scoreSheet.RecordLargeStraight(_diceCup.Object);
 
 			//Assert
 			secondRecord.Should().NotHaveValue();
-
 		}
 
 		#endregion
@@ -498,30 +494,30 @@ namespace YahtzeeTests
 		public void ScoreSheet_ChanceUnset_RecordChanceAsValidValueOfEighteen()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 2, 4, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(6, 3, 2, 4, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
 			// Act
-			int? chanceScore = _scoreSheet.RecordChance(_diceCup.Object);
+			var chanceScore = _scoreSheet.RecordChance(_diceCup.Object);
 
 			//Assert
 			_scoreSheet.Chance.Should().Be(18);
-
+			chanceScore.Should().Be(18);
 		}
 
 		[Test]
 		public void ScoreSheet_ChanceHasAlreadyBeenSet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
-			var dice = _testDieFactory.CreateDieEnumerable(new[] { 3, 2, 5, 6, 3 });
+			var dice = _testDieFactory.CreateDieEnumerable(3, 2, 5, 6, 3);
 			_diceCup.Setup(x => x.Dice).Returns(dice);
 
-			var dice2 = _testDieFactory.CreateDieEnumerable(new[] { 1, 1, 1, 2, 1 });
+			var dice2 = _testDieFactory.CreateDieEnumerable(1, 1, 1, 2, 1);
 			_diceCup2.Setup(x => x.Dice).Returns(dice2);
 
 			// Act
 			_scoreSheet.RecordChance(_diceCup.Object);
-			int? chanceScore = _scoreSheet.RecordChance(_diceCup2.Object);
+			var chanceScore = _scoreSheet.RecordChance(_diceCup2.Object);
 
 			//Assert
 			chanceScore.Should().NotHaveValue();
@@ -539,7 +535,7 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
-			int? yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
 			yahtzeeScore.Should().Be(50);
@@ -553,7 +549,7 @@ namespace YahtzeeTests
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(false);
 
 			// Act
-			int? yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
+			var yahtzeeScore = _scoreSheet.RecordYahtzee(_diceCup.Object);
 
 			// Assert
 			yahtzeeScore.Should().Be(0);
@@ -564,7 +560,7 @@ namespace YahtzeeTests
 		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusAfterYahtzeeWithValidSet()
 		{
 			// Arrange
-			var expectedArray = new int?[] { 100 };
+			var expectedArray = new int?[] {100};
 			_diceOfAKindValidator.Setup(x => x.IsValid(5, It.IsAny<IEnumerable<IDie>>())).Returns(true);
 
 			// Act
@@ -619,6 +615,7 @@ namespace YahtzeeTests
 		#endregion
 
 		#region Total tests
+
 		[Test]
 		public void ScoreSheet_LowerSectionTotal_ReturnsSumOfAllLowerSectionItems()
 		{
@@ -662,12 +659,12 @@ namespace YahtzeeTests
 
 		private void SetupNoBonusDiceCupMock()
 		{
-			var onesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 1, 5, 4 });		// 2
-			var twosDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 5, 2, 2, 2 });		// 6
-			var threesDice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 3, 3 });	// 12
-			var foursDice = _testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 2 });		// 8
-			var fivesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 4, 3, 6, 6 });		// 0
-			var sixesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 6, 4, 3 });		// 6
+			var onesDice = _testDieFactory.CreateDieEnumerable(1, 3, 1, 5, 4); // 2
+			var twosDice = _testDieFactory.CreateDieEnumerable(1, 5, 2, 2, 2); // 6
+			var threesDice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 3, 3); // 12
+			var foursDice = _testDieFactory.CreateDieEnumerable(4, 1, 4, 2, 2); // 8
+			var fivesDice = _testDieFactory.CreateDieEnumerable(1, 4, 3, 6, 6); // 0
+			var sixesDice = _testDieFactory.CreateDieEnumerable(1, 3, 6, 4, 3); // 6
 			// total = 34
 
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
@@ -675,12 +672,12 @@ namespace YahtzeeTests
 
 		private void SetupBonusDiceCupMock()
 		{
-			var onesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 1, 5, 1 });		// 3
-			var twosDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 5, 2, 2, 2 });		// 6
-			var threesDice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 3, 3 });	// 12
-			var foursDice = _testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 4 });		// 12
-			var fivesDice = _testDieFactory.CreateDieEnumerable(new[] { 5, 5, 3, 5, 6 });		// 15
-			var sixesDice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 6, 4, 6 });		// 18
+			var onesDice = _testDieFactory.CreateDieEnumerable(1, 3, 1, 5, 1); // 3
+			var twosDice = _testDieFactory.CreateDieEnumerable(1, 5, 2, 2, 2); // 6
+			var threesDice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 3, 3); // 12
+			var foursDice = _testDieFactory.CreateDieEnumerable(4, 1, 4, 2, 4); // 12
+			var fivesDice = _testDieFactory.CreateDieEnumerable(5, 5, 3, 5, 6); // 15
+			var sixesDice = _testDieFactory.CreateDieEnumerable(6, 3, 6, 4, 6); // 18
 			// total = 66
 
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
@@ -688,12 +685,12 @@ namespace YahtzeeTests
 
 		private void SetupBonusDiceCupMock_63Points()
 		{
-			var onesDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 3, 1, 5, 1 });		// 3
-			var twosDice = _testDieFactory.CreateDieEnumerable(new[] { 1, 5, 2, 2, 2 });		// 6
-			var threesDice = _testDieFactory.CreateDieEnumerable(new[] { 3, 4, 3, 4, 3 });	// 9
-			var foursDice = _testDieFactory.CreateDieEnumerable(new[] { 4, 1, 4, 2, 4 });		// 12
-			var fivesDice = _testDieFactory.CreateDieEnumerable(new[] { 5, 5, 3, 5, 6 });		// 15
-			var sixesDice = _testDieFactory.CreateDieEnumerable(new[] { 6, 3, 6, 4, 6 });		// 18
+			var onesDice = _testDieFactory.CreateDieEnumerable(1, 3, 1, 5, 1); // 3
+			var twosDice = _testDieFactory.CreateDieEnumerable(1, 5, 2, 2, 2); // 6
+			var threesDice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 4, 3); // 9
+			var foursDice = _testDieFactory.CreateDieEnumerable(4, 1, 4, 2, 4); // 12
+			var fivesDice = _testDieFactory.CreateDieEnumerable(5, 5, 3, 5, 6); // 15
+			var sixesDice = _testDieFactory.CreateDieEnumerable(6, 3, 6, 4, 6); // 18
 			// total = 63
 
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(onesDice, twosDice, threesDice, foursDice, fivesDice, sixesDice);
@@ -701,14 +698,14 @@ namespace YahtzeeTests
 
 		private void SetupLowerSectionMock()
 		{
-			var threeOfAKind = _testDieFactory.CreateDieEnumerable(new[] { 4, 4, 4, 3, 1 });		// 16
-			var fourOfAKind = _testDieFactory.CreateDieEnumerable(new[] { 6, 6, 6, 6, 1 });		// 25
-			var fullHouse = _testDieFactory.CreateDieEnumerable(new[] { 1, 1, 1, 4, 4 });			// 25
-			var smallStraight = _testDieFactory.CreateDieEnumerable(new[] { 2, 3, 4, 6, 5 });	// 30
-			var largeStraight = _testDieFactory.CreateDieEnumerable(new[] { 1, 2, 3, 4, 5 });	// 40
-			var yahtzee = _testDieFactory.CreateDieEnumerable(new[] { 4, 4, 4, 4, 4 });			// 50
-			var yahtzeeBonus = _testDieFactory.CreateDieEnumerable(new[] { 2, 2, 2, 2, 2 });		// 100
-			var chance = _testDieFactory.CreateDieEnumerable(new[] { 3, 6, 3, 2, 4 });				// 18
+			var threeOfAKind = _testDieFactory.CreateDieEnumerable(4, 4, 4, 3, 1); // 16
+			var fourOfAKind = _testDieFactory.CreateDieEnumerable(6, 6, 6, 6, 1); // 25
+			var fullHouse = _testDieFactory.CreateDieEnumerable(1, 1, 1, 4, 4); // 25
+			var smallStraight = _testDieFactory.CreateDieEnumerable(2, 3, 4, 6, 5); // 30
+			var largeStraight = _testDieFactory.CreateDieEnumerable(1, 2, 3, 4, 5); // 40
+			var yahtzee = _testDieFactory.CreateDieEnumerable(4, 4, 4, 4, 4); // 50
+			var yahtzeeBonus = _testDieFactory.CreateDieEnumerable(2, 2, 2, 2, 2); // 100
+			var chance = _testDieFactory.CreateDieEnumerable(3, 6, 3, 2, 4); // 18
 			// total = 304
 
 
@@ -716,7 +713,6 @@ namespace YahtzeeTests
 			// to be examined twice.  It's a leaky abstraction but it will do for a test.
 			_diceCup.Setup(x => x.Dice).ReturnsInOrder(threeOfAKind, threeOfAKind, fourOfAKind, fourOfAKind, fullHouse, smallStraight, largeStraight,
 				yahtzee, yahtzeeBonus, chance);
-
 		}
 
 		private void RecordAllUpperSection(IDiceCup diceCup)

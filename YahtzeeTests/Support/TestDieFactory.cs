@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Moq;
 using Yahtzee.Framework;
 
@@ -16,7 +12,7 @@ namespace YahtzeeTests.Support
 			var dice = new IDie[diceValues.Length];
 
 			var counter = 0;
-			foreach (var value in diceValues)
+			foreach(var value in diceValues)
 			{
 				var mock = new Mock<IDie>();
 				mock.Setup(x => x.Value).Returns(value);

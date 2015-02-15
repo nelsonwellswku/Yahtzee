@@ -1,11 +1,9 @@
-﻿
-using FluentAssertions;
-using Yahtzee.Framework;
+﻿using FluentAssertions;
 using NUnit.Framework;
+using Yahtzee.Framework;
 
 namespace YahtzeeTests
 {
-
 	public class DieTests
 	{
 		[Test]
@@ -15,7 +13,7 @@ namespace YahtzeeTests
 			var die = new Die();
 
 			// This is not deterministic, but for 100 rolls, the result should be in the correct range all the time
-			for (int i = 0; i < 100; i++)
+			for(var i = 0; i < 100; i++)
 			{
 				// Act
 				var rollResult = die.Roll();
@@ -31,10 +29,10 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = new Die();
-			var rolls = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
+			var rolls = new[] {0, 0, 0, 0, 0, 0, 0};
 
 			// This is not completely deterministic, but given 100 rolls, each valid value (1, 2, 3, 4, 5, 6) should happen at least 5 times each
-			for (int i = 0; i < 100; i++)
+			for(var i = 0; i < 100; i++)
 			{
 				// Act
 				rolls[die.Roll()]++;
@@ -42,7 +40,7 @@ namespace YahtzeeTests
 
 			// Assert
 			rolls[0].Should().Be(0);
-			for (int i = 1; i <= 6; i++)
+			for(var i = 1; i <= 6; i++)
 			{
 				rolls[i].Should().BeGreaterOrEqualTo(5);
 			}

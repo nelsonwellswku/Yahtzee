@@ -1,12 +1,14 @@
-﻿using Autofac;
+﻿using System.Reflection;
+using Autofac;
+using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Owin;
-using System.Reflection;
-using Autofac.Integration.SignalR;
+using Website;
 using Yahtzee;
 
-[assembly: OwinStartupAttribute(typeof(Website.Startup))]
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace Website
 {
 	public partial class Startup

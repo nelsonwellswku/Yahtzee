@@ -6,14 +6,14 @@ namespace Yahtzee.Framework
 {
 	public class DiceCup : IDiceCup
 	{
-		private const string _invalidRollExceptionMessage = "Dice can not be thrown after three rolls.";
-		private const int _maxRolls = 3;
-		private int _rollCount = 0;
+		private const string InvalidRollExceptionMessage = "Dice can not be thrown after three rolls.";
+		private const int MaxRolls = 3;
 
 		public virtual IList<IDie> Dice { get; private set; }
 		public DiceCup(IList<IDie> dice)
 		{
-			if (dice.Count() != 5) throw new ArgumentOutOfRangeException("Dice cup must contain 5 die.");
+			RollCount = 0;
+			if (dice.Count() != 5) throw new ArgumentOutOfRangeException("dice", "Dice cup must contain 5 die.");
 			Dice = dice;
 		}
 
@@ -29,8 +29,7 @@ namespace Yahtzee.Framework
 				die.Roll();
 			}
 
-			_rollCount++;
-
+			RollCount++;
 			return Dice;
 		}
 
@@ -52,13 +51,10 @@ namespace Yahtzee.Framework
 
 		public bool IsFinal()
 		{
-			return _rollCount == _maxRolls;
+			return RollCount == MaxRolls;
 		}
 
 
-		public int RollCount
-		{
-			get { return _rollCount; }
-		}
+		public int RollCount { get; private set; }
 	}
 }

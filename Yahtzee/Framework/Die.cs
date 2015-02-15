@@ -4,9 +4,9 @@ namespace Yahtzee.Framework
 {
 	public class Die : IDie
 	{
-		private const int _lowestPossibleRoll = 1;
-		private const int _highestPossibleRoll = 6;
-		private static Random _random = new Random();
+		private const int LowestPossibleRoll = 1;
+		private const int HighestPossibleRoll = 6;
+		private static readonly Random Random = new Random();
 
 		public DieState State { get; set; }
 		public int Value { get; private set; }
@@ -20,7 +20,7 @@ namespace Yahtzee.Framework
 
 		public int Roll()
 		{
-			Value = State == DieState.Held ? Value : _random.Next(_lowestPossibleRoll, _highestPossibleRoll + 1);
+			Value = State == DieState.Held ? Value : Random.Next(LowestPossibleRoll, HighestPossibleRoll + 1);
 			return Value;
 		}
 	}

@@ -1,25 +1,21 @@
-﻿using Microsoft.AspNet.SignalR;
-using Yahtzee.Framework;
-using System;
+﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using Autofac;
-using Website.Models;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+using Microsoft.AspNet.SignalR;
 using Website.HubHelpers;
+using Website.Models;
+using Yahtzee.Framework;
 
 namespace Website
 {
 	public class YahtzeeHub : Hub
 	{
-		private static ConcurrentDictionary<string, GameStateModel> _stateDict = new ConcurrentDictionary<string, GameStateModel>();
+		private static readonly ConcurrentDictionary<string, GameStateModel> StateDict = new ConcurrentDictionary<string, GameStateModel>();
 
-		private readonly ILifetimeScope _hubScope;
-
-		private readonly Func<IScoreSheet> _scoreSheetFactory;
 		private readonly Func<IDiceCup> _diceCupFactory;
-
-
+		private readonly ILifetimeScope _hubScope;
+		private readonly Func<IScoreSheet> _scoreSheetFactory;
 		// This isn't awesome but to control the lifetime scope of the hub's dependencies,
 		// the root container needs to be passed in, similar to a service locator.
 		// See http://autofac.readthedocs.org/en/latest/integration/signalr.html
@@ -35,13 +31,13 @@ namespace Website
 		{
 			var state = GetOrCreateState();
 
-			if (state.CurrentDiceCup.IsFinal())
+			if(state.CurrentDiceCup.IsFinal())
 			{
 				return;
 			}
 
 			var rollResult = state.CurrentDiceCup.Roll();
-			if (rollResult != null)
+			if(rollResult != null)
 			{
 				var rollData = new
 				{
@@ -62,12 +58,12 @@ namespace Website
 		{
 			var state = GetOrCreateState();
 
-			if (state.CurrentDiceCup.RollCount == 0)
+			if(state.CurrentDiceCup.RollCount == 0)
 			{
 				return;
 			}
 
-			UpperSectionItem section = (UpperSectionItem)number;
+			var section = (UpperSectionItem) number;
 			state.ScoreSheet.RecordUpperSection(section, state.CurrentDiceCup);
 
 			var score = GetScoreForUpperSection(section, state.ScoreSheet);
@@ -78,16 +74,16 @@ namespace Website
 			int? upperSectionScore = null;
 			int? upperSectionBonus = null;
 			int? upperSectionTotal = null;
-			if (isUpperSectionComplete)
+			if(isUpperSectionComplete)
 			{
 				upperSectionScore = state.ScoreSheet.UpperSectionTotal;
 				upperSectionBonus = state.ScoreSheet.UpperSectionBonus;
 				upperSectionTotal = state.ScoreSheet.UpperSectionTotalWithBonus;
 			}
 
-			bool isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
+			var isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
 			int? grandTotal = null;
-			if (state.ScoreSheet.IsScoreSheetComplete)
+			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
 			}
@@ -95,13 +91,13 @@ namespace Website
 			Clients.Caller.setUpper(new
 			{
 				upperNum = number,
-				score = score,
-				isUpperSectionComplete = isUpperSectionComplete,
-				upperSectionScore = upperSectionScore,
-				upperSectionBonus = upperSectionBonus,
-				upperSectionTotal = upperSectionTotal,
-				isScoreSheetComplete = isScoreSheetComplete,
-				grandTotal = grandTotal
+				score,
+				isUpperSectionComplete,
+				upperSectionScore,
+				upperSectionBonus,
+				upperSectionTotal,
+				isScoreSheetComplete,
+				grandTotal
 			});
 		}
 
@@ -109,35 +105,35 @@ namespace Website
 		{
 			var state = GetOrCreateState();
 
-			if (state.CurrentDiceCup.RollCount == 0)
+			if(state.CurrentDiceCup.RollCount == 0)
 			{
 				return;
 			}
 
-			int? score = LowerSectionScorer.Score[name](state.ScoreSheet, state.CurrentDiceCup);
+			var score = LowerSectionScorer.Score[name](state.ScoreSheet, state.CurrentDiceCup);
 
 			state.CurrentDiceCup = _diceCupFactory();
-			bool isLowerSectionComplete = state.ScoreSheet.IsLowerSectionComplete;
+			var isLowerSectionComplete = state.ScoreSheet.IsLowerSectionComplete;
 			int? lowerSectionTotal = null;
-			if (isLowerSectionComplete)
+			if(isLowerSectionComplete)
 			{
 				lowerSectionTotal = state.ScoreSheet.LowerSectionTotal;
 			}
-			bool isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
+			var isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
 			int? grandTotal = null;
-			if (state.ScoreSheet.IsScoreSheetComplete)
+			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
 			}
 
 			Clients.Caller.setLower(new
 			{
-				name = name,
-				score = score.Value,
-				isLowerSectionComplete = isLowerSectionComplete,
-				lowerSectionTotal = lowerSectionTotal,
-				isScoreSheetComplete = isScoreSheetComplete,
-				grandTotal = grandTotal
+				name,
+				score = score ?? -1,
+				isLowerSectionComplete,
+				lowerSectionTotal,
+				isScoreSheetComplete,
+				grandTotal
 			});
 		}
 
@@ -145,12 +141,12 @@ namespace Website
 		{
 			var state = GetOrCreateState();
 
-			if (state.CurrentDiceCup.IsFinal() || state.CurrentDiceCup.RollCount == 0)
+			if(state.CurrentDiceCup.IsFinal() || state.CurrentDiceCup.RollCount == 0)
 			{
 				return;
 			}
 
-			if (state.CurrentDiceCup.Dice[index].State == DieState.Held)
+			if(state.CurrentDiceCup.Dice[index].State == DieState.Held)
 			{
 				state.CurrentDiceCup.Unhold(index);
 			}
@@ -161,27 +157,27 @@ namespace Website
 
 			Clients.Caller.toggleHoldDie(new
 			{
-				index = index,
+				index,
 				dieState = state.CurrentDiceCup.Dice[index].State.ToString()
 			});
 		}
 
-		private int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
+		private static int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
 		{
-			switch (section)
+			switch(section)
 			{
 				case UpperSectionItem.Ones:
-					return scoreSheet.Ones.Value;
+					return scoreSheet.Ones ?? -1;
 				case UpperSectionItem.Twos:
-					return scoreSheet.Twos.Value;
+					return scoreSheet.Twos ?? -1;
 				case UpperSectionItem.Threes:
-					return scoreSheet.Threes.Value;
+					return scoreSheet.Threes ?? -1;
 				case UpperSectionItem.Fours:
-					return scoreSheet.Fours.Value;
+					return scoreSheet.Fours ?? -1;
 				case UpperSectionItem.Fives:
-					return scoreSheet.Fives.Value;
+					return scoreSheet.Fives ?? -1;
 				case UpperSectionItem.Sixes:
-					return scoreSheet.Sixes.Value;
+					return scoreSheet.Sixes ?? -1;
 			}
 
 			return 0;
@@ -191,9 +187,9 @@ namespace Website
 		{
 			var currentConnectionId = Context.ConnectionId;
 			GameStateModel state;
-			var stateExists = _stateDict.TryGetValue(currentConnectionId, out state);
+			var stateExists = StateDict.TryGetValue(currentConnectionId, out state);
 
-			if (!stateExists)
+			if(!stateExists)
 			{
 				state = new GameStateModel
 				{
@@ -201,7 +197,7 @@ namespace Website
 					ScoreSheet = _scoreSheetFactory(),
 					CurrentDiceCup = _diceCupFactory()
 				};
-				_stateDict.AddOrUpdate(currentConnectionId, state, (key, existingVal) => state);
+				StateDict.AddOrUpdate(currentConnectionId, state, (key, existingVal) => state);
 			}
 
 			return state;
@@ -209,7 +205,7 @@ namespace Website
 
 		protected override void Dispose(bool disposing)
 		{
-			if (disposing && _hubScope != null)
+			if(disposing && _hubScope != null)
 			{
 				_hubScope.Dispose();
 			}

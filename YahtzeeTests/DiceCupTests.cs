@@ -1,15 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
 using FluentAssertions;
 using Moq;
-using Yahtzee.Framework;
 using NUnit.Framework;
-using System;
+using Yahtzee.Framework;
 
 namespace YahtzeeTests
 {
-
 	public class DiceCupTests
 	{
 		private int _rollIteration;
@@ -20,7 +18,7 @@ namespace YahtzeeTests
 		[SetUp]
 		public void Setup()
 		{
-			_dieRolls = new List<int> { 4, 3, 2, 1, 2, 4, 2, 3, 6, 4, 4, 5, 5, 1, 2, 3, 5, 3, 2, 5, 1, 6, 6, 2, 3, 4, 1, 2, 5, 3 };
+			_dieRolls = new List<int> {4, 3, 2, 1, 2, 4, 2, 3, 6, 4, 4, 5, 5, 1, 2, 3, 5, 3, 2, 5, 1, 6, 6, 2, 3, 4, 1, 2, 5, 3};
 			_dieMock = new Mock<IDie>();
 
 			_rollIteration = -1;
@@ -43,7 +41,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -53,17 +51,18 @@ namespace YahtzeeTests
 		}
 
 		[Test]
-		[ExpectedException(typeof(ArgumentOutOfRangeException))]
 		public void DiceCup_ConstructorTakesMoreThanFiveDice_ArgumentOutOfRangeExceptionThrown()
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die, die, die};
 
 			// Act
-			var diceCup = new DiceCup(dice);
+			// ReSharper disable once ObjectCreationAsStatement
+			Action act = () => new DiceCup(dice);
 
-			// Assert handled by ExpectedException attribute
+			// Assert
+			act.ShouldThrow<ArgumentOutOfRangeException>();
 		}
 
 		[Test]
@@ -71,8 +70,8 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
-			var expectedResult = new[] { 4, 3, 2, 1, 2 };
+			var dice = new List<IDie> {die, die, die, die, die};
+			var expectedResult = new[] {4, 3, 2, 1, 2};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -88,7 +87,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -104,7 +103,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -122,7 +121,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -138,7 +137,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -155,7 +154,7 @@ namespace YahtzeeTests
 		{
 			// Arrange
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, die, die };
+			var dice = new List<IDie> {die, die, die, die, die};
 
 			// Act
 			var diceCup = new DiceCup(dice);
@@ -172,7 +171,7 @@ namespace YahtzeeTests
 		public void DiceCupKeepsTrackOfNumberOfRolls()
 		{
 			var die = _dieMock.Object;
-			var dice = new List<IDie> { die, die, die, /* my darling */ die, die };
+			var dice = new List<IDie> {die, die, die, /* my darling */ die, die};
 
 			var diceCup = new DiceCup(dice);
 			diceCup.RollCount.Should().Be(0);
