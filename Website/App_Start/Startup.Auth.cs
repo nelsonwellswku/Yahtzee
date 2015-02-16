@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using Website.DAL;
-using Website.Models;
+using Website.DAL.Entities;
 
 namespace Website
 {

@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Website.DAL;
-using Website.Models;
+using Website.DAL.Entities;
 
 namespace Website
 {

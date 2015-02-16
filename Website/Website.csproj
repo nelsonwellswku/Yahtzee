@@ -178,11 +178,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
-    <Compile Include="DAL\ApplicationUser.cs" />
+    <Compile Include="DAL\Entities\ApplicationUser.cs" />
+    <Compile Include="DAL\Entities\GameStatistic.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HubHelpers\LowerSectionScorer.cs" />
+    <Compile Include="Migrations\201502160553365_AddGameStatisticEntity.cs" />
+    <Compile Include="Migrations\201502160553365_AddGameStatisticEntity.Designer.cs">
+      <DependentUpon>201502160553365_AddGameStatisticEntity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GameStateModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -268,6 +274,11 @@
       <Project>{f1ba1257-240b-40da-b9f4-b50909f01348}</Project>
       <Name>Yahtzee</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201502160553365_AddGameStatisticEntity.resx">
+      <DependentUpon>201502160553365_AddGameStatisticEntity.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

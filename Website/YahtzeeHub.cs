@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
+using Website.DAL;
+using Website.DAL.Entities;
 using Website.HubHelpers;
 using Website.Models;
 using Yahtzee.Framework;
@@ -16,6 +21,9 @@ namespace Website
 		private readonly Func<IDiceCup> _diceCupFactory;
 		private readonly ILifetimeScope _hubScope;
 		private readonly Func<IScoreSheet> _scoreSheetFactory;
+		private readonly ApplicationDbContext _dbContext;
+		private readonly DbSet<ApplicationUser> _userRepository;
+
 		// This isn't awesome but to control the lifetime scope of the hub's dependencies,
 		// the root container needs to be passed in, similar to a service locator.
 		// See http://autofac.readthedocs.org/en/latest/integration/signalr.html
@@ -25,6 +33,21 @@ namespace Website
 
 			_scoreSheetFactory = _hubScope.Resolve<Func<IScoreSheet>>();
 			_diceCupFactory = _hubScope.Resolve<Func<IDiceCup>>();
+			_dbContext = _hubScope.Resolve<ApplicationDbContext>();
+			_userRepository = _dbContext.Set<ApplicationUser>();
+		}
+
+		public override Task OnConnected()
+		{
+			GetOrCreateState();
+			return base.OnConnected();
+		}
+
+		public override Task OnDisconnected(bool stopCalled)
+		{
+			GameStateModel removedModel;
+			StateDict.TryRemove(Context.ConnectionId, out removedModel);
+			return base.OnDisconnected(stopCalled);
 		}
 
 		public void RollDice()
@@ -86,6 +109,7 @@ namespace Website
 			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
+				SaveStatisticsAsync(isGameComplete: true);
 			}
 
 			Clients.Caller.setUpper(new
@@ -124,6 +148,7 @@ namespace Website
 			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
+				SaveStatisticsAsync(isGameComplete: true);
 			}
 
 			Clients.Caller.setLower(new
@@ -162,6 +187,28 @@ namespace Website
 			});
 		}
 
+		private void SaveStatisticsAsync(bool isGameComplete)
+		{
+			var state = GetOrCreateState();
+			if(state.UserId != null)
+			{
+				var user = _userRepository.Find(state.UserId);
+				if(user != null)
+				{
+					var statistic = new GameStatistic
+					{
+						User = user,
+						FinalScore = state.ScoreSheet.GrandTotal,
+						GameCompleted = isGameComplete,
+						GameEndTime = DateTime.UtcNow,
+						GameStartTime = state.GameStartTime
+					};
+					user.GameStatistics.Add(statistic);
+					_dbContext.SaveChanges();
+				}
+			}
+		}
+
 		private static int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)
 		{
 			switch(section)
@@ -186,6 +233,14 @@ namespace Website
 		private GameStateModel GetOrCreateState()
 		{
 			var currentConnectionId = Context.ConnectionId;
+			var currentUser = Context.User;
+
+			string userId = null;
+			if(currentUser != null)
+			{
+				userId = currentUser.Identity.GetUserId<string>();
+			}
+
 			GameStateModel state;
 			var stateExists = StateDict.TryGetValue(currentConnectionId, out state);
 
@@ -194,6 +249,7 @@ namespace Website
 				state = new GameStateModel
 				{
 					ConnectionId = currentConnectionId,
+					UserId = userId,
 					ScoreSheet = _scoreSheetFactory(),
 					CurrentDiceCup = _diceCupFactory()
 				};
