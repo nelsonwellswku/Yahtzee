@@ -17,7 +17,7 @@ namespace Website.Controllers
 		}
 
 		// GET: Statistics
-		public async Task<ActionResult> Index(int skip = 0, int take = 50)
+		public async Task<ActionResult> Index(int skip = 0, int take = 15)
 		{
 			var statSet = _dbContext.Set<GameStatistic>();
 

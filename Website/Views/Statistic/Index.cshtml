@@ -2,14 +2,57 @@
 
 <h2>Statistics</h2>
 
-<h3>At a Glance</h3>
-<p>Total games played: @Model.TotalGamesPlayed</p>
-<p>Highest score: @Model.HighestScore.Score by @Model.HighestScore.User</p>
-<p>Lowest score: @Model.LowestScore.Score by @Model.LowestScore.User</p>
+<table class="table table-striped">
+    <thead>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>At a Glance</strong></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Total Games Played</td>
+            <td>@Model.TotalGamesPlayed</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Highest Score</td>
+            <td>@Model.HighestScore.Score</td>
+            <td>@Model.HighestScore.User.Split('@').First()</td>
+            <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
+        </tr>
+        <tr>
+            <td>Lowest Score</td>
+            <td>@Model.LowestScore.Score</td>
+            <td>@Model.LowestScore.User.Split('@').First()</td>
+            <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Latest Scores</strong>
+            </td>
+            <td><strong>Score</strong></td>
+            <td><strong>User</strong></td>
+            <td><strong>Date</strong></td>
+        </tr>
+        @foreach (var score in @Model.Scores)
+        {
+            <tr>
+                <td></td>
+                <td>@score.Score</td>
+                <td>@score.User.Split('@').First()</td>
+                <td>@Html.DisplayFor(model => score.Date)</td>
+            </tr>
+        }
+    </tbody>
 
-
-<h3>Latest Scores</h3>
-@foreach(var score in @Model.Scores)
-{
-    <p>@score.Score scored by @score.User on @score.Date</p>
-}
+</table>
