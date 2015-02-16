@@ -39,7 +39,7 @@ namespace Website
 
 		public override Task OnConnected()
 		{
-			GetOrCreateState();
+			CreateState();
 			return base.OnConnected();
 		}
 
@@ -52,7 +52,7 @@ namespace Website
 
 		public void RollDice()
 		{
-			var state = GetOrCreateState();
+			var state = GetState();
 
 			if(state.CurrentDiceCup.IsFinal())
 			{
@@ -79,7 +79,7 @@ namespace Website
 
 		public void TakeUpper(int number)
 		{
-			var state = GetOrCreateState();
+			var state = GetState();
 
 			if(state.CurrentDiceCup.RollCount == 0)
 			{
@@ -109,7 +109,7 @@ namespace Website
 			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
-				SaveStatisticsAsync(isGameComplete: true);
+				SaveStatistics(isGameComplete: true);
 			}
 
 			Clients.Caller.setUpper(new
@@ -127,7 +127,7 @@ namespace Website
 
 		public void TakeLower(string name)
 		{
-			var state = GetOrCreateState();
+			var state = GetState();
 
 			if(state.CurrentDiceCup.RollCount == 0)
 			{
@@ -148,7 +148,7 @@ namespace Website
 			if(state.ScoreSheet.IsScoreSheetComplete)
 			{
 				grandTotal = state.ScoreSheet.GrandTotal;
-				SaveStatisticsAsync(isGameComplete: true);
+				SaveStatistics(isGameComplete: true);
 			}
 
 			Clients.Caller.setLower(new
@@ -164,7 +164,7 @@ namespace Website
 
 		public void ToggleHoldDie(int index)
 		{
-			var state = GetOrCreateState();
+			var state = GetState();
 
 			if(state.CurrentDiceCup.IsFinal() || state.CurrentDiceCup.RollCount == 0)
 			{
@@ -187,9 +187,9 @@ namespace Website
 			});
 		}
 
-		private void SaveStatisticsAsync(bool isGameComplete)
+		private void SaveStatistics(bool isGameComplete)
 		{
-			var state = GetOrCreateState();
+			var state = GetState();
 			if(state.UserId != null)
 			{
 				var user = _userRepository.Find(state.UserId);
@@ -230,30 +230,35 @@ namespace Website
 			return 0;
 		}
 
-		private GameStateModel GetOrCreateState()
+		private void CreateState()
 		{
-			var currentConnectionId = Context.ConnectionId;
-			var currentUser = Context.User;
-
+			var connectionId = Context.ConnectionId;
+			var user = Context.User;
 			string userId = null;
-			if(currentUser != null)
+			if(user != null)
 			{
-				userId = currentUser.Identity.GetUserId<string>();
+				userId = user.Identity.GetUserId<string>();
 			}
 
+			var gameState = new GameStateModel(connectionId, userId)
+			{
+				ScoreSheet = _scoreSheetFactory(),
+				CurrentDiceCup = _diceCupFactory()
+			};
+
+
+			StateDict.AddOrUpdate(connectionId, gameState, (key, existingVal) => gameState);
+		}
+
+		private GameStateModel GetState()
+		{
+			var connectionId = Context.ConnectionId;
 			GameStateModel state;
-			var stateExists = StateDict.TryGetValue(currentConnectionId, out state);
+			var stateExists = StateDict.TryGetValue(connectionId, out state);
 
 			if(!stateExists)
 			{
-				state = new GameStateModel
-				{
-					ConnectionId = currentConnectionId,
-					UserId = userId,
-					ScoreSheet = _scoreSheetFactory(),
-					CurrentDiceCup = _diceCupFactory()
-				};
-				StateDict.AddOrUpdate(currentConnectionId, state, (key, existingVal) => state);
+				throw new InvalidOperationException("Game not available.");
 			}
 
 			return state;

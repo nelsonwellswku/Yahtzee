@@ -5,15 +5,18 @@ namespace Website.Models
 {
 	public class GameStateModel
 	{
-		public GameStateModel()
-		{
-			GameStartTime = DateTime.UtcNow;
-		}
+		public string ConnectionId { get; private set; }
+		public string UserId { get; private set; }
+		public DateTime GameStartTime { get; private set; }
 
-		public string ConnectionId { get; set; }
-		public string UserId { get; set; }
 		public IScoreSheet ScoreSheet { get; set; }
 		public IDiceCup CurrentDiceCup { get; set; }
-		public DateTime GameStartTime { get; private set; }
+
+		public GameStateModel(string connectionId, string userId)
+		{
+			ConnectionId = connectionId;
+			UserId = userId;
+			GameStartTime = DateTime.UtcNow;
+		}
 	}
 }
