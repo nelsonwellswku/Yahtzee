@@ -8,5 +8,10 @@ namespace Website.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult HowToPlay()
+		{
+			return View();
+		}
 	}
 }
