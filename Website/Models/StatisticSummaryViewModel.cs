@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using PagedList;
 
 namespace Website.Models
 {
@@ -8,6 +8,6 @@ namespace Website.Models
 		public ScoreViewModel HighestScore { get; set; }
 		public ScoreViewModel LowestScore { get; set; }
 
-		public IEnumerable<ScoreViewModel> Scores { get; set; }
+		public IPagedList<ScoreViewModel> Scores { get; set; }
 	}
 }

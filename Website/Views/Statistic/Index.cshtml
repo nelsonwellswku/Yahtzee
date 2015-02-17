@@ -1,4 +1,5 @@
 ﻿@model Website.Models.StatisticSummaryViewModel
+@using PagedList.Mvc
 
 <h2>Statistics</h2>
 
@@ -6,53 +7,54 @@
     <thead>
     </thead>
     <tbody>
+    <tr>
+        <td><strong>At a Glance</strong></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Total Games Played</td>
+        <td>@Model.TotalGamesPlayed</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Highest Score</td>
+        <td>@Model.HighestScore.Score</td>
+        <td>@Model.HighestScore.User</td>
+        <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
+    </tr>
+    <tr>
+        <td>Lowest Score</td>
+        <td>@Model.LowestScore.Score</td>
+        <td>@Model.LowestScore.User</td>
+        <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Latest Scores</strong>
+        </td>
+        <td><strong>Score</strong></td>
+        <td><strong>User</strong></td>
+        <td><strong>Date</strong></td>
+    </tr>
+    @foreach(var score in @Model.Scores)
+    {
         <tr>
-            <td><strong>At a Glance</strong></td>
             <td></td>
-            <td></td>
-            <td></td>
+            <td>@score.Score</td>
+            <td>@score.User</td>
+            <td>@Html.DisplayFor(model => score.Date)</td>
         </tr>
-        <tr>
-            <td>Total Games Played</td>
-            <td>@Model.TotalGamesPlayed</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Highest Score</td>
-            <td>@Model.HighestScore.Score</td>
-            <td>@Model.HighestScore.User.Split('@').First()</td>
-            <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
-        </tr>
-        <tr>
-            <td>Lowest Score</td>
-            <td>@Model.LowestScore.Score</td>
-            <td>@Model.LowestScore.User.Split('@').First()</td>
-            <td>@Html.DisplayFor(model => model.HighestScore.Date)</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <strong>Latest Scores</strong>
-            </td>
-            <td><strong>Score</strong></td>
-            <td><strong>User</strong></td>
-            <td><strong>Date</strong></td>
-        </tr>
-        @foreach (var score in @Model.Scores)
-        {
-            <tr>
-                <td></td>
-                <td>@score.Score</td>
-                <td>@score.User.Split('@').First()</td>
-                <td>@Html.DisplayFor(model => score.Date)</td>
-            </tr>
-        }
+    }
     </tbody>
-
 </table>
+
+@Html.PagedListPager(Model.Scores, page => Url.Action("Index", new { page }))

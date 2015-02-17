@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using PagedList;
 using Website.DAL.Entities;
 using Website.Models;
 
@@ -17,7 +18,7 @@ namespace Website.Controllers
 		}
 
 		// GET: Statistics
-		public async Task<ActionResult> Index(int skip = 0, int take = 15)
+		public async Task<ActionResult> Index(int? page)
 		{
 			var statSet = _dbContext.Set<GameStatistic>();
 
@@ -29,12 +30,11 @@ namespace Website.Controllers
 				.Select(x => new ScoreViewModel {User = x.User.DisplayName, Score = x.FinalScore, Date = x.GameEndTime})
 				.FirstAsync();
 
-			var latestScores = await statSet
+
+			var latestScores = await new TaskFactory().StartNew(() => statSet
 				.OrderByDescending(x => x.GameEndTime)
-				.Skip(skip)
-				.Take(take)
 				.Select(x => new ScoreViewModel {User = x.User.DisplayName, Score = x.FinalScore, Date = x.GameEndTime})
-				.ToListAsync();
+				.ToPagedList(page ?? 1, 10));
 
 			var summaryViewModel = new StatisticSummaryViewModel
 			{
