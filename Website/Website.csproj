@@ -192,6 +192,10 @@
     <Compile Include="Migrations\201502160553365_AddGameStatisticEntity.Designer.cs">
       <DependentUpon>201502160553365_AddGameStatisticEntity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.cs" />
+    <Compile Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.Designer.cs">
+      <DependentUpon>201502162330321_AddUniqueDisplayNameToUser.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\GameStateModel.cs" />
@@ -286,6 +290,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201502160553365_AddGameStatisticEntity.resx">
       <DependentUpon>201502160553365_AddGameStatisticEntity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.resx">
+      <DependentUpon>201502162330321_AddUniqueDisplayNameToUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

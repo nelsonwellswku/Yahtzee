@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Data.Entity.Infrastructure;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -137,8 +140,25 @@ namespace Website.Controllers
 		{
 			if(ModelState.IsValid)
 			{
-				var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-				var result = await UserManager.CreateAsync(user, model.Password);
+				var user = new ApplicationUser {UserName = model.Email, Email = model.Email, DisplayName = model.DisplayName};
+				var result = new IdentityResult();
+				try
+				{
+					result = await UserManager.CreateAsync(user, model.Password);
+				}
+				catch(DbUpdateException e)
+				{
+					// hacky but good enough for now
+					if(e.InnerException.InnerException.Message.Contains("IX_DisplayName"))
+					{
+						AddErrors(new IdentityResult("The display name has already been taken."));
+					}
+					else
+					{
+						throw;
+					}
+				}
+
 				if(result.Succeeded)
 				{
 					await SignInManager.SignInAsync(user, false, false);

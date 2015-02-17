@@ -23,17 +23,17 @@ namespace Website.Controllers
 
 			var totalGamesPlayed = await _dbContext.Set<GameStatistic>().CountAsync();
 			var highestScore = await statSet.OrderByDescending(x => x.FinalScore)
-				.Select(x => new ScoreViewModel {User = x.User.Email, Score = x.FinalScore, Date = x.GameEndTime})
+				.Select(x => new ScoreViewModel {User = x.User.DisplayName, Score = x.FinalScore, Date = x.GameEndTime})
 				.FirstAsync();
 			var lowestScore = await statSet.OrderBy(x => x.FinalScore)
-				.Select(x => new ScoreViewModel {User = x.User.Email, Score = x.FinalScore, Date = x.GameEndTime})
+				.Select(x => new ScoreViewModel {User = x.User.DisplayName, Score = x.FinalScore, Date = x.GameEndTime})
 				.FirstAsync();
 
 			var latestScores = await statSet
 				.OrderByDescending(x => x.GameEndTime)
 				.Skip(skip)
 				.Take(take)
-				.Select(x => new ScoreViewModel {User = x.User.Email, Score = x.FinalScore, Date = x.GameEndTime})
+				.Select(x => new ScoreViewModel {User = x.User.DisplayName, Score = x.FinalScore, Date = x.GameEndTime})
 				.ToListAsync();
 
 			var summaryViewModel = new StatisticSummaryViewModel
