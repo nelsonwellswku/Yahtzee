@@ -23,7 +23,7 @@ namespace Website
 		private readonly Func<IScoreSheet> _scoreSheetFactory;
 		private readonly ApplicationDbContext _dbContext;
 		private readonly DbSet<ApplicationUser> _userRepository;
-		private DbSet<GameStatistic> _gameStatRepository;
+		private readonly DbSet<GameStatistic> _gameStatRepository;
 
 		// This isn't awesome but to control the lifetime scope of the hub's dependencies,
 		// the root container needs to be passed in, similar to a service locator.
