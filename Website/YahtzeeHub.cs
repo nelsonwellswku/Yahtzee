@@ -107,12 +107,7 @@ namespace Website
 			}
 
 			var isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
-			int? grandTotal = null;
-			if(state.ScoreSheet.IsScoreSheetComplete)
-			{
-				grandTotal = state.ScoreSheet.GrandTotal;
-				SaveStatistics(isGameComplete: true);
-			}
+			int? grandTotal = state.ScoreSheet.IsScoreSheetComplete ? (int?)state.ScoreSheet.GrandTotal : null;
 
 			Clients.Caller.setUpper(new
 			{
@@ -125,6 +120,11 @@ namespace Website
 				isScoreSheetComplete,
 				grandTotal
 			});
+
+			if (state.ScoreSheet.IsScoreSheetComplete)
+			{
+				SaveStatistics(isGameComplete: true);
+			}
 		}
 
 		public void TakeLower(string name)
@@ -146,12 +146,7 @@ namespace Website
 				lowerSectionTotal = state.ScoreSheet.LowerSectionTotal;
 			}
 			var isScoreSheetComplete = state.ScoreSheet.IsScoreSheetComplete;
-			int? grandTotal = null;
-			if(state.ScoreSheet.IsScoreSheetComplete)
-			{
-				grandTotal = state.ScoreSheet.GrandTotal;
-				SaveStatistics(isGameComplete: true);
-			}
+			int? grandTotal = state.ScoreSheet.IsScoreSheetComplete ? (int?)state.ScoreSheet.GrandTotal : null;
 
 			Clients.Caller.setLower(new
 			{
@@ -162,6 +157,11 @@ namespace Website
 				isScoreSheetComplete,
 				grandTotal
 			});
+
+			if (state.ScoreSheet.IsScoreSheetComplete)
+			{
+				SaveStatistics(isGameComplete: true);
+			}
 		}
 
 		public void ToggleHoldDie(int index)
