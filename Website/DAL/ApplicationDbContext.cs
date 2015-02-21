@@ -25,8 +25,10 @@ namespace Website.DAL
 
 			modelBuilder.Entity<ApplicationUser>()
 				.Property(x => x.DisplayName)
-				.HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_DisplayName") { IsUnique = true}));
-			modelBuilder.Entity<GameStatistic>();
+				.HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_DisplayName") {IsUnique = true}));
+
+			modelBuilder.Entity<GameStatistic>()
+				.HasOptional(x => x.User);
 
 			base.OnModelCreating(modelBuilder);
 		}

@@ -23,6 +23,7 @@ namespace Website
 		private readonly Func<IScoreSheet> _scoreSheetFactory;
 		private readonly ApplicationDbContext _dbContext;
 		private readonly DbSet<ApplicationUser> _userRepository;
+		private DbSet<GameStatistic> _gameStatRepository;
 
 		// This isn't awesome but to control the lifetime scope of the hub's dependencies,
 		// the root container needs to be passed in, similar to a service locator.
@@ -35,6 +36,7 @@ namespace Website
 			_diceCupFactory = _hubScope.Resolve<Func<IDiceCup>>();
 			_dbContext = _hubScope.Resolve<ApplicationDbContext>();
 			_userRepository = _dbContext.Set<ApplicationUser>();
+			_gameStatRepository = _dbContext.Set<GameStatistic>();
 		}
 
 		public override Task OnConnected()
@@ -190,23 +192,17 @@ namespace Website
 		private void SaveStatistics(bool isGameComplete)
 		{
 			var state = GetState();
-			if(state.UserId != null)
+			var user = _userRepository.Find(state.UserId);
+			var statistic = new GameStatistic
 			{
-				var user = _userRepository.Find(state.UserId);
-				if(user != null)
-				{
-					var statistic = new GameStatistic
-					{
-						User = user,
-						FinalScore = state.ScoreSheet.GrandTotal,
-						GameCompleted = isGameComplete,
-						GameEndTime = DateTime.UtcNow,
-						GameStartTime = state.GameStartTime
-					};
-					user.GameStatistics.Add(statistic);
-					_dbContext.SaveChanges();
-				}
-			}
+				User = user,
+				FinalScore = state.ScoreSheet.GrandTotal,
+				GameCompleted = isGameComplete,
+				GameEndTime = DateTime.UtcNow,
+				GameStartTime = state.GameStartTime
+			};
+			_gameStatRepository.Add(statistic);
+			_dbContext.SaveChanges();
 		}
 
 		private static int GetScoreForUpperSection(UpperSectionItem section, IScoreSheet scoreSheet)

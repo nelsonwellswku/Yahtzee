@@ -10,16 +10,22 @@ namespace Website.DAL.Entities
 	// You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
 	public class ApplicationUser : IdentityUser
 	{
+		private IList<GameStatistic> _gameStatistic;
+
 		public ApplicationUser()
 		{
-			GameStatistics = new List<GameStatistic>();
+			_gameStatistic = new List<GameStatistic>();
 		}
 
 		[Required]
 		[MaxLength(20)]
 		public string DisplayName { get; set; }
 
-		public IList<GameStatistic> GameStatistics { get; set; }
+		public virtual IList<GameStatistic> GameStatistics
+		{
+			get { return _gameStatistic; }
+			set { _gameStatistic = value; }
+		}
 
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
 		{
