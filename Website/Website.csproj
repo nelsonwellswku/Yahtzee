@@ -226,6 +226,7 @@
     <Compile Include="Models\ScoreViewModel.cs" />
     <Compile Include="Models\StatisticSummaryViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\EnforceHttpsAttribute.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="YahtzeeHub.cs" />
   </ItemGroup>

@@ -8,10 +8,12 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Website.DAL.Entities;
 using Website.Models;
+using Website.Security;
 
 namespace Website.Controllers
 {
 	[Authorize]
+	[EnforceHttps]
 	public class AccountController : Controller
 	{
 		private ApplicationSignInManager _signInManager;

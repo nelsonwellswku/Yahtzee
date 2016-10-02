@@ -5,9 +5,11 @@ using System.Web.Mvc;
 using PagedList;
 using Website.DAL.Entities;
 using Website.Models;
+using Website.Security;
 
 namespace Website.Controllers
 {
+	[EnforceHttps]
 	public class StatisticController : Controller
 	{
 		private readonly DbContext _dbContext;
