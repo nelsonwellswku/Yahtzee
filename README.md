@@ -10,15 +10,15 @@ Demo
 
 The current _dev_ branch will always be hosted on AppHarbor.
 
-*[Yahtzee Demo](http://yahtzee.apphb.com)*
+*[Yahtzee Demo](https://yahtzee.apphb.com)*
 
 Building
 --------
-The solution can be built with [Visual Studio 2013 Community Edition](http://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx) out of the box.
+The solution can be built with [Visual Studio 2015 Community Edition](http://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx) out of the box.
 LocalDB 2014 is required for the Entity Framework powered auth bits. Everything else should be downloaded from Nuget automatically as long as you're using
 the latest VS service pack and Nuget 2.7 or better.
 
-The unit tests can be run with the [NUnit test runner](http://www.nunit.org/index.php?p=nunit-gui&r=2.4).
+The unit tests can be run with the [NUnit console test runner](https://github.com/nunit/docs/wiki/Console-Runner).
  
 License
 -------
