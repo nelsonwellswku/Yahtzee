@@ -10,7 +10,7 @@ namespace Website.Security
 		{
 			if(filterContext == null)
 			{
-				throw new ArgumentNullException(nameof(filterContext));
+				throw new ArgumentNullException("filterContext");
 			}
 
 			if(filterContext.HttpContext.Request.IsSecureConnection)
