@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Moq;
-using Yahtzee.Framework;
+using Octogami.Yahtzee.Application.Framework;
 
 namespace YahtzeeTests.Support
 {

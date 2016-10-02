@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Yahtzee.Framework.DiceCombinationValidators
+namespace Octogami.Yahtzee.Application.Framework.DiceCombinationValidators
 {
 	public interface IDiceOfAKindValidator
 	{

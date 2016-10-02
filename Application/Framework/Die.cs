@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Yahtzee.Framework
+namespace Octogami.Yahtzee.Application.Framework
 {
 	public class Die : IDie
 	{

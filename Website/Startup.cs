@@ -5,11 +5,11 @@ using Autofac.Integration.Mvc;
 using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
+using Octogami.Yahtzee.Application;
 using Owin;
 using Website;
 using Website.Controllers;
 using Website.DAL;
-using Yahtzee;
 using AutofacDependencyResolver = Autofac.Integration.Mvc.AutofacDependencyResolver;
 
 [assembly: OwinStartup(typeof(Startup))]

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Yahtzee.Framework.DiceCombinationValidators
+namespace Octogami.Yahtzee.Application.Framework.DiceCombinationValidators
 {
 	public class StraightValidator : IStraightValidator
 	{

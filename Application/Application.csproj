@@ -7,8 +7,8 @@
     <ProjectGuid>{F1BA1257-240B-40DA-B9F4-B50909F01348}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Yahtzee</RootNamespace>
-    <AssemblyName>Yahtzee</AssemblyName>
+    <RootNamespace>Octogami.Yahtzee.Application</RootNamespace>
+    <AssemblyName>Octogami.Yahtzee.Application</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

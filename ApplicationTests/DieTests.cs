@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Yahtzee.Framework;
+using Octogami.Yahtzee.Application.Framework;
 
 namespace YahtzeeTests
 {

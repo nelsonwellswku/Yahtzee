@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Yahtzee.Framework
+namespace Octogami.Yahtzee.Application.Framework
 {
 	public class DiceCup : IDiceCup
 	{

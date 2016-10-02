@@ -4,7 +4,7 @@ using System.Linq;
 using FluentAssertions;
 using Moq;
 using NUnit.Framework;
-using Yahtzee.Framework;
+using Octogami.Yahtzee.Application.Framework;
 
 namespace YahtzeeTests
 {

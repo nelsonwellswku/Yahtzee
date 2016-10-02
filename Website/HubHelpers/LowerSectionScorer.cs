@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Yahtzee.Framework;
+using Octogami.Yahtzee.Application.Framework;
 
 namespace Website.HubHelpers
 {

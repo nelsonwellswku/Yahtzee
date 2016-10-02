@@ -6,8 +6,8 @@
     <ProjectGuid>{7967288E-279E-45F4-BEDA-F8A3F325782F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>YahtzeeTests</RootNamespace>
-    <AssemblyName>YahtzeeTests</AssemblyName>
+    <RootNamespace>Octogami.Yahtzee.ApplicationTests</RootNamespace>
+    <AssemblyName>Octogami.Yahtzee.ApplicationTests</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -84,9 +84,9 @@
     <Compile Include="ScoreSheetTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Yahtzee\Yahtzee.csproj">
+    <ProjectReference Include="..\Application\Application.csproj">
       <Project>{f1ba1257-240b-40da-b9f4-b50909f01348}</Project>
-      <Name>Yahtzee</Name>
+      <Name>Application</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

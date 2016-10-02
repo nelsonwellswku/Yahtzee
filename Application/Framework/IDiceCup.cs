@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Yahtzee.Framework
+namespace Octogami.Yahtzee.Application.Framework
 {
 	public interface IDiceCup
 	{

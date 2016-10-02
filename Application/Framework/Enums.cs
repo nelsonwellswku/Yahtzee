@@ -1,4 +1,4 @@
-﻿namespace Yahtzee.Framework
+﻿namespace Octogami.Yahtzee.Application.Framework
 {
 	public enum DieState
 	{

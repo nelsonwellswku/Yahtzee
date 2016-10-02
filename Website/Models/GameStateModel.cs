@@ -1,5 +1,5 @@
 ﻿using System;
-using Yahtzee.Framework;
+using Octogami.Yahtzee.Application.Framework;
 
 namespace Website.Models
 {

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Yahtzee.Framework.DiceCombinationValidators;
+using Octogami.Yahtzee.Application.Framework.DiceCombinationValidators;
 using YahtzeeTests.Support;
 
 namespace YahtzeeTests

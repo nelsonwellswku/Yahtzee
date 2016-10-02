@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Autofac;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
+using Octogami.Yahtzee.Application.Framework;
 using Website.DAL;
 using Website.DAL.Entities;
 using Website.HubHelpers;
 using Website.Models;
-using Yahtzee.Framework;
 
 namespace Website
 {

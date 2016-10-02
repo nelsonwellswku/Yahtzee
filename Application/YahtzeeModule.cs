@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Autofac;
-using Yahtzee.Framework;
-using Yahtzee.Framework.DiceCombinationValidators;
+using Octogami.Yahtzee.Application.Framework;
+using Octogami.Yahtzee.Application.Framework.DiceCombinationValidators;
 
-namespace Yahtzee
+namespace Octogami.Yahtzee.Application
 {
 	internal class YahtzeeModule : Module
 	{

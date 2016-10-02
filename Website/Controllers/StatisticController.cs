@@ -12,6 +12,7 @@ namespace Website.Controllers
 	[EnforceHttps]
 	public class StatisticController : Controller
 	{
+		private const string Anonymous = "Anonymous";
 		private readonly DbContext _dbContext;
 
 		public StatisticController(DbContext dbContext)
@@ -27,16 +28,16 @@ namespace Website.Controllers
 			var totalGamesPlayed = await _dbContext.Set<GameStatistic>().CountAsync();
 
 			var highestScore = await statSet.OrderByDescending(x => x.FinalScore)
-				.Select(x => new ScoreViewModel { User = x.User.DisplayName ?? "Anonymous", Score = x.FinalScore, Date = x.GameEndTime })
+				.Select(x => new ScoreViewModel { User = x.User.DisplayName ?? Anonymous, Score = x.FinalScore, Date = x.GameEndTime })
 				.FirstAsync();
 
 			var lowestScore = await statSet.OrderBy(x => x.FinalScore)
-				.Select(x => new ScoreViewModel { User = x.User.DisplayName ?? "Anonymous", Score = x.FinalScore, Date = x.GameEndTime })
+				.Select(x => new ScoreViewModel { User = x.User.DisplayName ?? Anonymous, Score = x.FinalScore, Date = x.GameEndTime })
 				.FirstAsync();
 
 			var latestScores = await new TaskFactory().StartNew(() => statSet
 				.OrderByDescending(x => x.GameEndTime)
-				.Select(x => new ScoreViewModel {User = x.User.DisplayName ?? "Anonymous", Score = x.FinalScore, Date = x.GameEndTime})
+				.Select(x => new ScoreViewModel {User = x.User.DisplayName ?? Anonymous, Score = x.FinalScore, Date = x.GameEndTime})
 				.ToPagedList(page ?? 1, 10));
 
 			var summaryViewModel = new StatisticSummaryViewModel

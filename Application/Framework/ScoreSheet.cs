@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Yahtzee.Framework.DiceCombinationValidators;
+using Octogami.Yahtzee.Application.Framework.DiceCombinationValidators;
 
-namespace Yahtzee.Framework
+namespace Octogami.Yahtzee.Application.Framework
 {
 	public class ScoreSheet : IScoreSheet
 	{
