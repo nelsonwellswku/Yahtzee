@@ -6,8 +6,7 @@ namespace Octogami.Yahtzee.Application.Framework
 {
 	public class DiceCup : IDiceCup
 	{
-		private const string InvalidRollExceptionMessage = "Dice can not be thrown after three rolls.";
-		private const int MaxRolls = 3;
+        private const int MaxRolls = 3;
 
 		public virtual IList<IDie> Dice { get; private set; }
 		public DiceCup(IList<IDie> dice)

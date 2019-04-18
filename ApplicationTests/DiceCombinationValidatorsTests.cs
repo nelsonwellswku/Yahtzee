@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using Octogami.Yahtzee.Application.Framework.DiceCombinationValidators;
+using Xunit;
 using YahtzeeTests.Support;
 
 namespace YahtzeeTests
@@ -11,7 +11,7 @@ namespace YahtzeeTests
 
 		#region Dice of a kind tests
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_ValidThreeOfAKindSet_ReturnsTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 5, 3);
@@ -21,7 +21,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_ValidThreeOfAKindSetMoreDups_ReturnsTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(3, 4, 3, 3, 3);
@@ -31,7 +31,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_InvalidThreeOfAKindSet_ReturnsFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(3, 1, 5, 3, 4);
@@ -41,7 +41,7 @@ namespace YahtzeeTests
 			result.Should().BeFalse();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_ValidFourOfAKindSet_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(2, 2, 6, 2, 2);
@@ -51,7 +51,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_ValidFourOfAKindSetMoreThanFourDups_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(2, 2, 2, 2, 2);
@@ -61,7 +61,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_InvalidFourOfAKindSet_ReturnFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(1, 3, 5, 2, 5);
@@ -71,7 +71,7 @@ namespace YahtzeeTests
 			result.Should().BeFalse();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_ValidFiveOfAKindSet_ReturnTrue()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(3, 3, 3, 3, 3);
@@ -81,7 +81,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void DiceOfAKindValidator_InvalidFiveOfAKindSet_ReturnsFalse()
 		{
 			var dice = _testDieFactory.CreateDieEnumerable(3, 3, 3, 3, 6);
@@ -95,7 +95,7 @@ namespace YahtzeeTests
 
 		#region Full house tests
 
-		[Test]
+		[Fact]
 		public void FullHouseValidator_ValidFullHouseSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(3, 2, 3, 2, 3);
@@ -105,7 +105,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void FullHouseValidator_InvalidFullHouseSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(3, 2, 3, 4, 3);
@@ -119,7 +119,7 @@ namespace YahtzeeTests
 
 		#region Straight tests
 
-		[Test]
+		[Fact]
 		public void StraightValidator_ValidSmallStraightSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(1, 3, 2, 4, 6);
@@ -129,7 +129,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void StraightValidator_ValidSmallStraightSetVariation_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(1, 6, 4, 5, 3);
@@ -139,7 +139,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void StraightValidator_ValidSmallStraightSetWithDuplicate_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(3, 1, 3, 4, 2);
@@ -149,7 +149,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void StraightValidator_InvalidSmallStraightSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(1, 3, 5, 2, 6);
@@ -159,7 +159,7 @@ namespace YahtzeeTests
 			result.Should().BeFalse();
 		}
 
-		[Test]
+		[Fact]
 		public void StraightValidator_ValidLargeStraightSet_ReturnsTrue()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(3, 4, 2, 6, 5);
@@ -169,7 +169,7 @@ namespace YahtzeeTests
 			result.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void StraightValidator_InvalidLargeStraightSet_ReturnsFalse()
 		{
 			var diceValues = _testDieFactory.CreateDieEnumerable(3, 2, 4, 1, 6);

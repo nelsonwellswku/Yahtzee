@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using Moq;
-using NUnit.Framework;
 using Octogami.Yahtzee.Application.Framework;
 using Octogami.Yahtzee.Application.Framework.DiceCombinationValidators;
+using Xunit;
 using YahtzeeTests.Support;
 
 namespace YahtzeeTests
@@ -18,8 +18,7 @@ namespace YahtzeeTests
 		private Mock<IStraightValidator> _straightValidator;
 		private ScoreSheet _scoreSheet;
 
-		[SetUp]
-		public void SetUp()
+		public ScoreSheetTests()
 		{
 			_testDieFactory = new TestDieFactory();
 			_diceCup = new Mock<IDiceCup>();
@@ -31,7 +30,7 @@ namespace YahtzeeTests
 			_scoreSheet = new ScoreSheet(_diceOfAKindValidator.Object, _fullHouseValidator.Object, _straightValidator.Object);
 		}
 
-		[Test]
+		[Fact]
 		public void IsUpperSectionComplete_Yes()
 		{
 			SetupNoBonusDiceCupMock();
@@ -47,7 +46,7 @@ namespace YahtzeeTests
 			_scoreSheet.IsUpperSectionComplete.Should().Be(true);
 		}
 
-		[Test]
+		[Fact]
 		public void IsUpperSectionComplete_No()
 		{
 			SetupNoBonusDiceCupMock();
@@ -58,7 +57,7 @@ namespace YahtzeeTests
 			_scoreSheet.IsUpperSectionComplete.Should().Be(false);
 		}
 
-		[Test]
+		[Fact]
 		public void IsLowerSectionComplete_Yes()
 		{
 			SetupNoBonusDiceCupMock();
@@ -75,7 +74,7 @@ namespace YahtzeeTests
 			_scoreSheet.IsLowerSectionComplete.Should().Be(true);
 		}
 
-		[Test]
+		[Fact]
 		public void IsLowerSectionComplete_No()
 		{
 			SetupNoBonusDiceCupMock();
@@ -86,7 +85,7 @@ namespace YahtzeeTests
 			_scoreSheet.IsLowerSectionComplete.Should().Be(false);
 		}
 
-		[Test]
+		[Fact]
 		public void IsScoreSheetComplete_Yes()
 		{
 			IsUpperSectionComplete_Yes();
@@ -95,7 +94,7 @@ namespace YahtzeeTests
 			_scoreSheet.IsScoreSheetComplete.Should().BeTrue();
 		}
 
-		[Test]
+		[Fact]
 		public void IsScoreSheetComplete_No()
 		{
 			IsUpperSectionComplete_Yes();
@@ -109,7 +108,7 @@ namespace YahtzeeTests
 		// TODO: Comprehensive tests for 2, 4, 5, 6
 		// Maybe elaborate on tests for 1 and 3
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_RecordUpperSectionOnes_RecordTwo()
 		{
 			// Arrange
@@ -124,7 +123,7 @@ namespace YahtzeeTests
 			_scoreSheet.Ones.Should().Be(2);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_RecordUpperSectionThrees_RecordNine()
 		{
 			// Arrange
@@ -139,7 +138,7 @@ namespace YahtzeeTests
 			_scoreSheet.Threes.Should().Be(9);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_RecordUpperSectionTwosAfterItsAlreadyBeenRecorded_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -155,7 +154,7 @@ namespace YahtzeeTests
 			_scoreSheet.Twos.Should().Be(4);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionNoBonus_ReturnsSumOfUpperSectionValuesAsThirtyFour()
 		{
 			// Arrange
@@ -169,7 +168,7 @@ namespace YahtzeeTests
 			total.Should().Be(34);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionTotalsEnoughForBonus_ReturnsBonusOf35Points()
 		{
 			// Arrange
@@ -183,7 +182,7 @@ namespace YahtzeeTests
 			bonus.Should().Be(35);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionTotalsExactlyEnoughForBonus_ReturnsBonusOf35Points()
 		{
 			// Arrange
@@ -197,7 +196,7 @@ namespace YahtzeeTests
 			bonus.Should().Be(35);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionDoesNotTotalEnoughForBonus_ReturnsBonusOf0Points()
 		{
 			// Arrange
@@ -211,7 +210,7 @@ namespace YahtzeeTests
 			bonus.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusExists_ReturnsUpperSectionScoresPlus35BonusPoints()
 		{
 			// Arrange
@@ -225,7 +224,7 @@ namespace YahtzeeTests
 			totalWithBonus.Should().Be(101);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_UpperSectionTotalWithBonusAndBonusDoesntExist_ReturnsUpperSectionScoresOnly()
 		{
 			// Arrange
@@ -245,7 +244,7 @@ namespace YahtzeeTests
 
 		#region Three and four of a kind tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithValidSetAsTwenty()
 		{
 			// Arrange
@@ -261,7 +260,7 @@ namespace YahtzeeTests
 			threeOfAKindScore.Should().Be(20);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_ThreeOfAKindUnset_RecordThreeOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -278,7 +277,7 @@ namespace YahtzeeTests
 			_scoreSheet.ThreeOfAKind.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_ThreeOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -299,7 +298,7 @@ namespace YahtzeeTests
 			_scoreSheet.ThreeOfAKind.Should().Be(17);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithValidSetAsSeventeen()
 		{
 			// Arrange
@@ -315,7 +314,7 @@ namespace YahtzeeTests
 			_scoreSheet.FourOfAKind.Should().Be(17);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FourOfAKindUnset_RecordFourOfAKindWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -331,7 +330,7 @@ namespace YahtzeeTests
 			_scoreSheet.FourOfAKind.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FourOfAKindAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -355,7 +354,7 @@ namespace YahtzeeTests
 
 		#region Full house tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithValidSetAsTwentyFive()
 		{
 			// Arrange
@@ -369,7 +368,7 @@ namespace YahtzeeTests
 			fullHouseScore.Should().Be(25);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FullHouseUnset_RecordFullHouseWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -383,7 +382,7 @@ namespace YahtzeeTests
 			_scoreSheet.FullHouse.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_FullHouseAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -402,7 +401,7 @@ namespace YahtzeeTests
 
 		#region Straight tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithValidSetAsThirty()
 		{
 			// Arrange
@@ -416,7 +415,7 @@ namespace YahtzeeTests
 			smallStraightScore.Should().Be(30);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_SmallStraightUnset_RecordSmallStraightWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -430,7 +429,7 @@ namespace YahtzeeTests
 			smallStraightScore.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_SmallStraightAlreadySet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -444,7 +443,7 @@ namespace YahtzeeTests
 			secondRecord.Should().NotHaveValue();
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithValidSetAsFourty()
 		{
 			// Arrange
@@ -458,7 +457,7 @@ namespace YahtzeeTests
 			largeStraightScore.Should().Be(40);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_LargeStraightUnset_RecordLargeStraightWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -472,7 +471,7 @@ namespace YahtzeeTests
 			largeStraightScore.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_LargeStraightUnset_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -490,7 +489,7 @@ namespace YahtzeeTests
 
 		#region Chance tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_ChanceUnset_RecordChanceAsValidValueOfEighteen()
 		{
 			// Arrange
@@ -505,7 +504,7 @@ namespace YahtzeeTests
 			chanceScore.Should().Be(18);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_ChanceHasAlreadyBeenSet_DoNotOverwritePreviousValue()
 		{
 			// Arrange
@@ -528,7 +527,7 @@ namespace YahtzeeTests
 
 		#region Yahtzee tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithValidSet()
 		{
 			// Arrange
@@ -542,7 +541,7 @@ namespace YahtzeeTests
 			_scoreSheet.Yahtzee.Should().Be(50);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_YahtzeeUnset_RecordYahtzeeWithInvalidSetAsZero()
 		{
 			// Arrange
@@ -556,7 +555,7 @@ namespace YahtzeeTests
 			_scoreSheet.Yahtzee.Should().Be(0);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusAfterYahtzeeWithValidSet()
 		{
 			// Arrange
@@ -571,7 +570,7 @@ namespace YahtzeeTests
 			_scoreSheet.YahtzeeBonus.Should().BeEquivalentTo(expectedArray);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_YahtzeeIsZero_DoNotSetYahtzeeBonus()
 		{
 			// Arrange
@@ -585,10 +584,10 @@ namespace YahtzeeTests
 			// Assert
 			yahtzeeScore.Should().Be(null);
 			scoresheet.Yahtzee.Should().Be(0);
-			scoresheet.YahtzeeBonus.ShouldAllBeEquivalentTo(new int[0]);
+			scoresheet.YahtzeeBonus.Should().AllBeEquivalentTo(new int[0]);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_YahtzeeSet_RecordYahtzeeBonusOnlyThreeTimes()
 		{
 			// Arrange
@@ -616,7 +615,7 @@ namespace YahtzeeTests
 
 		#region Total tests
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_LowerSectionTotal_ReturnsSumOfAllLowerSectionItems()
 		{
 			// Arrange
@@ -633,7 +632,7 @@ namespace YahtzeeTests
 			lowerTotal.Should().Be(304);
 		}
 
-		[Test]
+		[Fact]
 		public void ScoreSheet_GrandTotal_ReturnsSumOfUpperSectionTotalWithBonusAndLowerSectionTotal()
 		{
 			// Arrange
