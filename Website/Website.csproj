@@ -198,6 +198,7 @@
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\Entities\ApplicationUser.cs" />
     <Compile Include="DAL\Entities\GameStatistic.cs" />
+    <Compile Include="DAL\YahtzeeHistoryContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -209,6 +210,10 @@
     <Compile Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.cs" />
     <Compile Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.Designer.cs">
       <DependentUpon>201502162330321_AddUniqueDisplayNameToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904190110390_ChangeSchema.cs" />
+    <Compile Include="Migrations\201904190110390_ChangeSchema.Designer.cs">
+      <DependentUpon>201904190110390_ChangeSchema.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -317,6 +322,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201502162330321_AddUniqueDisplayNameToUser.resx">
       <DependentUpon>201502162330321_AddUniqueDisplayNameToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904190110390_ChangeSchema.resx">
+      <DependentUpon>201904190110390_ChangeSchema.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
