@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using NUnit.Framework;
 using Octogami.Yahtzee.Application.Framework;
+using Xunit;
 
 namespace YahtzeeTests
 {
 	public class DieTests
 	{
-		[Test]
+		[Fact]
 		public void Die_RollDie_ValueShouldBeInSixSidedDieRange()
 		{
 			// Arrange
@@ -24,7 +24,7 @@ namespace YahtzeeTests
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void Die_RollDie_ValueFrequencyShouldBeRelativelyEvenlyDistributed()
 		{
 			// Arrange
@@ -46,7 +46,7 @@ namespace YahtzeeTests
 			}
 		}
 
-		[Test]
+		[Fact]
 		public void Die_StatesChangeFromThrowableToHeldAndBackToThrowable_StateShouldMatchThrowableHeldThrowableInSequence()
 		{
 			// I'm not convinced about the value of testing automatic properties,
@@ -63,7 +63,7 @@ namespace YahtzeeTests
 			die.State.Should().Be(DieState.Throwable);
 		}
 
-		[Test]
+		[Fact]
 		public void Die_HeldDieShouldNotChangeValueWhenThrown()
 		{
 			var die = new Die();

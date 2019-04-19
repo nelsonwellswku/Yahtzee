@@ -1,78 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F1BA1257-240B-40DA-B9F4-B50909F01348}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Octogami.Yahtzee.Application</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Octogami.Yahtzee.Application</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <RootNamespace>Octogami.Yahtzee.Application</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.1.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.1.1\lib\net45\Autofac.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Autofac" Version="4.9.2" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Framework\DiceCombinationValidators\DiceOfAKindValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\FullHouseValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IFullHouseValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IStraightValidator.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\StraightValidator.cs" />
-    <Compile Include="Framework\Die.cs" />
-    <Compile Include="Framework\DiceCup.cs" />
-    <Compile Include="Framework\DiceCombinationValidators\IDiceOfAKindValidator.cs" />
-    <Compile Include="Framework\Enums.cs" />
-    <Compile Include="Framework\IDiceCup.cs" />
-    <Compile Include="Framework\IDiceCupDisplay.cs" />
-    <Compile Include="Framework\IDiceSetSaverDisplay.cs" />
-    <Compile Include="Framework\IDie.cs" />
-    <Compile Include="Framework\IScoreSheet.cs" />
-    <Compile Include="Framework\IScoreSheetDisplayer.cs" />
-    <Compile Include="Framework\ScoreSheet.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="YahtzeeModule.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

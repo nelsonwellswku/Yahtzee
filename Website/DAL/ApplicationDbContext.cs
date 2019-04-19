@@ -7,30 +7,32 @@ using Website.DAL.Entities;
 
 namespace Website.DAL
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
-	{
-		public ApplicationDbContext()
-			: base("DefaultConnection", false)
-		{
-		}
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    {
+        public ApplicationDbContext()
+            : base("DefaultConnection", false)
+        {
+        }
 
-		public static ApplicationDbContext Create()
-		{
-			return new ApplicationDbContext();
-		}
+        public static ApplicationDbContext Create()
+        {
+            return new ApplicationDbContext();
+        }
 
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDefaultSchema("yz");
 
-			modelBuilder.Entity<ApplicationUser>()
-				.Property(x => x.DisplayName)
-				.HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_DisplayName") {IsUnique = true}));
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-			modelBuilder.Entity<GameStatistic>()
-				.HasOptional(x => x.User);
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(x => x.DisplayName)
+                .HasColumnAnnotation("Index", new IndexAnnotation(new IndexAttribute("IX_DisplayName") { IsUnique = true }));
 
-			base.OnModelCreating(modelBuilder);
-		}
-	}
+            modelBuilder.Entity<GameStatistic>()
+                .HasOptional(x => x.User);
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
 }
