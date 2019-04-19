@@ -8,18 +8,19 @@ This is a single-player browser based implemention built with C#, ASP.NET MVC 5,
 Demo
 ----
 
-The current _dev_ branch will always be hosted on AppHarbor.
+The current _dev_ branch is hosted an Azure App Service.
 
-*[Yahtzee Demo](https://yahtzee.apphb.com)*
+*[Yahtzee Demo](https://yahtzee.azurewebsites.net/)*
 
 Building
 --------
-The solution can be built with [Visual Studio 2015 Community Edition](http://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx) out of the box.
-LocalDB 2014 is required for the Entity Framework powered auth bits. Everything else should be downloaded from Nuget automatically as long as you're using
-the latest VS service pack and Nuget 2.7 or better.
+The solution can be built with [Visual Studio 2019 Community Edition](http://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx).
 
-The unit tests can be run with the [NUnit console test runner](https://github.com/nunit/docs/wiki/Console-Runner).
- 
+
+The unit tests can be run inside Visual Studio with the [XUnit runner](https://www.nuget.org/packages/xunit.runner.visualstudio/).
+
+Entity Framework 6 code-first migrations can be run against a recent version of SQL Server.
+
 License
 -------
 All original code is licensed under the MIT license. See license.txt for the full text.
